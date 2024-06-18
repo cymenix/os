@@ -94,6 +94,7 @@
         inherit (nixpkgs) lib;
         pkgs = import nixpkgs {inherit system;};
       in {
+        inherit inputs;
         nixosModules = import ./modules {inherit lib;};
         formatter = pkgs.alejandra;
       }

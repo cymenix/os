@@ -22,7 +22,7 @@ in
         useGlobalPkgs = true;
         useUserPackages = true;
         extraSpecialArgs = {inherit inputs nixpkgs system;};
-        backupFileExtension = ".home-manager-backup";
+        backupFileExtension = "home-manager-backup";
         users = {
           ${cfg.users.user} = {
             imports = [./modules];

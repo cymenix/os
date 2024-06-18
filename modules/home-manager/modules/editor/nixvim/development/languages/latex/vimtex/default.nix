@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  cfg = config.modules.editor.nixvim;
+  cfg = config.modules.editor.nixvim.languages;
   tex = pkgs.texlive.combine {
     inherit (pkgs.texlive) scheme-full;
   };
@@ -15,8 +15,10 @@ in
       modules = {
         editor = {
           nixvim = {
-            vimtex = {
-              enable = mkEnableOption "Enable vimtex" // {default = false;};
+            languages = {
+              vimtex = {
+                enable = mkEnableOption "Enable vimtex" // {default = false;};
+              };
             };
           };
         };

@@ -19,7 +19,7 @@ in {
           enable = mkEnableOption "Enable secrets using SOPS" // {default = false;};
           path = mkOption {
             type = types.path;
-            default = /home/${user}/${flake}/secrets;
+            default = /home/${user}/${flake}/secrets/secrets.yaml;
           };
         };
       };
@@ -27,7 +27,7 @@ in {
   };
   config = mkIf (osConfig.modules.security.sops.enable && cfg.enable && cfg.sops.enable) {
     sops = {
-      defaultSopsFile = cfg.sops.path + /secrets.yaml;
+      defaultSopsFile = cfg.sops.path;
       age = {
         keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
         generateKey = true;

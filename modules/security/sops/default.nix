@@ -7,7 +7,7 @@
 }:
 with lib; let
   cfg = config.modules.security;
-  user = config.modules.users.user;
+  inherit (config.modules.users) user flake;
 in {
   imports = [inputs.sops-nix.nixosModules.sops];
   options = {
@@ -17,7 +17,7 @@ in {
           enable = mkEnableOption "Enable secrets using SOPS" // {default = false;};
           path = mkOption {
             type = types.path;
-            default = /home/${user}/${config.modules.users.flake}/secrets;
+            default = /home/${user}/${flake}/secrets/secrets.yaml;
           };
         };
       };
@@ -28,7 +28,7 @@ in {
       systemPackages = [(import ./setupsops.nix {inherit pkgs config;})];
     };
     sops = {
-      defaultSopsFile = cfg.sops.path + /secrets.yaml;
+      defaultSopsFile = cfg.sops.path;
       age = {
         keyFile = "/home/${user}/.config/sops/age/keys.txt";
         generateKey = true;

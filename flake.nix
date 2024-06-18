@@ -92,7 +92,7 @@
   in {
     inherit lib inputs nixpkgs pkgs system;
     nixosModules = {
-      default = import ./modules {inherit lib inputs nixpkgs pkgs system;};
+      default = import ./modules;
     };
     formatter = pkgs.alejandra;
   };

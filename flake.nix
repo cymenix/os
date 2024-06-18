@@ -3,6 +3,9 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
     wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs = {
@@ -87,18 +90,19 @@
     };
   };
 
-  outputs = {...} @ inputs: let
-    inherit (inputs) nixpkgs;
-    inherit (nixpkgs) lib;
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {inherit system;};
-  in {
-    inherit lib inputs nixpkgs pkgs system;
-    nixosModules = {
-      default = import ./modules;
-    };
-    formatter = pkgs.alejandra;
-  };
+  outputs = {...} @ inputs:
+    inputs.flake-utils.lib.eachDefaultSystem (
+      system: let
+        inherit (inputs) nixpkgs;
+        pkgs = import nixpkgs {inherit system;};
+      in {
+        inherit inputs;
+        nixosModules = {
+          default = import ./modules;
+        };
+        formatter = pkgs.alejandra;
+      }
+    );
 
   nixConfig = {
     extra-trusted-substituters = [

@@ -82,6 +82,9 @@
     yazi = {
       url = "github:sxyazi/yazi";
     };
+    lpi = {
+      url = "github:cymenix/lpi";
+    };
   };
 
   outputs = {...} @ inputs: let

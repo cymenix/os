@@ -2,9 +2,10 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }: let
-  lpi = import ../../../../../../src/apps/lpi {inherit pkgs;};
+  lpi = inputs.lpi.packages.${pkgs.system}.default;
   cfg = config.modules.utils;
 in
   with lib; {

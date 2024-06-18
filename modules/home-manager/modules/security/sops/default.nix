@@ -7,6 +7,7 @@
 }:
 with lib; let
   cfg = config.modules.security;
+  user = osConfig.modules.users.user;
 in {
   imports = [
     inputs.sops-nix.homeManagerModule

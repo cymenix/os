@@ -86,12 +86,13 @@
 
   outputs = {...} @ inputs: let
     inherit (inputs) nixpkgs;
-    inherit (nixpkgs) lib;
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
   in {
     inherit inputs;
-    nixosModules = import ./modules {inherit lib inputs nixpkgs pkgs system;};
+    nixosModules = {
+      default = import ./modules;
+    };
     formatter = pkgs.alejandra;
   };
 

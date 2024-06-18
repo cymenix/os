@@ -7,6 +7,7 @@
 }:
 with lib; let
   cfg = config.modules.security;
+  inherit (config.modules.users) user;
 in {
   imports = [inputs.sops-nix.nixosModules.sops];
   options = {

@@ -7,7 +7,7 @@
 }:
 with lib; let
   cfg = config.modules.security;
-  user = osConfig.modules.users.user;
+  inherit (osConfig.modules.users) user flake;
 in {
   imports = [
     inputs.sops-nix.homeManagerModule
@@ -19,7 +19,7 @@ in {
           enable = mkEnableOption "Enable secrets using SOPS" // {default = false;};
           path = mkOption {
             type = types.path;
-            default = /home/${user}/${config.modules.users.flake}/secrets;
+            default = /home/${user}/${flake}/secrets;
           };
         };
       };

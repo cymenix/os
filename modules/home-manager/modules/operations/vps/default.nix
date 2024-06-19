@@ -6,6 +6,9 @@
   cfg = config.modules.operations;
 in
   with lib; {
+    imports = [
+      ./hcloud
+    ];
     options = {
       modules = {
         operations = {

@@ -19,6 +19,7 @@ in
       ./media
       ./monitoring
       ./networking
+      ./operations
       ./organization
       ./security
       ./shell

@@ -7,9 +7,6 @@
   cfg = config.modules.operations.vps;
 in
   with lib; {
-    imports = [
-      ./completion
-    ];
     options = {
       modules = {
         operations = {

@@ -16,7 +16,7 @@ in
       modules = {
         security = {
           bitwarden = {
-            enable = mkEnableOption "Enable bitwarden" // {default = cfg.enable;};
+            enable = mkEnableOption "Enable bitwarden" // {default = false;};
           };
         };
       };

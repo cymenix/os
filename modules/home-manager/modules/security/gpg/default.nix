@@ -11,7 +11,7 @@ in
       modules = {
         security = {
           gpg = {
-            enable = mkEnableOption "Enable GPG support" // {default = cfg.enable;};
+            enable = mkEnableOption "Enable GPG support" // {default = false;};
           };
         };
       };

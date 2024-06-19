@@ -11,7 +11,7 @@ in
       modules = {
         organization = {
           calcurse = {
-            enable = mkEnableOption "Enable calcurse calendar" // {default = cfg.enable;};
+            enable = mkEnableOption "Enable calcurse calendar" // {default = false;};
           };
         };
       };

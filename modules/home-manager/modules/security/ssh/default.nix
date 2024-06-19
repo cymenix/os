@@ -14,7 +14,7 @@ in
       modules = {
         security = {
           ssh = {
-            enable = mkEnableOption "Enable SSH" // {default = cfg.enable;};
+            enable = mkEnableOption "Enable SSH" // {default = false;};
           };
         };
       };

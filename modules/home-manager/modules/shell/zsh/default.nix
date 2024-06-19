@@ -100,21 +100,11 @@ in
           initExtraBeforeCompInit = ''
             autoload -U colors && colors
           '';
-          initExtra = let
-            gh_token =
-              if config.modules.security.sops.enable
-              then ''
-                if [[ -o interactive ]]; then
-                  export GH_TOKEN=$(${pkgs.bat}/bin/bat ${config.sops.secrets.github_token.path} --style=plain)
-                fi
-              ''
-              else "";
-          in
+          initExtra =
             /*
             bash
             */
             ''
-              ${builtins.toString gh_token}
               zstyle ':completion*' menu select
               bindkey -v
               bindkey -M menuselect 'h' vi-backward-char

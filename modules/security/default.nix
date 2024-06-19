@@ -17,7 +17,7 @@ in
     options = {
       modules = {
         security = {
-          enable = mkEnableOption "Enable common security settings" // {default = cfg.enable;};
+          enable = mkEnableOption "Enable common security settings" // {default = false;};
         };
       };
     };

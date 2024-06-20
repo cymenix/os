@@ -5,7 +5,7 @@
   ...
 }: let
   cfg = config.modules.security;
-  inherit (cfg.users) user;
+  inherit (config.modules.users) user;
 in
   with lib; {
     options = {

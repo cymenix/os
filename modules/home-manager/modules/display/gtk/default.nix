@@ -9,6 +9,15 @@
     flavor = "macchiato";
     accent = "blue";
   };
+  theme = {
+    name = "Catppuccin-Macchiato-Blue-Standard-Dark";
+    package = pkgs.catppuccin-gtk.override {
+      accents = ["blue"];
+      tweaks = ["black" "rimless"];
+      variant = "macchiato";
+    };
+  };
+  themePath = "${theme.package}/share/themes/${theme.name}";
   cfg = config.modules.display;
 in
   with lib; {
@@ -26,6 +35,9 @@ in
     };
     config = mkIf (cfg.enable && cfg.gtk.enable && osConfig.modules.display.gtk.enable) {
       home = {
+        sessionVariables = {
+          GTK_THEME = theme.name;
+        };
         packages = with pkgs; [
           libsForQt5.breeze-icons
           hicolor-icon-theme
@@ -40,15 +52,8 @@ in
         };
       };
       gtk = {
-        enable = cfg.gtk.enable;
-        theme = mkForce {
-          name = "Catppuccin-Macchiato-Blue-Standard-Dark";
-          package = pkgs.catppuccin-gtk.override {
-            accents = ["blue"];
-            tweaks = ["black" "rimless"];
-            variant = "macchiato";
-          };
-        };
+        inherit (cfg.gtk) enable;
+        inherit theme;
         cursorTheme = mkForce {
           package = pkgs.catppuccin-cursors.macchiatoBlue;
           name = "catppuccin-macchiato-blue-cursors";
@@ -63,10 +68,21 @@ in
           inherit (osConfig.modules.fonts) size;
         };
       };
-      xdg.configFile = {
-        "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
-        "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
-        "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
+
+      xdg = {
+        configFile = {
+          "gtk-2.0/assets".source = "${themePath}/gtk-2.0/assets";
+          "gtk-2.0/apps.rc".source = "${themePath}/gtk-2.0/apps.rc";
+          "gtk-2.0/gtkrc".source = "${themePath}/gtk-2.0/gtkrc";
+          "gtk-2.0/hacks.rc".source = "${themePath}/gtk-2.0/hacks.rc";
+          "gtk-2.0/main.rc".source = "${themePath}/gtk-2.0/main.rc";
+          "gtk-3.0/assets".source = "${themePath}/gtk-3.0/assets";
+          "gtk-3.0/gtk.css".source = "${themePath}/gtk-3.0/gtk.css";
+          "gtk-3.0/gtk-dark.css".source = "${themePath}/gtk-3.0/gtk-dark.css";
+          "gtk-4.0/assets".source = "${themePath}/gtk-4.0/assets";
+          "gtk-4.0/gtk.css".source = "${themePath}/gtk-4.0/gtk.css";
+          "gtk-4.0/gtk-dark.css".source = "${themePath}/gtk-4.0/gtk-dark.css";
+        };
       };
     };
   }

@@ -4,7 +4,7 @@
   ...
 }: let
   cfg = config.modules.security;
-  isDesktop = cfg.display.gui != "headless";
+  isDesktop = config.modules.display.gui != "headless";
 in
   with lib; {
     options = {

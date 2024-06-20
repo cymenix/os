@@ -5,7 +5,7 @@
   ...
 }: let
   cfg = config.modules.security;
-  isDesktop = cfg.display.gui != "headless";
+  isDesktop = config.modules.display.gui != "headless";
   polkitagent = import ./polkitagent {inherit pkgs;};
 in
   with lib; {

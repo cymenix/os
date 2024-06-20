@@ -5,6 +5,7 @@
   ...
 }: let
   cfg = config.modules.security;
+  inherit (cfg.users) user;
 in
   with lib; {
     options = {
@@ -20,8 +21,19 @@ in
       programs = {
         gnupg = {
           agent = {
-            enable = cfg.gnupg.enable;
-            enableSSHSupport = true;
+            inherit (cfg.gnupg) enable;
+            enableSSHSupport = cfg.ssh.enable;
+          };
+        };
+      };
+      security = {
+        pam = {
+          services = {
+            ${user} = {
+              gnupg = {
+                inherit (cfg.gnupg) enable;
+              };
+            };
           };
         };
       };

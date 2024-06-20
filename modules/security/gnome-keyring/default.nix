@@ -4,13 +4,14 @@
   ...
 }: let
   cfg = config.modules.security;
+  isDesktop = cfg.display.gui != "headless";
 in
   with lib; {
     options = {
       modules = {
         security = {
           gnome-keyring = {
-            enable = mkEnableOption "Enable gnome-keyring" // {default = cfg.enable;};
+            enable = mkEnableOption "Enable gnome-keyring" // {default = cfg.enable && isDesktop;};
           };
         };
       };

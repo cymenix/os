@@ -4,6 +4,7 @@
   ...
 }: let
   cfg = config.modules;
+  inherit (cfg.users) user;
 in
   with lib; {
     options = {
@@ -14,6 +15,7 @@ in
             type = types.str;
             default = "nixos";
           };
+          wheel = mkEnableOption "Add user to wheel group" // {default = cfg.enable;};
           name = mkOption {
             type = types.str;
             default = cfg.users.user;
@@ -35,15 +37,16 @@ in
         mutableUsers = true;
         defaultUserShell = cfg.shell.defaultShell;
         users = {
-          ${cfg.users.user} = {
+          ${user} = {
             isNormalUser = true;
             description = cfg.users.user;
             group = cfg.users.user;
             hashedPasswordFile = mkIf cfg.security.sops.enable config.sops.secrets.password.path;
+            extraGroups = [(mkIf cfg.users.wheel "wheel")];
           };
         };
         groups = {
-          ${cfg.users.user} = {};
+          ${user} = {};
         };
       };
     };

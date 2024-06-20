@@ -16,7 +16,7 @@ in
     options = {
       modules = {
         fonts = {
-          enable = mkEnableOption "Enable fonts" // {default = cfg.enable;};
+          enable = mkEnableOption "Enable fonts" // {default = cfg.display.gui != "headless";};
           defaultFont = mkOption {
             type = types.str;
             default = sansSerif;

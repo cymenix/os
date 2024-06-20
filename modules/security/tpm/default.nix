@@ -5,19 +5,18 @@
   ...
 }: let
   cfg = config.modules.security;
-  isDesktop = config.modules.display.gui != "headless";
 in
   with lib; {
     options = {
       modules = {
         security = {
           tpm = {
-            enable = mkEnableOption "Enable tpm" // {default = cfg.enable && isDesktop;};
+            enable = mkEnableOption "Enable tpm" // {default = cfg.enable;};
           };
         };
       };
     };
-    config = mkIf (cfg.enable && cfg.tpm.enable && isDesktop) {
+    config = mkIf (cfg.enable && cfg.tpm.enable) {
       environment = {
         systemPackages = with pkgs; [tpm2-tools];
       };

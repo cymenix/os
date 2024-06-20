@@ -11,11 +11,12 @@
   };
   theme = {
     name = "Catppuccin-Macchiato-Blue-Standard-Dark";
-    package = pkgs.catppuccin-gtk.override {
-      accents = ["blue"];
-      tweaks = ["black" "rimless"];
-      variant = "macchiato";
-    };
+    package = pkgs.colloid-gtk-theme.override {tweaks = ["catppuccin"];};
+    # package = pkgs.catppuccin-gtk.override {
+    #   accents = ["blue"];
+    #   tweaks = ["black" "rimless"];
+    #   variant = "macchiato";
+    # };
   };
   themePath = "${theme.package}/share/themes/${theme.name}";
   cfg = config.modules.display;

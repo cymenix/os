@@ -4,7 +4,7 @@
   ...
 }: let
   cfg = config.modules.security;
-  user = cfg.users.user;
+  user = config.modules.users.user;
 in
   with lib; {
     options = {

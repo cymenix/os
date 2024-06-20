@@ -10,13 +10,8 @@
     accent = "blue";
   };
   theme = {
-    name = "Catppuccin-Macchiato-Blue-Standard-Dark";
+    name = "Colloid-Dark-Catppuccin";
     package = pkgs.colloid-gtk-theme.override {tweaks = ["catppuccin"];};
-    # package = pkgs.catppuccin-gtk.override {
-    #   accents = ["blue"];
-    #   tweaks = ["black" "rimless"];
-    #   variant = "macchiato";
-    # };
   };
   themePath = "${theme.package}/share/themes/${theme.name}";
   cfg = config.modules.display;
@@ -68,8 +63,23 @@ in
           name = "${osConfig.modules.fonts.defaultFont}";
           inherit (osConfig.modules.fonts) size;
         };
+        gtk2 = {
+          configLocation = "${config.xdg.configHome}/gtk-2.0/settings.ini";
+          extraConfig = ''
+            gtk-application-prefer-dark-theme=1
+          '';
+        };
+        gtk3 = {
+          extraConfig = {
+            gtk-application-prefer-dark-theme = 1;
+          };
+        };
+        gtk4 = {
+          extraConfig = {
+            gtk-application-prefer-dark-theme = 1;
+          };
+        };
       };
-
       xdg = {
         configFile = {
           "gtk-2.0/assets".source = "${themePath}/gtk-2.0/assets";

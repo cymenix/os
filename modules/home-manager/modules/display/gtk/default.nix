@@ -41,6 +41,14 @@ in
       };
       gtk = {
         enable = cfg.gtk.enable;
+        theme = mkForce {
+          name = "Catppuccin-Macchiato-Blue-Standard-Dark";
+          package = pkgs.catppuccin-gtk.override {
+            accents = ["blue"];
+            tweaks = ["black" "rimless"];
+            variant = "macchiato";
+          };
+        };
         cursorTheme = mkForce {
           package = pkgs.catppuccin-cursors.macchiatoBlue;
           name = "catppuccin-macchiato-blue-cursors";
@@ -54,22 +62,11 @@ in
           name = "${osConfig.modules.fonts.defaultFont}";
           inherit (osConfig.modules.fonts) size;
         };
-        gtk2 = {
-          configLocation = "${config.xdg.configHome}/gtk-2.0/settings.ini";
-          extraConfig = ''
-            gtk-application-prefer-dark-theme=1
-          '';
-        };
-        gtk3 = {
-          extraConfig = {
-            gtk-application-prefer-dark-theme = 1;
-          };
-        };
-        gtk4 = {
-          extraConfig = {
-            gtk-application-prefer-dark-theme = 1;
-          };
-        };
+      };
+      xdg.configFile = {
+        "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
+        "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
+        "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
       };
     };
   }

@@ -22,7 +22,7 @@ in
       modules = {
         editor = {
           nixvim = {
-            inherit (cfg.nixvim) enable;
+            inherit (cfg.nvim) enable;
           };
         };
       };

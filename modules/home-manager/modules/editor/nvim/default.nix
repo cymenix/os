@@ -8,7 +8,7 @@
   cfg = config.modules.editor;
 in
   with lib; {
-    imports = [inputs.nvim.homeManagerModules.${system}.default];
+    # imports = [inputs.nvim.homeManagerModules.${system}.default];
     options = {
       modules = {
         editor = {
@@ -21,9 +21,9 @@ in
     config = mkIf (cfg.enable && cfg.nvim.enable) {
       modules = {
         editor = {
-          nixvim = {
-            inherit (cfg.nixvim) enable;
-          };
+          # nixvim = {
+          #   inherit (cfg.nixvim) enable;
+          # };
         };
       };
     };

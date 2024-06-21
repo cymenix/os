@@ -90,7 +90,7 @@
         inherit (inputs) nixpkgs;
         pkgs = import nixpkgs {inherit system;};
       in {
-        inputs = inputs // inputs.nvim.inputs;
+        inputs = inputs // {inherit (inputs.nvim.inputs) nixvim;};
         nixosModules = {
           default = import ./modules;
         };

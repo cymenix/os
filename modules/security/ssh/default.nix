@@ -18,7 +18,7 @@ in
     config = mkIf (cfg.enable && cfg.ssh.enable) {
       services = {
         openssh = {
-          enable = cfg.ssh.enable;
+          inherit (cfg.ssh) enable;
         };
       };
     };

@@ -20,7 +20,7 @@ in
       services = {
         gnome = {
           gnome-keyring = {
-            enable = cfg.gnome-keyring.enable;
+            inherit (cfg.gnome-keyring) enable;
           };
         };
       };

@@ -1,5 +1,6 @@
 {
   inputs,
+  system,
   config,
   lib,
   ...
@@ -7,7 +8,7 @@
   cfg = config.modules.editor;
 in
   with lib; {
-    imports = [inputs.nvim.homeManagerModules.default];
+    imports = [inputs.nvim.homeManagerModules.${system}.default];
     options = {
       modules = {
         editor = {

@@ -22,6 +22,9 @@
         };
       };
     };
+    nvim = {
+      url = "github:cymenix/nvim";
+    };
     hyprland = {
       # Use v0.40.0 until new implementation is stable
       url = "git+https://github.com/hyprwm/Hyprland?rev=cba1ade848feac44b2eda677503900639581c3f4&submodules=1";
@@ -48,9 +51,6 @@
         };
       };
     };
-    nixvim = {
-      url = "github:nix-community/nixvim";
-    };
     nix-ld = {
       url = "github:Mic92/nix-ld";
       inputs = {
@@ -70,14 +70,8 @@
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
     };
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-    };
     aiken = {
       url = "github:aiken-lang/aiken";
-    };
-    neorg-overlay = {
-      url = "github:nvim-neorg/nixpkgs-neorg-overlay";
     };
     catppuccin = {
       url = "github:catppuccin/nix";
@@ -96,7 +90,7 @@
         inherit (inputs) nixpkgs;
         pkgs = import nixpkgs {inherit system;};
       in {
-        inherit inputs;
+        inputs = inputs // inputs.nvim.inputs;
         nixosModules = {
           default = import ./modules;
         };

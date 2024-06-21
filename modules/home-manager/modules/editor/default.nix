@@ -8,7 +8,7 @@ in
   with lib; {
     imports = [
       ./jetbrains
-      ./nixvim
+      ./nvim
       ./vscode
       ./zed
     ];

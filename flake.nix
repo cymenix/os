@@ -87,10 +87,10 @@
   outputs = {...} @ inputs:
     inputs.flake-utils.lib.eachDefaultSystem (
       system: let
-        inherit (inputs) nixpkgs nvim;
+        inherit (inputs) nixpkgs;
         pkgs = import nixpkgs {inherit system;};
       in {
-        inputs = inputs // {inherit (nvim.inputs.${system}) nixvim;};
+        inherit inputs;
         nixosModules = {
           default = import ./modules;
         };

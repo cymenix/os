@@ -6,7 +6,6 @@
   ...
 }: let
   cfg = config.modules.display;
-  catppuccin = osConfig.modules.themes.catppuccin;
 in
   with lib; {
     options = {
@@ -21,7 +20,10 @@ in
     config = mkIf (cfg.enable && cfg.qt.enable) {
       home = {
         packages = with pkgs; [
-          (mkIf catppuccin.enable (catppuccin-kvantum.override {inherit (catppuccin) accent flavor;}))
+          (catppuccin-kvantum.override {
+            accent = "Blue";
+            variant = "Macchiato";
+          })
           libsForQt5.qtstyleplugin-kvantum
           libsForQt5.qt5ct
           libsForQt5.qt5.qtwayland

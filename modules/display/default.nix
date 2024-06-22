@@ -9,6 +9,7 @@ in
     imports = [
       ./gtk
       ./hyprland
+      ./qt
       ./sddm
     ];
     options = {

@@ -8,6 +8,7 @@ in
   with lib; {
     imports = [
       ./pcsx2
+      ./rpcs3
     ];
     options = {
       modules = {

@@ -21,7 +21,7 @@ in
     config = mkIf (cfg.enable && cfg.qt.enable) {
       home = {
         packages = with pkgs; [
-          (mkIf catppuccin.enable (catppuccin-kvantum.override {inherit (catppuccin) enable flavor;}))
+          (mkIf catppuccin.enable (catppuccin-kvantum.override {inherit (catppuccin) accent flavor;}))
           libsForQt5.qtstyleplugin-kvantum
           libsForQt5.qt5ct
           libsForQt5.qt5.qtwayland
@@ -30,7 +30,10 @@ in
           qt6.qtwayland
         ];
         sessionVariables = {
+          QT_QPA_PLATFOR = "wayland";
           QT_QPA_PLATFORMTHEME = "qt5ct";
+          QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+          QT_AUTO_SCREEN_SCALE_FACTOR = "1";
         };
       };
       qt = {
@@ -45,6 +48,10 @@ in
             inherit (osConfig.modules.themes.catppuccin) enable flavor;
           };
         };
+      };
+      xdg.configFile = {
+        "Kvantum/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue.kvconfig".source = "${unstablePkgs.catppuccin-kvantum}/share/Kvantum/Catppuccin-Macchiato-Blue/Cattpuccin-Macchiato-Blue.kvconfig";
+        "Kvantum/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue.svg".source = "${unstablePkgs.catppuccin-kvantum}/share/Kvantum/Catppuccin-Macchiato-Blue/Cattpuccin-Macchiato-Blue.svg";
       };
     };
   }

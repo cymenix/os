@@ -25,8 +25,13 @@ in
           libsForQt5.qtstyleplugin-kvantum
           libsForQt5.qt5ct
           libsForQt5.qt5.qtwayland
+          catppuccin-qt5ct
+          catppuccin-kvantum
           qt6.qtwayland
         ];
+        sessionVariables = {
+          QT_QPA_PLATFORMTHEME = "qt5ct";
+        };
       };
       qt = {
         enable = cfg.qt.enable;
@@ -35,13 +40,14 @@ in
         };
         style = {
           name = "kvantum";
+          package = pkgs.catppuccin-kvantum;
           catppuccin = mkIf (osConfig.modules.themes.catppuccin.enable) {
             inherit (osConfig.modules.themes.catppuccin) enable flavor;
           };
         };
       };
       xdg = {
-        configFile = lib.mkIf hasSeat {
+        configFile = {
           kvantum = {
             target = "Kvantum/kvantum.kvconfig";
             text = lib.generators.toINI {} {

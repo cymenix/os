@@ -7,19 +7,7 @@
 with lib;
 with pkgs; let
   cfg = config.modules.gaming.emulation;
-  ps3bios = stdenv.mkDerivation {
-    name = "ps3bios";
-    src = fetchzip {
-      url = "https://archive.org/download/ps3-official-firmwares/Firmware%204.91/PS3UPDAT.PUP";
-      sha256 = "1xw00fns2cvy75czq2z4pz2n45da5db7g98ybmrrdd9nj22bv55w";
-    };
-    dontBuild = true;
-    dontUnpack = true;
-    installPhase = ''
-      mkdir -p $out $out/bios
-      cp -r $src/* $out/bios
-    '';
-  };
+  ps3bios = import ./firmware {inherit pkgs;};
 in {
   options = {
     modules = {

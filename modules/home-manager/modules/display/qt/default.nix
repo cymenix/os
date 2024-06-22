@@ -32,7 +32,7 @@ in
           qt6.qtwayland
         ];
         sessionVariables = {
-          QT_QPA_PLATFOR = "wayland";
+          QT_QPA_PLATFORM = "wayland";
           QT_QPA_PLATFORMTHEME = "qt5ct";
           QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
           QT_AUTO_SCREEN_SCALE_FACTOR = "1";
@@ -44,8 +44,6 @@ in
           name = "qtct";
         };
         style = {
-          name = "kvantum";
-          package = pkgs.catppuccin-kvantum;
           catppuccin = mkIf (osConfig.modules.themes.catppuccin.enable) {
             inherit (osConfig.modules.themes.catppuccin) enable flavor;
           };

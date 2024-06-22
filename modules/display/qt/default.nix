@@ -19,7 +19,6 @@ in
       qt = {
         inherit (cfg.qt) enable;
         platformTheme = "qt5ct";
-        style = "kvantum";
       };
     };
   }

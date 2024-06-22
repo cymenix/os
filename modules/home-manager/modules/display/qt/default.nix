@@ -44,6 +44,8 @@ in
           name = "qtct";
         };
         style = {
+          name = "kvantum";
+          package = pkgs.catppuccin-kvantum;
           catppuccin = mkIf (osConfig.modules.themes.catppuccin.enable) {
             inherit (osConfig.modules.themes.catppuccin) enable flavor;
           };

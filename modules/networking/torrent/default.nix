@@ -53,7 +53,6 @@ in {
             while ! ${mullvad}/bin/mullvad status >/dev/null; do sleep 1; done
             ${mullvad}/bin/mullvad account login $(${pkgs.bat}/bin/bat ${cfg.torrent.mullvadAccountSecretPath} --style=plain)
             ${mullvad}/bin/mullvad auto-connect set on
-            ${mullvad}/bin/mullvad tunnel ipv6 set on
             ${mullvad}/bin/mullvad dns set default \
                 --block-ads --block-trackers --block-malware --block-gambling --block-adult-content --block-social-media
           '';

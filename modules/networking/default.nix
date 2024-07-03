@@ -12,6 +12,7 @@ in
       ./dbus
       ./firewall
       ./mtr
+      ./torrent
       ./wireless
     ];
     options = {

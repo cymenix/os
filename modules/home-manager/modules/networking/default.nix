@@ -11,7 +11,6 @@ in
     imports = [
       ./bluetooth
       ./nm
-      ./torrent
     ];
     options = {
       modules = {

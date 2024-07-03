@@ -139,6 +139,8 @@ in
                 "browser.bookmarks.showMobileBookmarks" = false;
                 "browser.tabs.loadBookmarksInTabs" = false;
                 "browser.toolbars.bookmarks.visibility" = "always";
+                "network.protocol-handler.expose.magnet" = false;
+                "network.dns.force_use_https_rr" = false;
                 "browser.newtabpage.pinned" = [
                   {
                     title = "NixOS";

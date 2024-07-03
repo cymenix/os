@@ -31,6 +31,7 @@
   useSwayidle = displayCfg.lockscreen.swayidle.enable;
   useSwayAudioIdle = displayCfg.lockscreen.sway-audio-idle-inhibit.enable;
   useSsh = config.modules.security.ssh.enable;
+  useMullvad = osConfig.modules.networking.torrent.enable;
   useUdiskie = osConfig.modules.io.udisks.enable;
   isLaptop = machine == "laptop";
 in
@@ -316,6 +317,12 @@ in
                   windowrulev2 = float,class:^(nm-connection-editor)$
                 ''
                 else "";
+              mullvad =
+                if useMullvad
+                then ''
+                  exec-once = mullvad-vpn
+                ''
+                else "";
               kitty =
                 if useKitty
                 then ''
@@ -385,6 +392,7 @@ in
               ${davinci}
               ${blueman}
               ${nm}
+              ${mullvad}
             '';
           };
         };

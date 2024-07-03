@@ -19,7 +19,7 @@ in {
     modules = {
       networking = {
         torrent = {
-          enable = mkEnableOption "Enable torrenting" // {default = cfg.enable;};
+          enable = mkEnableOption "Enable torrenting" // {default = false;};
           mullvadAccountSecretPath = mkOption {
             type = types.path;
           };

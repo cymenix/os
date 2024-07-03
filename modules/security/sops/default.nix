@@ -21,7 +21,7 @@ in {
   };
   config = mkIf (cfg.enable && cfg.sops.enable) {
     environment = {
-      systemPackages = [
+      systemPackages = with pkgs; [
         (import ./setupsops.nix {inherit pkgs;})
         sops
         age

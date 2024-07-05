@@ -13,6 +13,7 @@ in
       ./firewall
       ./mtr
       ./torrent
+      ./vpn
       ./wireless
     ];
     options = {

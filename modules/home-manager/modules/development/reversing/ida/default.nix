@@ -16,7 +16,7 @@
         rev = version;
         hash = "sha256-JiE0Q0bQzsEmT6xME6Rv1LoBwWLYHJ2KMl44QdkaZZw=";
       };
-      phases = "install";
+      phases = "installPhase";
       installPhase = ''
         mkdir -p $out
         cp -r $src $out

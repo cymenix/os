@@ -3,6 +3,7 @@ with lib; {
   imports = [
     ./ghidra
     ./ida
+    ./imhex
   ];
   options = {
     modules = {

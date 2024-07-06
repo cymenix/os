@@ -26,7 +26,7 @@
               owner = "WerWolv";
               repo = pname;
               rev = "v${version}";
-              hash = "sha256-8vhOOHfg4D9B9yYgnGZBpcjAjuL4M4oHHax9ad5PJtA=";
+              hash = "sha256-8Ehpk0TjE4itQ7D9Nx74plYwABVufuYmxfxyuSqak1c=";
             };
             postInstall = ''
               mkdir -p $out/share/imhex

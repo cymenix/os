@@ -16,6 +16,7 @@ in
       ./lazygit
       ./gitui
       ./node
+      ./reversing
     ];
     options = {
       modules = {

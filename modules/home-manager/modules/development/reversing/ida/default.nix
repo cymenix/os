@@ -10,7 +10,7 @@
     ps3ida = super.stdenv.mkDerivation rec {
       name = "ps3ida";
       version = "3d38ddf6a6bc879531ae0434770eef8eed07d7c8";
-      src = super.fetchFromGithub {
+      src = super.fetchFromGitHub {
         owner = "kakaroto";
         repo = name;
         rev = version;

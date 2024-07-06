@@ -1,6 +1,7 @@
 {lib, ...}:
 with lib; {
   imports = [
+    ./ghidra
     ./ida
   ];
   options = {

@@ -5,7 +5,7 @@
   config,
   ...
 }: let
-  cfg = config.modules.organization.irc;
+  cfg = config.modules.networking.irc;
   pkgs = import nixpkgs {
     inherit system;
     overlays = [

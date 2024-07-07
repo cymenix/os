@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  cfg = config.modules.organization;
+  cfg = config.modules.networking;
 in
   with lib; {
     imports = [

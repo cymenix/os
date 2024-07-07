@@ -11,7 +11,7 @@ in
     ];
     options = {
       modules = {
-        organization = {
+        networking = {
           irc = {
             enable = mkEnableOption "Enable irc" // {default = cfg.enable;};
           };

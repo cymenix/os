@@ -35,7 +35,7 @@ in
   with lib; {
     options = {
       modules = {
-        organization = {
+        networking = {
           irc = {
             weechat = {
               enable = mkEnableOption "Enable WeeChat" // {default = cfg.enable;};

@@ -44,7 +44,7 @@ in
     };
     config = mkIf (cfg.enable && cfg.weechat.enable) {
       environment = {
-        systemPackages = [weechat];
+        systemPackages = with pkgs; [weechat];
       };
       services = {
         weechat = {

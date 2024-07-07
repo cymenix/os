@@ -12,7 +12,6 @@
       (
         self: super: {
           weechat = super.weechat.override {
-            extraBuildInputs = [];
             configure = {availablePlugins, ...}: {
               scripts = with super.weechatScripts; [
                 weechat-otr

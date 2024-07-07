@@ -1,0 +1,55 @@
+{
+  nixpkgs,
+  system,
+  lib,
+  config,
+  ...
+}: let
+  cfg = config.modules.organization.irc;
+  pkgs = import nixpkgs {
+    inherit system;
+    overlays = [
+      (
+        self: super: {
+          weechat = super.weechat.override {
+            extraBuildInputs = [];
+            configure = {availablePlugins, ...}: {
+              scripts = with super.weechatScripts; [
+                weechat-otr
+                weechat-notify-send
+                weechat-grep
+                weechat-go
+                weechat-autosort
+                url_hint
+                multiline
+                highmon
+                edit
+              ];
+            };
+          };
+        }
+      )
+    ];
+  };
+in
+  with lib; {
+    options = {
+      modules = {
+        organization = {
+          irc = {
+            weechat = {
+              enable = mkEnableOption "Enable WeeChat" // {default = cfg.enable;};
+            };
+          };
+        };
+      };
+    };
+    config = mkIf (cfg.enable && cfg.weechat.enable) {
+      services = {
+        weechat = {
+          inherit (cfg.weechat) enable;
+          binary = "${pkgs.weechat}/bin/weechat";
+        };
+      };
+    };
+  }

@@ -11,6 +11,7 @@ in
       ./bluetooth
       ./dbus
       ./firewall
+      ./irc
       ./mtr
       ./torrent
       ./vpn

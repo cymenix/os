@@ -36,7 +36,7 @@ in
         networking = {
           irc = {
             weechat = {
-              enable = mkEnableOption "Enable WeeChat" // {default = cfg.enable;};
+              enable = mkEnableOption "Enable WeeChat" // {default = false;};
             };
           };
         };

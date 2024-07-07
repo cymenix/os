@@ -10,6 +10,7 @@ in
   with lib; {
     imports = [
       ./bluetooth
+      ./irc
       ./nm
     ];
     options = {

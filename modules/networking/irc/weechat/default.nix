@@ -14,7 +14,6 @@
           weechat = super.weechat.override {
             configure = {availablePlugins, ...}: {
               scripts = with super.weechatScripts; [
-                weechat-otr
                 weechat-notify-send
                 weechat-grep
                 weechat-go

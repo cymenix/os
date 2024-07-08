@@ -1,4 +1,5 @@
 {
+  pkgs,
   nixpkgs,
   system,
   config,
@@ -6,7 +7,7 @@
   ...
 }: let
   cfg = config.modules.development.reversing;
-  pkgs = import nixpkgs {
+  ghidraPkgs = import nixpkgs {
     inherit system;
     overlays = [
       (self: super: {
@@ -58,7 +59,7 @@ in
     config = mkIf (cfg.enable && cfg.ghidra.enable) {
       home = {
         packages =
-          (with pkgs; [
+          (with ghidraPkgs; [
             ghidra
           ])
           ++ (with pkgs.ghidra-extensions; [

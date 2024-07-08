@@ -13,7 +13,7 @@
         ghidra = super.ghidra.overrideAttrs (finalAttrs: previousAttrs: {
           postPatch = ''
             # Set name of release (eg. PUBLIC, DEV, etc.)
-            sed -i -e 's/application\.release\.name=.*/application.release.name=${previousAttrs.releaseName}/' Ghidra/application.properties
+            sed -i -e 's/application\.release\.name=.*/application.release.name=NIX/' Ghidra/application.properties
 
             # Set build date and git revision
             echo "application.build.date=$(cat SOURCE_DATE_EPOCH)" >> Ghidra/application.properties

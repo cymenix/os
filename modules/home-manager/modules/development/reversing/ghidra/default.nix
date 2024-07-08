@@ -1,5 +1,4 @@
 {
-  pkgs,
   nixpkgs,
   system,
   config,
@@ -7,7 +6,7 @@
   ...
 }: let
   cfg = config.modules.development.reversing;
-  ghidraPkgs = import nixpkgs {
+  pkgs = import nixpkgs {
     inherit system;
     overlays = [
       (self: super: {
@@ -59,14 +58,13 @@ in
     config = mkIf (cfg.enable && cfg.ghidra.enable) {
       home = {
         packages =
-          (with ghidraPkgs; [
+          (with pkgs; [
             ghidra
           ])
           ++ (with pkgs.ghidra-extensions; [
             gnudisassembler
             sleighdevtools
             machinelearning
-            ghidraninja-ghidra-scripts
           ]);
       };
     };

@@ -10,6 +10,7 @@ in
       ./calcurse
       ./email
       ./libreoffice
+      ./zotero
     ];
     options = {
       modules = {

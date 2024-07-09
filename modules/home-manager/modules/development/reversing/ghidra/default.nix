@@ -41,7 +41,7 @@
       runHook preInstall
 
       mkdir -p $out/lib/ghidra/Ghidra/Extensions
-      unzip -d $out/lib/ghidra/Ghidra/Extensions dist/*.zip
+      unzip -d $out/lib/ghidra/Ghidra/Extensions *.zip
 
       runHook postInstall
     '';

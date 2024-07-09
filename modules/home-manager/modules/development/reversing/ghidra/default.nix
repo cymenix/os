@@ -13,7 +13,7 @@
         ghidra = super.ghidra.overrideAttrs (oldAttrs: {
           patches = oldAttrs.patches ++ [./powerpc.patch];
         });
-        ghidra-extensions = {
+        ghidra-extensions = with super.ghidra-extensions; {
           ps3GhidraScripts = pkgs.stdenv.mkDerivation {
             name = "Ps3GhidraScripts";
             src = pkgs.fetchurl {

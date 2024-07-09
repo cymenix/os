@@ -15,14 +15,18 @@
         });
       })
     ];
-    # TODO: install this ghidra extension
-    # ps3GhidraScripts = pkgs.stdenv.mkDerivation {
-    #   name = "GhidraScripts";
-    #   src = pkgs.fetchFromGitHub {
-    #     owner = "clienthax";
-    #     repo = "Ps3GhidraScripts";
-    #   };
-    # };
+  };
+  ps3GhidraScripts = pkgs.stdenv.mkDerivation {
+    name = "Ps3GhidraScripts";
+    src = pkgs.fetchurl {
+      url = "https://github.com/clienthax/Ps3GhidraScripts/releases/download/1.069/ghidra_11.0_PUBLIC_20240204_Ps3GhidraScripts.zip";
+      hash = "04iqfgz1r1a08r2bdd9nws743a7h9gdxqfdf3dxbx10xqnpnwny8";
+    };
+    phases = "installPhase";
+    installPhase = ''
+      mkdir -p $out
+      cp -r $src $out
+    '';
   };
 in
   with lib; {
@@ -48,6 +52,7 @@ in
             sleighdevtools
             machinelearning
             ghidraninja-ghidra-scripts
+            ps3GhidraScripts
           ]);
       };
     };

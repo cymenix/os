@@ -23,8 +23,7 @@
       sha256 = "04iqfgz1r1a08r2bdd9nws743a7h9gdxqfdf3dxbx10xqnpnwny8";
     };
     nativeBuildInputs = with pkgs; [unzip jdk gradle];
-    dontUnpack = true;
-    dontBuild = true;
+    phases = "installPhase";
     installPhase = ''
       runHook preInstall
 

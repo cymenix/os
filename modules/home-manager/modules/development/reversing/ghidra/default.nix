@@ -20,7 +20,7 @@
     name = "Ps3GhidraScripts";
     src = pkgs.fetchurl {
       url = "https://github.com/clienthax/Ps3GhidraScripts/releases/download/1.069/ghidra_11.0_PUBLIC_20240204_Ps3GhidraScripts.zip";
-      hash = "04iqfgz1r1a08r2bdd9nws743a7h9gdxqfdf3dxbx10xqnpnwny8";
+      sha256 = "04iqfgz1r1a08r2bdd9nws743a7h9gdxqfdf3dxbx10xqnpnwny8";
     };
     phases = "installPhase";
     installPhase = ''

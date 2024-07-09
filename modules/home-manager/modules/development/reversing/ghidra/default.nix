@@ -27,8 +27,9 @@
     installPhase = ''
       runHook preInstall
 
+      ls -la
       mkdir -p $out/lib/ghidra/Ghidra/Extensions
-      unzip -d $out/lib/ghidra/Ghidra/Extensions $src/*.zip
+      unzip -d $out/lib/ghidra/Ghidra/Extensions *.zip
 
       runHook postInstall
     '';

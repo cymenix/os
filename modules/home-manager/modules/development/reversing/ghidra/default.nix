@@ -51,17 +51,17 @@ in
     };
     config = mkIf (cfg.enable && cfg.ghidra.enable) {
       home = {
-        packages = with pkgs; [
-          ghidra.withExtensions
-          (p:
-            with p; [
-              gnudisassembler
-              sleighdevtools
-              machinelearning
-              ghidraninja-ghidra-scripts
-              ps3GhidraScripts
-            ])
-        ];
+        packages =
+          (with pkgs; [
+            ghidra
+          ])
+          ++ (with pkgs.ghidra-extensions; [
+            gnudisassembler
+            sleighdevtools
+            machinelearning
+            ghidraninja-ghidra-scripts
+            ps3GhidraScripts
+          ]);
       };
     };
   }

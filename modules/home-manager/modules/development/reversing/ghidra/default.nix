@@ -22,14 +22,14 @@
       url = "https://github.com/clienthax/Ps3GhidraScripts/releases/download/1.069/ghidra_11.0_PUBLIC_20240204_Ps3GhidraScripts.zip";
       sha256 = "04iqfgz1r1a08r2bdd9nws743a7h9gdxqfdf3dxbx10xqnpnwny8";
     };
-    nativeBuildInputs = with pkgs; [unzip jdk gradle];
+    nativeBuildInputs = with pkgs; [unzip];
     phases = "installPhase";
     installPhase = ''
       runHook preInstall
 
-      ls -la
+      ls -la $src
       mkdir -p $out/lib/ghidra/Ghidra/Extensions
-      unzip -d $out/lib/ghidra/Ghidra/Extensions *.zip
+      unzip -d $out/lib/ghidra/Ghidra/Extensions $src
 
       runHook postInstall
     '';

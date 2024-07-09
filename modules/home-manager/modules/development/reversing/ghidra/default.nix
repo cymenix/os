@@ -16,16 +16,34 @@
       })
     ];
   };
-  ps3GhidraScripts = pkgs.stdenv.mkDerivation {
+  ps3GhidraScripts = pkgs.stdenv.mkDerivation rec {
     name = "Ps3GhidraScripts";
     src = pkgs.fetchurl {
       url = "https://github.com/clienthax/Ps3GhidraScripts/releases/download/1.069/ghidra_11.0_PUBLIC_20240204_Ps3GhidraScripts.zip";
       sha256 = "04iqfgz1r1a08r2bdd9nws743a7h9gdxqfdf3dxbx10xqnpnwny8";
     };
-    phases = "installPhase";
+    nativeBuildInputs = with pkgs; [unzip jdk gradle];
+    buildPhase = ''
+      runHook preBuild
+
+      # Set project name, otherwise defaults to directory name
+      echo -e '\nrootProject.name = "${name}"' >> settings.gradle
+
+      export GRADLE_USER_HOME=$(mktemp -d)
+      gradle \
+        --offline \
+        --no-daemon \
+        -PGHIDRA_INSTALL_DIR=${pkgs.ghidra}/lib/ghidra
+
+      runHook postBuild
+    '';
     installPhase = ''
-      mkdir -p $out
-      cp -r $src $out
+      runHook preInstall
+
+      mkdir -p $out/lib/ghidra/Ghidra/Extensions
+      unzip -d $out/lib/ghidra/Ghidra/Extensions dist/*.zip
+
+      runHook postInstall
     '';
   };
 in

@@ -51,5 +51,12 @@ in {
         };
       };
     };
+    environment = {
+      systemPackages = with pkgs; [
+        wslu
+        wsl-open
+        wsl-vpnkit
+      ];
+    };
   };
 }

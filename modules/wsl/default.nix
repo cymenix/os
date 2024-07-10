@@ -40,7 +40,7 @@ in {
         };
         interop = {
           enabled = true;
-          appendWindowsPath = false;
+          appendWindowsPath = true;
         };
         network = {
           generateHosts = true;

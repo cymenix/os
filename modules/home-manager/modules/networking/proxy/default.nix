@@ -2,6 +2,7 @@
 with lib; {
   imports = [
     ./charles
+    ./mitmproxy
   ];
   options = {
     modules = {

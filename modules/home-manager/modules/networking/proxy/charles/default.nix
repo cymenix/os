@@ -19,7 +19,7 @@ in
         networking = {
           proxy = {
             charles = {
-              enable = mkEnableOption "Enable charles web debugging proxy" // {default = cfg.enable;};
+              enable = mkEnableOption "Enable charles web debugging proxy" // {default = false;};
             };
           };
         };

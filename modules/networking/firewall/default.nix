@@ -19,13 +19,7 @@ in
       networking = {
         firewall = {
           enable = cfg.firewall.enable;
-          allowedTCPPorts = [80 443];
-          allowedUDPPortRanges = [
-            {
-              from = 8000;
-              to = 8100;
-            }
-          ];
+          allowedTCPPorts = [80 443 8080];
         };
       };
     };

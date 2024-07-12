@@ -1,10 +1,17 @@
 {
-  pkgs,
+  nixpkgs,
+  system,
   config,
   lib,
   ...
 }: let
   cfg = config.modules.networking.proxy;
+  pkgs = import nixpkgs {
+    inherit system;
+    config = {
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["charles"];
+    };
+  };
 in
   with lib; {
     options = {

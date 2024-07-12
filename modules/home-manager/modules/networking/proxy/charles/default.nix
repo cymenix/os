@@ -18,7 +18,7 @@ in
         };
       };
     };
-    config = mkIf (cfg.enable && cfg.nm.enable) {
+    config = mkIf (cfg.enable && cfg.charles.enable) {
       home = {
         packages = with pkgs; [
           charles

@@ -41,7 +41,7 @@ in
       qt = {
         enable = cfg.qt.enable;
         platformTheme = {
-          name = "qtct";
+          name = "kvantum";
         };
         style = {
           name = "kvantum";

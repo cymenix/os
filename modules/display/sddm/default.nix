@@ -34,6 +34,7 @@ in
         displayManager = {
           defaultSession = "hyprland";
           sddm = {
+            package = pkgs.kdePackages.sddm;
             enable = cfg.sddm.enable;
             enableHidpi = true;
             wayland = {

@@ -18,9 +18,6 @@ in
       };
     };
     config = mkIf (cfg.enable && cfg.sound.enable) {
-      sound = {
-        enable = cfg.sound.enable;
-      };
       services = {
         pipewire = {
           enable = cfg.sound.enable;

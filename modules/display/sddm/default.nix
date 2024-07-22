@@ -5,6 +5,7 @@
   ...
 }: let
   cfg = config.modules.display;
+  catppuccin = config.modules.themes.catppuccin;
 in
   with lib; {
     options = {
@@ -34,13 +35,15 @@ in
         displayManager = {
           defaultSession = "hyprland";
           sddm = {
-            package = pkgs.kdePackages.sddm;
+            catppuccin = mkIf (catppuccin.enable) {
+              inherit (catppuccin) enable flavor;
+            };
             enable = cfg.sddm.enable;
             enableHidpi = true;
             wayland = {
               enable = cfg.gui == "wayland";
             };
-            theme = mkForce "${import ./themes/catppuccin-macchiato.nix {inherit pkgs;}}";
+            # theme = mkForce "${import ./themes/catppuccin-macchiato.nix {inherit pkgs;}}";
             settings = {
               Theme = mkForce {
                 CursorTheme = "catppuccin-macchiato-blue-cursors";

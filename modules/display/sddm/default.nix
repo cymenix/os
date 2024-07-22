@@ -44,7 +44,7 @@ in
             wayland = {
               enable = cfg.gui == "wayland";
             };
-            theme = "catppuccin-moccha";
+            theme = "catppuccin-macchiato";
             extraPackages = with pkgs.kdePackages; [
               breeze-icons
               kirigami

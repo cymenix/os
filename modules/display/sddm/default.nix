@@ -38,11 +38,20 @@ in
             catppuccin = mkIf (catppuccin.enable) {
               inherit (catppuccin) enable flavor;
             };
+            package = pkgs.kdePackages.sddm;
             enable = cfg.sddm.enable;
             enableHidpi = true;
             wayland = {
               enable = cfg.gui == "wayland";
             };
+            theme = "catppuccin-moccha";
+            extraPackages = with pkgs.kdePackages; [
+              breeze-icons
+              kirigami
+              plasma5support
+              qtsvg
+              qtvirtualkeyboard
+            ];
             # theme = mkForce "${import ./themes/catppuccin-macchiato.nix {inherit pkgs;}}";
             settings = {
               Theme = mkForce {

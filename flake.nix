@@ -112,7 +112,16 @@
     inputs.flake-utils.lib.eachDefaultSystem (
       system: let
         inherit (inputs) nixpkgs;
-        pkgs = import nixpkgs {inherit system;};
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            (final: prev: let
+              pkgs = import inputs.small {inherit system;};
+            in {
+              quirc = pkgs.quirq;
+            })
+          ];
+        };
       in {
         inputs = inputs // inputs.nvim.inputs;
         nixosModules = {

@@ -11,91 +11,36 @@
     };
     wsl = {
       url = "github:nix-community/NixOS-WSL";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     nvim = {
       url = "github:cymenix/nvim";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     hyprland = {
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     xremap-flake = {
       url = "github:xremap/nix-flake";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.3.0";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     aiken = {
       url = "github:aiken-lang/aiken";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     yazi = {
       url = "github:sxyazi/yazi";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     catppuccin = {
       url = "github:catppuccin/nix";

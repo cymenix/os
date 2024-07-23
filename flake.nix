@@ -64,6 +64,7 @@
               pkgs = import inputs.master {inherit system;};
             in {
               quirc = pkgs.quirq;
+              ffmpeg_7-full = pkgs.ffmpeg_7-full;
             })
           ];
         };

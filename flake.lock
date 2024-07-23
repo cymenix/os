@@ -963,7 +963,7 @@
         "hyprutils": "hyprutils",
         "hyprwayland-scanner": "hyprwayland-scanner",
         "nixpkgs": [
-          "nixpkgs"
+          "small"
         ],
         "systems": "systems_3",
         "xdph": "xdph"
@@ -1867,6 +1867,7 @@
         "nixpkgs": "nixpkgs_3",
         "nur": "nur",
         "nvim": "nvim",
+        "small": "small",
         "sops-nix": "sops-nix",
         "wsl": "wsl",
         "xremap-flake": "xremap-flake",
@@ -1981,6 +1982,22 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "small": {
+      "locked": {
+        "lastModified": 1721701671,
+        "narHash": "sha256-b3YlA+FXmfUECrFkRNkB9l4sHzzuMUcU7PvI4He8oCc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2874fc48ccff3f513a05ba7af1f6e44bf44044af",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable-small",
+        "repo": "nixpkgs",
         "type": "github"
       }
     },

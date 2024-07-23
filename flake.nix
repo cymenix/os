@@ -3,6 +3,9 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
+    small = {
+      url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    };
     flake-utils = {
       url = "github:numtide/flake-utils";
     };
@@ -34,7 +37,7 @@
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs = {
         nixpkgs = {
-          follows = "nixpkgs";
+          follows = "small";
         };
       };
     };

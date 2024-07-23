@@ -3,8 +3,8 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
-    small = {
-      url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    master = {
+      url = "github:NixOS/nixpkgs/master";
     };
     flake-utils = {
       url = "github:numtide/flake-utils";
@@ -37,7 +37,7 @@
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs = {
         nixpkgs = {
-          follows = "small";
+          follows = "nixpkgs";
         };
       };
     };
@@ -116,7 +116,7 @@
           inherit system;
           overlays = [
             (final: prev: let
-              pkgs = import inputs.small {inherit system;};
+              pkgs = import inputs.master {inherit system;};
             in {
               quirc = pkgs.quirq;
             })

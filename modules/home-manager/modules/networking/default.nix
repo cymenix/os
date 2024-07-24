@@ -12,6 +12,7 @@ in
       ./bluetooth
       ./irc
       ./nm
+      ./proxy
     ];
     options = {
       modules = {

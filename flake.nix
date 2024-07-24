@@ -3,8 +3,16 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
+    master = {
+      url = "github:NixOS/nixpkgs/master";
+    };
     flake-utils = {
       url = "github:numtide/flake-utils";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     wsl = {
       url = "github:nix-community/NixOS-WSL";
@@ -24,13 +32,29 @@
     };
     nvim = {
       url = "github:cymenix/nvim";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     hyprland = {
       # Use v0.40.0 until new implementation is stable
-      url = "git+https://github.com/hyprwm/Hyprland?rev=cba1ade848feac44b2eda677503900639581c3f4&submodules=1";
+      # url = "git+https://github.com/hyprwm/Hyprland?rev=cba1ade848feac44b2eda677503900639581c3f4&submodules=1";
+      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+      inputs = {
+        nixpkgs = {
+          follows = "master";
+        };
+      };
     };
     xremap-flake = {
       url = "github:xremap/nix-flake";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -51,14 +75,6 @@
         };
       };
     };
-    nix-ld = {
-      url = "github:Mic92/nix-ld";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
-    };
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
       inputs = {
@@ -69,18 +85,38 @@
     };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     aiken = {
       url = "github:aiken-lang/aiken";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     catppuccin = {
       url = "github:catppuccin/nix";
     };
     yazi = {
       url = "github:sxyazi/yazi";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     lpi = {
       url = "github:cymenix/lpi";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
   };
 

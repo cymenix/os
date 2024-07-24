@@ -1,5 +1,4 @@
 {
-  inputs,
   pkgs,
   config,
   lib,
@@ -8,9 +7,6 @@
   cfg = config.modules.shell;
 in
   with lib; {
-    imports = [
-      inputs.nix-ld.nixosModules.nix-ld
-    ];
     options = {
       modules = {
         shell = {

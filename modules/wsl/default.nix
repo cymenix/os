@@ -1,4 +1,5 @@
 {
+  pkgs,
   lib,
   config,
   inputs,
@@ -39,7 +40,7 @@ in {
         };
         interop = {
           enabled = true;
-          appendWindowsPath = false;
+          appendWindowsPath = true;
         };
         network = {
           generateHosts = true;
@@ -50,6 +51,13 @@ in {
           default = cfg.users.user;
         };
       };
+    };
+    environment = {
+      systemPackages = with pkgs; [
+        wslu
+        wsl-open
+        wsl-vpnkit
+      ];
     };
   };
 }

@@ -19,6 +19,7 @@ in
       networking = {
         firewall = {
           enable = cfg.firewall.enable;
+          allowedTCPPorts = [80 443 8080];
         };
       };
     };

@@ -3,53 +3,112 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
-    master = {
-      url = "github:NixOS/nixpkgs/master";
-    };
     flake-utils = {
       url = "github:numtide/flake-utils";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     wsl = {
       url = "github:nix-community/NixOS-WSL";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     nvim = {
       url = "github:cymenix/nvim";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     hyprland = {
-      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+      # Use v0.40.0 until new implementation is stable
+      url = "git+https://github.com/hyprwm/Hyprland?rev=cba1ade848feac44b2eda677503900639581c3f4&submodules=1";
+      # url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     };
     xremap-flake = {
       url = "github:xremap/nix-flake";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
-    };
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.3.0";
-    };
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-    };
-    nix-vscode-extensions = {
-      url = "github:nix-community/nix-vscode-extensions";
-    };
-    aiken = {
-      url = "github:aiken-lang/aiken";
-    };
-    yazi = {
-      url = "github:sxyazi/yazi";
-    };
-    catppuccin = {
-      url = "github:catppuccin/nix";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     nur = {
       url = "github:nix-community/NUR";
     };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.3.0";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
+    };
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
+    };
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
+    };
+    aiken = {
+      url = "github:aiken-lang/aiken";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
+    };
+    catppuccin = {
+      url = "github:catppuccin/nix";
+    };
+    yazi = {
+      url = "github:sxyazi/yazi";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
+    };
     lpi = {
       url = "github:cymenix/lpi";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
   };
 
@@ -57,17 +116,7 @@
     inputs.flake-utils.lib.eachDefaultSystem (
       system: let
         inherit (inputs) nixpkgs;
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            (final: prev: let
-              pkgs = import inputs.master {inherit system;};
-            in {
-              quirc = pkgs.quirq;
-              ffmpeg_7-full = pkgs.ffmpeg_7-full;
-            })
-          ];
-        };
+        pkgs = import nixpkgs {inherit system;};
       in {
         inputs = inputs // inputs.nvim.inputs;
         nixosModules = {

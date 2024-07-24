@@ -39,6 +39,11 @@
       # Use v0.40.0 until new implementation is stable
       url = "git+https://github.com/hyprwm/Hyprland?rev=cba1ade848feac44b2eda677503900639581c3f4&submodules=1";
       # url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
     };
     xremap-flake = {
       url = "github:xremap/nix-flake";

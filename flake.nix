@@ -8,11 +8,6 @@
     };
     flake-utils = {
       url = "github:numtide/flake-utils";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
     };
     wsl = {
       url = "github:nix-community/NixOS-WSL";

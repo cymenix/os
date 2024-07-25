@@ -304,6 +304,7 @@ in
                 "browser.toolbars.bookmarks.visibility" = "always";
                 "browser.shell.checkDefaultBrowser" = false;
                 "browser.shell.defaultBrowserCheckCount" = 1;
+                "browser.places.importBookmarksHTML" = true;
                 "browser.helperApps.deleteTempFileOnExit" = true;
                 "browser.newtabpage.activity-stream.default.sites" = "";
                 "browser.newtabpage.activity-stream.feeds.topsites" = false;

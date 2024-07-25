@@ -282,15 +282,6 @@ in
                         }
                       ];
                     }
-                    {
-                      name = "linux";
-                      bookmarks = [
-                        {
-                          name = "kernel.org";
-                          url = "https://www.kernel.org";
-                        }
-                      ];
-                    }
                   ];
                 }
               ];

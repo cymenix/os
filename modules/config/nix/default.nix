@@ -28,8 +28,6 @@ in
         };
         daemonCPUSchedPolicy = "idle";
         daemonIOSchedClass = "idle";
-        registry = lib.mapAttrs (_: v: {flake = v;}) inputs;
-        nixPath = lib.mkForce lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
         settings = {
           auto-optimise-store = true;
           builders-use-substitues = true;

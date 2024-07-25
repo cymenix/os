@@ -73,7 +73,7 @@ in
             DontCheckDefaultBrowser = true;
             DisplayMenuBar = "default-off";
             SearchBar = "unified";
-            NoDefaultBookmarks = true;
+            NoDefaultBookmarks = false;
             NetworkPrediction = false;
             Preferences = {
               "accessibility.force_disabled" = {

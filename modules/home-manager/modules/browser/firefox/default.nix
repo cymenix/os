@@ -271,7 +271,7 @@ in
                   toolbar = true;
                   bookmarks = [
                     {
-                      name = "nix";
+                      name = "nixman";
                       bookmarks = [
                         {
                           name = "homepage";

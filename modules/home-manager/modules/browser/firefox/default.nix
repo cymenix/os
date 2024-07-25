@@ -266,16 +266,8 @@ in
                   toolbar = true;
                   bookmarks = [
                     {
-                      name = "homepage";
-                      url = "https://nixos.org/";
-                    }
-                    {
                       name = "nix";
                       bookmarks = [
-                        {
-                          name = "homepage";
-                          url = "https://nixos.org/";
-                        }
                         {
                           name = "wiki";
                           tags = ["wiki" "nix"];

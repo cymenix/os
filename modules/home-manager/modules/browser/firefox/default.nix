@@ -59,6 +59,11 @@ in
               StartPage = "previous-session";
               Locked = true;
             };
+            DNSOverHTTPS = {
+              Enabled = true;
+              ProviderURL = "https://family.dns.mullvad.net/dns-query";
+              Locked = true;
+            };
             PasswordManagerEnabled = false;
             PrimaryPassword = false;
             OfferToSaveLoginsDefault = false;

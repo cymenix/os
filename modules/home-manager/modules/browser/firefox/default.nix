@@ -22,19 +22,19 @@ in
       programs = {
         firefox = {
           enable = cfg.firefox.enable;
-          extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-            decentraleyes
-            ublock-origin
-            bitwarden
-            istilldontcareaboutcookies
-            firefox-color
-            sponsorblock
-            df-youtube
-          ];
           profiles = {
             ${user} = {
               id = 0;
               name = user;
+              extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+                decentraleyes
+                ublock-origin
+                bitwarden
+                istilldontcareaboutcookies
+                firefox-color
+                sponsorblock
+                df-youtube
+              ];
               search = {
                 force = true;
                 default = "DuckDuckGo";

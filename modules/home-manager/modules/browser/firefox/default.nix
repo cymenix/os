@@ -31,6 +31,7 @@ in
             DisableFormHistory = true;
             DisablePocket = true;
             DisableAccounts = true;
+            DisableProfileImport = true;
             DisableFirefoxScreenshots = true;
             EnableTrackingProtection = {
               Value = true;
@@ -72,7 +73,7 @@ in
             DontCheckDefaultBrowser = true;
             DisplayMenuBar = "default-off";
             SearchBar = "unified";
-            NoDefaultBookmarks = true;
+            NoDefaultBookmarks = false;
             NetworkPrediction = false;
             Preferences = {
               "accessibility.force_disabled" = {
@@ -193,6 +194,7 @@ in
               };
             };
           };
+
           profiles = {
             ${user} = {
               id = 0;

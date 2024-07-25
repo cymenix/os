@@ -22,9 +22,6 @@ in
       programs = {
         firefox = {
           enable = cfg.firefox.enable;
-          # policies = {
-          #   NoDefaultBookmarks = true;
-          # };
           profiles = {
             ${user} = {
               id = 0;
@@ -105,23 +102,27 @@ in
                   toolbar = true;
                   bookmarks = [
                     {
-                      name = "homepage";
-                      url = "https://nixos.org/";
+                      name = "nix";
+                      bookmarks = [
+                        {
+                          name = "homepage";
+                          url = "https://nixos.org/";
+                        }
+                        {
+                          name = "wiki";
+                          tags = ["wiki" "nix"];
+                          url = "https://wiki.nixos.org/";
+                        }
+                      ];
                     }
                     {
-                      name = "wiki";
-                      tags = ["wiki" "nix"];
-                      url = "https://wiki.nixos.org/";
-                    }
-                    {
-                      name = "wikipedia";
-                      tags = ["wiki"];
-                      keyword = "wiki";
-                      url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&amp;go=Go";
-                    }
-                    {
-                      name = "kernel.org";
-                      url = "https://www.kernel.org";
+                      name = "linux";
+                      bookmarks = [
+                        {
+                          name = "kernel.org";
+                          url = "https://www.kernel.org";
+                        }
+                      ];
                     }
                   ];
                 }

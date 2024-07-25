@@ -34,6 +34,8 @@ in
                 firefox-color
                 sponsorblock
                 df-youtube
+                zotero-connector
+                vimium
               ];
               search = {
                 force = true;
@@ -61,7 +63,22 @@ in
                       }
                     ];
                     icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-                    definedAliases = ["@np"];
+                    definedAliases = ["nix"];
+                  };
+                  "MyNixOS" = {
+                    urls = [
+                      {
+                        template = "https://mynixos.com/search";
+                        params = [
+                          {
+                            name = "q";
+                            value = "{searchTerms}";
+                          }
+                        ];
+                      }
+                    ];
+                    icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                    definedAliases = ["mnix"];
                   };
                   "NixOS Wiki" = {
                     urls = [
@@ -69,7 +86,7 @@ in
                     ];
                     iconUpdateURL = "https://nixos.wiki/favicon.png";
                     updateInterval = 24 * 60 * 60 * 1000;
-                    definedAliases = ["@nw"];
+                    definedAliases = ["nw"];
                   };
                   "Google" = {
                     metadata = {
@@ -92,7 +109,6 @@ in
                 }
                 {
                   name = "Nix sites";
-                  toolbar = true;
                   bookmarks = [
                     {
                       name = "homepage";

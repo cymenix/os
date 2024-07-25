@@ -16,7 +16,7 @@ in
     options = {
       modules = {
         virtualisation = {
-          enable = mkEnableOption "Enable virtualisation" // {default = isDesktop;};
+          enable = mkEnableOption "Enable virtualisation" // {default = false;};
         };
       };
     };

@@ -22,9 +22,9 @@ in
       programs = {
         firefox = {
           enable = cfg.firefox.enable;
-          policies = {
-            NoDefaultBookmarks = true;
-          };
+          # policies = {
+          #   NoDefaultBookmarks = true;
+          # };
           profiles = {
             ${user} = {
               id = 0;
@@ -101,17 +101,7 @@ in
               };
               bookmarks = [
                 {
-                  name = "wikipedia";
-                  tags = ["wiki"];
-                  keyword = "wiki";
-                  url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&amp;go=Go";
-                }
-                {
-                  name = "kernel.org";
-                  url = "https://www.kernel.org";
-                }
-                {
-                  name = "Nix sites";
+                  name = "Toolbar";
                   toolbar = true;
                   bookmarks = [
                     {
@@ -123,6 +113,16 @@ in
                       tags = ["wiki" "nix"];
                       url = "https://wiki.nixos.org/";
                     }
+                    {
+                      name = "wikipedia";
+                      tags = ["wiki"];
+                      keyword = "wiki";
+                      url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&amp;go=Go";
+                    }
+                    {
+                      name = "kernel.org";
+                      url = "https://www.kernel.org";
+                    }
                   ];
                 }
               ];
@@ -132,8 +132,6 @@ in
 
                 # Enable filepicker
                 "widget.use-xdg-desktop-portal" = true;
-
-                "browser.places.importBookmarksHTML" = false;
 
                 "general.smoothScroll" = true;
                 "gfx.webrender.all" = true;

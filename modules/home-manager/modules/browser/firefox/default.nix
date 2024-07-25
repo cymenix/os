@@ -119,6 +119,10 @@ in
                 Value = true;
                 Status = "locked";
               };
+              "browser.translations.automaticallyPopup" = {
+                Value = false;
+                Status = "locked";
+              };
               "dom.security.https_only_mode" = {
                 Value = true;
                 Status = "locked";

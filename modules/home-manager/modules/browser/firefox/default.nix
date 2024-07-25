@@ -123,13 +123,20 @@ in
                 }
               ];
               settings = {
+                # Enable installed extensions automatically
+                "extensions.autoDisableScopes" = 0;
+
+                # Enable filepicker
+                "widget.use-xdg-desktop-portal" = true;
+
+                "browser.places.importBookmarksHTML" = false;
+
                 "general.smoothScroll" = true;
                 "gfx.webrender.all" = true;
                 "gfx.webrender.compositor" = true;
                 "gfx.webrender.enabled" = true;
                 "media.ffmpeg.vaapi.enabled" = true;
                 "layers.acceleration.force-enabled" = true;
-                "widget.use-xdg-desktop-portal" = true;
                 "ui.context_menus.after_mouseup" = true;
                 "browser.urlbar.suggest.quickactions" = false;
                 "browser.urlbar.suggest.topsites" = false;

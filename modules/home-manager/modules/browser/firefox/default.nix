@@ -109,7 +109,7 @@ in
                 }
                 {
                   name = "Nix sites";
-                  bookmarks = [
+                  children = [
                     {
                       name = "homepage";
                       url = "https://nixos.org/";

@@ -303,6 +303,7 @@ in
                 "browser.tabs.tabmanager.enabled" = false;
                 "browser.tabs.loadBookmarksInTabs" = false;
                 "browser.bookmarks.showMobileBookmarks" = false;
+                "browser.bookmarks.addedImportButton" = false;
                 "browser.toolbars.bookmarks.visibility" = "always";
                 "browser.shell.checkDefaultBrowser" = false;
                 "browser.shell.defaultBrowserCheckCount" = 1;

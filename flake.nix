@@ -3,9 +3,6 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
-    master = {
-      url = "github:NixOS/nixpkgs/master";
-    };
     flake-utils = {
       url = "github:numtide/flake-utils";
     };
@@ -34,12 +31,10 @@
       };
     };
     hyprland = {
-      # Use v0.40.0 until new implementation is stable
-      # url = "git+https://github.com/hyprwm/Hyprland?rev=cba1ade848feac44b2eda677503900639581c3f4&submodules=1";
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs = {
         nixpkgs = {
-          follows = "master";
+          follows = "nixpkgs";
         };
       };
     };

@@ -212,10 +212,6 @@ in
                 force = true;
                 default = "DuckDuckGo";
                 privateDefault = "DuckDuckGo";
-                order = [
-                  "DuckDuckGo"
-                  "Google"
-                ];
                 engines = {
                   "Nix Packages" = {
                     urls = [

@@ -184,17 +184,12 @@ in
                 Value = false;
                 Status = "locked";
               };
-              "network.trr.mode" = {
-                Value = 5;
-                Status = "locked";
-              };
               "signon.management.page.breach-alerts.enabled" = {
                 Value = false;
                 Status = "locked";
               };
             };
           };
-
           profiles = {
             ${user} = {
               id = 0;
@@ -271,7 +266,11 @@ in
                   toolbar = true;
                   bookmarks = [
                     {
-                      name = "nixman";
+                      name = "homepage";
+                      url = "https://nixos.org/";
+                    }
+                    {
+                      name = "nix";
                       bookmarks = [
                         {
                           name = "homepage";

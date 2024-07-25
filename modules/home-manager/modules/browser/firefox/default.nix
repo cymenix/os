@@ -22,6 +22,28 @@ in
       programs = {
         firefox = {
           enable = cfg.firefox.enable;
+          policies = {
+            DisableFirefoxStudies = true;
+            EnableTrackingProtection = {
+              Value = true;
+              Locked = true;
+              Cryptomining = true;
+              Fingerprinting = true;
+            };
+            PasswordManagerEnabled = false;
+            OfferToSaveLoginsDefault = false;
+            DisableTelemetry = true;
+            DisablePocket = true;
+            DisableFirefoxAccounts = true;
+            DisableAccounts = true;
+            DisableFirefoxScreenshots = true;
+            OverrideFirstRunPage = "";
+            OverridePostUpdatePage = "";
+            DontCheckDefaultBrowser = true;
+            DisplayMenuBar = "default-off";
+            SearchBar = "unified";
+            NoDefaultBookmarks = true;
+          };
           profiles = {
             ${user} = {
               id = 0;

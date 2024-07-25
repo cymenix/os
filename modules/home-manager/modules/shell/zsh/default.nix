@@ -82,6 +82,7 @@ in
             nehm = "${explorer} $MOON/nix/modules/home-manager/modules";
             nenvim = "${explorer} $MOON/nix/modules/home-manager/modules/editor/nixvim";
             notes = "${explorer} $MOON/notes";
+            nix-repl-flake = ''nix repl --expr "builtins.getFlake \"$PWD\"'';
             V = "${explorer} $XDG_VIDEOS_DIR";
             D = "${explorer} $XDG_DOWNLOAD_DIR";
             M = "${explorer} $XDG_MUSIC_DIR";

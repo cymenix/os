@@ -22,6 +22,9 @@ in
       programs = {
         firefox = {
           enable = cfg.firefox.enable;
+          policies = {
+            NoDefaultBookmarks = true;
+          };
           profiles = {
             ${user} = {
               id = 0;
@@ -109,7 +112,8 @@ in
                 }
                 {
                   name = "Nix sites";
-                  children = [
+                  toolbar = true;
+                  bookmarks = [
                     {
                       name = "homepage";
                       url = "https://nixos.org/";

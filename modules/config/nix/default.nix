@@ -30,7 +30,7 @@ in
         daemonIOSchedClass = "idle";
         settings = {
           auto-optimise-store = true;
-          builders-use-substitues = true;
+          builders-use-substitutes = true;
           keep-going = true;
           allowed-users = ["@wheel"];
           trusted-users = ["@wheel"];

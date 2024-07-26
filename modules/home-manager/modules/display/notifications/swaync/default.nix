@@ -1,12 +1,10 @@
 {
   pkgs,
   config,
-  osConfig,
   lib,
   ...
 }: let
   cfg = config.modules.display.notifications;
-  config.
 in
   with lib; {
     options = {

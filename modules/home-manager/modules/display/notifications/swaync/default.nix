@@ -59,9 +59,13 @@ in
                   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px #363a4f;
                   border-radius: 12.6px;
                   margin: 18px;
-                  background-color: transparent;
+                  background-color: #24273a;
                   color: #cad3f5;
                   padding: 0;
+                }
+
+                .floating-notifications {
+                    background: transparent;
                 }
 
                 .floating-notifications.background .notification-row .notification-background .notification {
@@ -387,6 +391,7 @@ in
                 {
                   "positionX": "right",
                   "positionY": "top",
+                  "cssPriority": "user",
                   "control-center-margin-top": 10,
                   "control-center-margin-bottom": 10,
                   "control-center-margin-right": 10,

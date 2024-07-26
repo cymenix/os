@@ -6,6 +6,7 @@
   ...
 }: let
   cfg = config.modules.display.notifications;
+  config.
 in
   with lib; {
     options = {
@@ -27,7 +28,7 @@ in
       };
       xdg = {
         configFile = {
-          "swaync/macchiato.css" = {
+          "swaync/style.css" = {
             text =
               /*
               css
@@ -35,9 +36,24 @@ in
               ''
                 * {
                   all: unset;
-                  font-size: 14px;
-                  font-family: "Iosevka Nerd Font";
+                  font-size: ${builtins.toString config.modules.font.size}px;
+                  font-family: "${config.modules.fonts.defaultFont}";
                   transition: 200ms;
+                }
+
+                trough highlight {
+                  background: #cad3f5;
+                }
+
+                scale trough {
+                  margin: 0rem 1rem;
+                  background-color: #363a4f;
+                  min-height: 8px;
+                  min-width: 70px;
+                }
+
+                slider {
+                  background-color: #8aadf4;
                 }
 
                 .floating-notifications.background .notification-row .notification-background {
@@ -125,7 +141,7 @@ in
                   padding: 14px;
                 }
 
-                .control-center .widget-title {
+                .control-center .widget-title > label {
                   color: #cad3f5;
                   font-size: 1.3em;
                 }
@@ -215,6 +231,10 @@ in
                   background-color: #ee99a0;
                 }
 
+                .close-button {
+                  border-radius: 6.3px;
+                }
+
                 .control-center .notification-row .notification-background .close-button:hover {
                   background-color: #ed8796;
                   color: #24273a;
@@ -237,16 +257,6 @@ in
                   color: #cad3f5;
                 }
 
-                progressbar,
-                progress,
-                trough {
-                  border-radius: 12.6px;
-                }
-
-                progressbar {
-                  box-shadow: inset 0 0 0 1px #494d64;
-                }
-
                 .notification.critical progress {
                   background-color: #ed8796;
                 }
@@ -254,14 +264,6 @@ in
                 .notification.low progress,
                 .notification.normal progress {
                   background-color: #8aadf4;
-                }
-
-                trough {
-                  background-color: #363a4f;
-                }
-
-                .control-center trough {
-                  background-color: #494d64;
                 }
 
                 .control-center-dnd {
@@ -303,342 +305,76 @@ in
                   border-radius: 8px;
                   border: 1px solid #6e738d;
                 }
-              '';
-          };
-          "swaync/style.css" = {
-            text =
-              /*
-              css
-              */
-              ''
-                @define-color cc-bg rgba(26, 27, 38, 1);
-                @define-color noti-border-color rgba(255, 255, 255, 0.15);
-                @define-color noti-bg rgb(17, 17, 27);
-                @define-color noti-bg-darker rgb(43, 43, 57);
-                @define-color noti-bg-hover rgb(27, 27, 43);
-                @define-color noti-bg-focus rgba(27, 27, 27, 0.6);
-                @define-color noti-close-bg rgba(255, 255, 255, 0.1);
-                @define-color noti-close-bg-hover rgba(255, 255, 255, 0.15);
-                @define-color text-color rgba(169, 177, 214, 1);
-                @define-color text-color-disabled rgb(150, 150, 150);
-                @define-color bg-selected rgb(0, 128, 255);
 
-                * {
-                    font-family: "${osConfig.modules.fonts.defaultFont} ${builtins.toString osConfig.modules.fonts.size}";
-                    transition: 200ms;
-                    background: transparent;
+                .widget-mpris .widget-mpris-player {
+                  background: #363a4f;
+                  padding: 7px;
                 }
 
-                .control-center .notification-row:focus,
-                .control-center .notification-row:hover {
-                    opacity: 1;
-                    background: @noti-bg-darker
+                .widget-mpris .widget-mpris-title {
+                  font-size: 1.2rem;
                 }
 
-                .notification-row {
-                    outline: none;
-                    margin: 10px;
-                    padding: 0;
+                .widget-mpris .widget-mpris-subtitle {
+                  font-size: 0.8rem;
                 }
 
-                .notification {
-                    background: transparent;
-                    padding: 0;
-                    margin: 0px;
+                .widget-menubar > box > .menu-button-bar > button > label {
+                  font-size: 3rem;
+                  padding: 0.5rem 2rem;
                 }
 
-                .notification-content {
-                    background: @cc-bg;
-                    padding: 10px;
-                    border-radius: 5px;
-                    border: 2px solid #34548a;
-                    margin: 0;
+                .widget-menubar > box > .menu-button-bar > :last-child {
+                  color: #ed8796;
                 }
 
-                .notification-default-action {
-                    margin: 0;
-                    padding: 0;
-                    border-radius: 5px;
+                .power-buttons button:hover,
+                .powermode-buttons button:hover,
+                .screenshot-buttons button:hover {
+                  background: #363a4f;
                 }
 
-                .close-button {
-                    background: #f7768e;
-                    color: @cc-bg;
-                    text-shadow: none;
-                    padding: 0;
-                    border-radius: 5px;
-                    margin-top: 5px;
-                    margin-right: 5px;
-                }
-
-                .close-button:hover {
-                    box-shadow: none;
-                    background: #f7768e;
-                    transition: all .15s ease-in-out;
-                    border: none
-                }
-
-                .notification-action {
-                    border: 2px solid #34548a;
-                    border-top: none;
-                    border-radius: 5px;
-                }
-
-                .notification-default-action:hover,
-                .notification-action:hover {
-                    color: #7aa2f7;
-                    background: #7aa2f7
-                }
-
-                .notification-default-action {
-                    border-radius: 5px;
-                    margin: 0px;
-                }
-
-                .notification-default-action:not(:only-child) {
-                    border-bottom-left-radius: 7px;
-                    border-bottom-right-radius: 7px
-                }
-
-                .notification-action:first-child {
-                    border-bottom-left-radius: 10px;
-                    background: #1b1b2b
-                }
-
-                .notification-action:last-child {
-                    border-bottom-right-radius: 10px;
-                    background: #1b1b2b
-                }
-
-                .inline-reply {
-                    margin-top: 8px
-                }
-
-                .inline-reply-entry {
-                    background: @noti-bg-darker;
-                    color: @text-color;
-                    caret-color: @text-color;
-                    border: 1px solid @noti-border-color;
-                    border-radius: 5px
-                }
-
-                .inline-reply-button {
-                    margin-left: 4px;
-                    background: @noti-bg;
-                    border: 1px solid @noti-border-color;
-                    border-radius: 5px;
-                    color: @text-color
-                }
-
-                .inline-reply-button:disabled {
-                    background: initial;
-                    color: @text-color-disabled;
-                    border: 1px solid transparent
-                }
-
-                .inline-reply-button:hover {
-                    background: @noti-bg-hover
-                }
-
-                .body-image {
-                    margin-top: 6px;
-                    background-color: #fff;
-                    border-radius: 5px
-                }
-
-                .summary {
-                    font-size: 16px;
-                    font-weight: 700;
-                    background: transparent;
-                    color: rgba(158, 206, 106, 1);
-                    text-shadow: none
-                }
-
-                .time {
-                    font-size: 16px;
-                    font-weight: 700;
-                    background: transparent;
-                    color: @text-color;
-                    text-shadow: none;
-                    margin-right: 18px
-                }
-
-                .body {
-                    font-size: 15px;
-                    font-weight: 400;
-                    background: transparent;
-                    color: @text-color;
-                    text-shadow: none
-                }
-
-                .control-center {
-                    background: @cc-bg;
-                    border: 2px solid #34548a;
-                    border-radius: 5px;
-                }
-
-                .control-center-list {
-                    background: transparent
-                }
-
-                .control-center-list-placeholder {
-                    opacity: .5
-                }
-
-                .floating-notifications {
-                    background: transparent
-                }
-
-                .widget-title {
-                    color: #7aa2f7;
-                    background: @noti-bg-darker;
-                    padding: 5px 10px;
-                    margin: 10px 10px 5px 10px;
-                    font-size: 1.5rem;
-                    border-radius: 5px;
-                }
-
-                .widget-title>button {
-                    font-size: 1rem;
-                    color: @text-color;
-                    text-shadow: none;
-                    background: @noti-bg;
-                    box-shadow: none;
-                    border-radius: 5px;
-                }
-
-                .widget-title>button:hover {
-                    background: #f7768e;
-                    color: @cc-bg;
-                }
-
-                .widget-dnd {
-                    background: @noti-bg-darker;
-                    padding: 5px 10px;
-                    margin: 10px 10px 5px 10px;
-                    border-radius: 5px;
-                    font-size: large;
-                    color: #7aa2f7;
-                }
-
-                .widget-dnd>switch {
-                    border-radius: 5px;
-                    background: #7aa2f7;
-                }
-
-                .widget-dnd>switch:checked {
-                    background: #f7768e;
-                    border: 1px solid #f7768e;
-                }
-
-                .widget-dnd>switch slider {
-                    background: @cc-bg;
-                    border-radius: 5px
-                }
-
-                .widget-dnd>switch:checked slider {
-                    background: @cc-bg;
-                    border-radius: 5px
-                }
-
-                .widget-label {
-                    margin: 10px 10px 5px 10px;
-                }
-
-                .widget-label>label {
-                    font-size: 1rem;
-                    color: @text-color;
-                }
-
-                .widget-mpris {
-                    color: @text-color;
-                    background: @noti-bg-darker;
-                    padding: 5px 10px;
-                    margin: 10px 10px 5px 10px;
-                    border-radius: 5px;
-                }
-
-                .widget-mpris > box > button {
-                    border-radius: 5px;
-                }
-
-                .widget-mpris-player {
-                    padding: 5px 10px;
-                    margin: 10px
-                }
-
-                .widget-mpris-player > box > image {
-                    margin-right: 36px;
-                }
-
-                .widget-mpris-title {
-                    font-weight: 700;
-                    font-size: 1.25rem
-                }
-
-                .widget-mpris-subtitle {
-                    font-size: 1.1rem
+                .control-center .widget-label > label {
+                  color: #cad3f5;
+                  font-size: 2rem;
                 }
 
                 .widget-buttons-grid {
-                    font-size: x-large;
-                    padding: 5px;
-                    margin: 10px 10px 5px 10px;
-                    border-radius: 5px;
-                    background: @noti-bg-darker;
+                  padding-top: 1rem;
                 }
 
-                .widget-buttons-grid>flowbox>flowboxchild>button {
-                    margin: 3px;
-                    background: @cc-bg;
-                    padding: 6px;
-                    border-radius: 5px;
-                    color: @text-color
-                }
-
-                .widget-buttons-grid>flowbox>flowboxchild>button:hover {
-                    background: rgba(122, 162, 247, 1);
-                    color: @cc-bg;
-                }
-
-                .widget-menubar>box>.menu-button-bar>button {
-                    border: none;
-                    background: transparent
-                }
-
-                .topbar-buttons>button {
-                    border: none;
-                    background: transparent
+                .widget-buttons-grid > flowbox > flowboxchild > button label {
+                  font-size: 2.5rem;
                 }
 
                 .widget-volume {
-                    background: @noti-bg-darker;
-                    padding: 5px;
-                    margin: 10px 10px 5px 10px;
-                    border-radius: 5px;
-                    font-size: x-large;
-                    color: @text-color;
+                  padding-top: 1rem;
                 }
 
-                .widget-volume>box>button {
-                    background: #7aa2f7;
-                    border: none
+                .widget-volume label {
+                  font-size: 1.5rem;
+                  color: #7dc4e4;
                 }
 
-                .per-app-volume {
-                    background-color: @noti-bg;
-                    padding: 4px 8px 8px;
-                    margin: 0 8px 8px;
-                    border-radius: 5px;
+                .widget-volume trough highlight {
+                  background: #7dc4e4;
                 }
 
-                .widget-backlight {
-                    background: @noti-bg-darker;
-                    padding: 12px;
-                    margin: 10px 10px 5px 10px;
-                    border-radius: 5px;
-                    font-size: x-large;
-                    color: @text-color
+                .widget-backlight trough highlight {
+                  background: #eed49f;
+                }
+
+                .widget-backlight label {
+                  font-size: 1.5rem;
+                  color: #eed49f;
+                }
+
+                .widget-backlight .KB {
+                  padding-bottom: 1rem;
+                }
+
+                .image {
+                  padding-right: 0.5rem;
                 }
 
               '';

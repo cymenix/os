@@ -61,7 +61,7 @@ in
             };
             DNSOverHTTPS = {
               Enabled = true;
-              ProviderURL = "https://family.dns.mullvad.net/dns-query";
+              ProviderURL = "https://adblock.dns.mullvad.net/dns-query";
               Locked = true;
             };
             PasswordManagerEnabled = false;

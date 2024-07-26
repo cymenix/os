@@ -31,6 +31,7 @@ in
             DisableFormHistory = true;
             DisablePocket = true;
             DisableAccounts = true;
+            DisableProfileImport = true;
             DisableFirefoxScreenshots = true;
             EnableTrackingProtection = {
               Value = true;
@@ -72,7 +73,7 @@ in
             DontCheckDefaultBrowser = true;
             DisplayMenuBar = "default-off";
             SearchBar = "unified";
-            NoDefaultBookmarks = true;
+            NoDefaultBookmarks = false;
             NetworkPrediction = false;
             Preferences = {
               "accessibility.force_disabled" = {
@@ -183,10 +184,6 @@ in
                 Value = false;
                 Status = "locked";
               };
-              "network.trr.mode" = {
-                Value = 5;
-                Status = "locked";
-              };
               "signon.management.page.breach-alerts.enabled" = {
                 Value = false;
                 Status = "locked";
@@ -212,10 +209,6 @@ in
                 force = true;
                 default = "DuckDuckGo";
                 privateDefault = "DuckDuckGo";
-                order = [
-                  "DuckDuckGo"
-                  "Google"
-                ];
                 engines = {
                   "Nix Packages" = {
                     urls = [
@@ -276,22 +269,9 @@ in
                       name = "nix";
                       bookmarks = [
                         {
-                          name = "homepage";
-                          url = "https://nixos.org/";
-                        }
-                        {
                           name = "wiki";
                           tags = ["wiki" "nix"];
                           url = "https://wiki.nixos.org/";
-                        }
-                      ];
-                    }
-                    {
-                      name = "linux";
-                      bookmarks = [
-                        {
-                          name = "kernel.org";
-                          url = "https://www.kernel.org";
                         }
                       ];
                     }
@@ -314,9 +294,11 @@ in
                 "browser.tabs.tabmanager.enabled" = false;
                 "browser.tabs.loadBookmarksInTabs" = false;
                 "browser.bookmarks.showMobileBookmarks" = false;
+                "browser.bookmarks.addedImportButton" = false;
                 "browser.toolbars.bookmarks.visibility" = "always";
                 "browser.shell.checkDefaultBrowser" = false;
                 "browser.shell.defaultBrowserCheckCount" = 1;
+                "browser.places.importBookmarksHTML" = true;
                 "browser.helperApps.deleteTempFileOnExit" = true;
                 "browser.newtabpage.activity-stream.default.sites" = "";
                 "browser.newtabpage.activity-stream.feeds.topsites" = false;

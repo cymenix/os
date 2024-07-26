@@ -34,7 +34,7 @@ in
               ''
                 * {
                   all: unset;
-                  font-size: ${builtins.toString config.modules.fonts.font.size}px;
+                  font-size: ${builtins.toString config.modules.fonts.size}px;
                   font-family: "${config.modules.fonts.defaultFont}";
                   transition: 200ms;
                 }

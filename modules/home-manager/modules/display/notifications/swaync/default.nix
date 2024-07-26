@@ -59,7 +59,7 @@ in
                   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px #363a4f;
                   border-radius: 12.6px;
                   margin: 18px;
-                  background-color: #24273a;
+                  background-color: transparent;
                   color: #cad3f5;
                   padding: 0;
                 }

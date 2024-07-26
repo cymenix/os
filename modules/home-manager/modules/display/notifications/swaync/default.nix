@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  osConfig,
   lib,
   ...
 }: let
@@ -34,8 +35,8 @@ in
               ''
                 * {
                   all: unset;
-                  font-size: ${builtins.toString config.modules.fonts.size}px;
-                  font-family: "${config.modules.fonts.defaultFont}";
+                  font-size: ${builtins.toString osConfig.modules.fonts.size}px;
+                  font-family: "${osConfig.modules.fonts.defaultFont}";
                   transition: 200ms;
                 }
 

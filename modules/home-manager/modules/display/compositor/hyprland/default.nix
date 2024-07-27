@@ -23,7 +23,7 @@
   useEmail = config.modules.organization.email.enable;
   useLf = config.modules.explorer.lf.enable;
   useYazi = config.modules.explorer.yazi.enable;
-  # useNvim = config.modules.editor.nixvim.enable;
+  useNvim = config.modules.editor.nixvim.enable;
   useFirefox = config.modules.browser.firefox.enable;
   useDavinci = config.modules.media.editing.davinci.enable;
   useBlueman = config.modules.networking.bluetooth.blueman.enable;
@@ -190,7 +190,7 @@ in
 
                 (mkIf useHyprpicker "$mod, U, exec, hyprpicker")
                 (mkIf useKitty "$mod, RETURN, exec, kitty")
-                # (mkIf (useKitty && useNvim) "$mod, V, exec, kitty nvim")
+                (mkIf (useKitty && useNvim) "$mod, V, exec, kitty nvim")
                 (mkIf (useKitty && useLf) "$mod, R, exec, kitty lf")
                 (mkIf (useKitty && useYazi) "$mod, R, exec, kitty yazi")
                 (mkIf (useKitty && useEmail) "$mod, E, exec, kitty neomutt")
@@ -321,7 +321,6 @@ in
                 if useTorrent
                 then ''
                   exec-once = mullvad-vpn
-                  exec-once = qbittorrent
                 ''
                 else "";
               kitty =

@@ -47,7 +47,7 @@ pkgs.writeShellScriptBin "logoutlaunch" ''
       exit 0
     fi
     if [[ $1 == '--shutdown' ]]; then
-      ${pkgs.systemd}/bin/systemctl poweroff
+     shutdown -h now
     elif [[ $1 == '--reboot' ]]; then
       ${pkgs.systemd}/bin/systemctl reboot
     elif [[ $1 == '--hibernate' ]]; then

@@ -8,6 +8,7 @@ in
   with lib; {
     imports = [
       ./pidgin
+      ./irssi
     ];
     options = {
       modules = {

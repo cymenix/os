@@ -14,7 +14,7 @@
     config = {
       allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["untrap-for-youtube"];
     };
-    overlays = [inputs.nur.overlays.default];
+    overlays = [inputs.nur.overlay];
   };
 in
   with lib; {

@@ -202,6 +202,7 @@ in
                 firefox-color
                 sponsorblock
                 df-youtube
+                untrap-for-youtube
                 zotero-connector
                 vimium
               ];

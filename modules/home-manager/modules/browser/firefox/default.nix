@@ -1,5 +1,6 @@
 {
-  pkgs,
+  nixpkgs,
+  system,
   config,
   osConfig,
   lib,
@@ -7,6 +8,12 @@
 }: let
   cfg = config.modules.browser;
   user = osConfig.modules.users.user;
+  pkgs = import nixpkgs {
+    inherit system;
+    config = {
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["untrap-for-youtube"];
+    };
+  };
 in
   with lib; {
     options = {

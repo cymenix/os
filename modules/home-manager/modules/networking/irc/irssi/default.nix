@@ -30,15 +30,7 @@ in
                 autoConnect = true;
               };
               channels = {
-                libera = {
-                  autoJoin = true;
-                };
-                nixos = {
-                  autoJoin = true;
-                };
-                minifree = {
-                  autoJoin = true;
-                };
+
               };
             };
           };

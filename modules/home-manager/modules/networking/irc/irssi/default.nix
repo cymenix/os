@@ -22,17 +22,25 @@ in
         irssi = {
           inherit (cfg.irssi) enable;
           networks = {
-            # liberachat = {
-            #   nick = "clay";
-            #   server = {
-            #     address = "irc.libera.chat";
-            #     port = 6697;
-            #     autoConnect = true;
-            #   };
-            #   channels = {
-            #     nixos.autoJoin = true;
-            #   };
-            # };
+            liberachat = {
+              nick = "derefd";
+              server = {
+                address = "irc.libera.chat";
+                port = 6697;
+                autoConnect = true;
+              };
+              channels = {
+                libera = {
+                  autoJoin = true;
+                };
+                nixos = {
+                  autoJoin = true;
+                };
+                minifree = {
+                  autoJoin = true;
+                };
+              };
+            };
           };
         };
       };

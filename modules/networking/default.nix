@@ -13,6 +13,7 @@ in
       ./firewall
       ./irc
       ./mtr
+      ./stevenblack
       ./torrent
       ./vpn
       ./wireless

@@ -1,4 +1,5 @@
 {
+  inputs,
   nixpkgs,
   system,
   config,
@@ -13,6 +14,7 @@
     config = {
       allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["untrap-for-youtube"];
     };
+    overlays = [inputs.nur.overlays.default];
   };
 in
   with lib; {

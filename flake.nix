@@ -92,14 +92,6 @@
     catppuccin = {
       url = "github:catppuccin/nix";
     };
-    yazi = {
-      url = "github:sxyazi/yazi";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
-    };
     lpi = {
       url = "github:cymenix/lpi";
       inputs = {

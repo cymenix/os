@@ -1,5 +1,4 @@
 {
-  inputs,
   pkgs,
   lib,
   config,
@@ -64,7 +63,6 @@ in
       programs = {
         yazi = {
           enable = cfg.yazi.enable;
-          package = inputs.yazi.packages.${pkgs.system}.default;
           catppuccin = mkIf (osConfig.modules.themes.catppuccin.enable) {
             inherit (osConfig.modules.themes.catppuccin) enable flavor;
           };
@@ -81,12 +79,6 @@ in
               };
             };
           };
-        };
-      };
-      nix = {
-        settings = {
-          extra-substituters = ["https://yazi.cachix.org"];
-          extra-trusted-public-keys = ["yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="];
         };
       };
     };

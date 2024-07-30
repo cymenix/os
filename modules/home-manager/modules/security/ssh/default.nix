@@ -22,7 +22,7 @@ in
     config = mkIf (cfg.enable && cfg.ssh.enable) {
       home = {
         packages = with pkgs; [
-          gnome.gnome-keyring
+          gnome-keyring
           sshagent
         ];
       };

@@ -57,7 +57,7 @@ in {
       "L+    /opt/rocm/hip   -    -    -     -    ${rocmPackages.clr}"
     ];
     hardware = {
-      opengl = {
+      graphics = {
         enable = true;
         extraPackages = [
           amdvlk

@@ -87,7 +87,7 @@ in {
         # @see https://forums.developer.nvidia.com/t/cs2-stuck-on-valve-logo-on-startup-545-beta-branch/269778
         package = config.boot.kernelPackages.nvidiaPackages.production;
       };
-      opengl = {
+      graphics = {
         extraPackages = with pkgs; [nvidia-vaapi-driver];
         extraPackages32 = with pkgs.pkgsi686Linux; [nvidia-vaapi-driver];
       };

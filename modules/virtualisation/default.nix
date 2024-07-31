@@ -50,7 +50,7 @@ in
         ];
       };
       boot = {
-        kernelModuels = ["vfio-pci"];
+        kernelModules = ["vfio-pci"];
         kernelParams = ["intel_iommu=on" "hugepagesz=1G" "hugepages=24"];
         blacklistedKernelModules = ["nouveau"];
       };

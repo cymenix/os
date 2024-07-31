@@ -57,15 +57,13 @@ in
           win-virtio
           win-spice
           gnome.adwaita-icon-theme
+          qemu_kvm
           qemu-anti-detection
         ];
       };
       virtualisation = {
         libvirtd = {
           enable = cfg.virtualisation.enable;
-          package = pkgs.libvirt.override {
-            extraEmulators = [pkgs.qemu_kvm qemu-anti-detection];
-          };
           onBoot = "ignore";
           onShutdown = "suspend";
           allowedBridges = [
@@ -73,7 +71,7 @@ in
             "virbr0"
           ];
           qemu = {
-            package = pkgs.qemu_kvm;
+            package = qemu-anti-detection;
             runAsRoot = false;
             ovmf = {
               enable = cfg.virtualisation.enable;
@@ -89,7 +87,7 @@ in
               enable = cfg.virtualisation.enable;
             };
             verbatimConfig = ''
-              bridge_helper = "${pkgs.qemu}/libexec/qemu-bridge-helper"
+              bridge_helper = "${qemu-anti-detection}/libexec/qemu-bridge-helper"
             '';
           };
         };

@@ -42,10 +42,10 @@ in {
       };
     };
     boot = {
-      initrd = {
-        kernelModules = [driver];
-      };
-      kernelModules = [driver];
+      # initrd = {
+      #   kernelModules = [driver];
+      # };
+      # kernelModules = [driver];
     };
     services = {
       xserver = {

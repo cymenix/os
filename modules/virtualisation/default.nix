@@ -13,6 +13,7 @@
       tpmSupport = true;
     })
     .fd;
+  pcids = ["1002:744c" "1002:ab30"];
 in
   with lib; {
     imports = [
@@ -63,13 +64,31 @@ in
           libguestfs
           win-virtio
           win-spice
-          gnome.adwaita-icon-theme
         ];
       };
       boot = {
-        kernelModules = ["vfio-pci"];
-        kernelParams = ["intel_iommu=on" "iommu=pt" "hugepagesz=1G" "hugepages=24"];
-        blacklistedKernelModules = ["nouveau"];
+        kernelModules = [
+          "vfio"
+          "vfio_pci"
+          "vfio_virqfd"
+          "vfio_iommu_type1"
+        ];
+        kernelParams = [
+          "intel_iommu=on"
+          "iommu=pt"
+          "hugepagesz=1G"
+          "hugepages=24"
+          # ("vfio-pci.ids=" + builtins.concatStringsSep "," pcids)
+        ];
+        blacklistedKernelModules = ["amdgpu"];
+        # postBootCommands = ''
+        #   DEVS="0000:0f:00.0 0000:0f:00.1"
+        #
+        #   for DEV in $DEVS; do
+        #     echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
+        #   done
+        #   modprobe -i vfio-pci
+        # '';
       };
       virtualisation = {
         libvirtd = {
@@ -82,6 +101,7 @@ in
           ];
           qemu = {
             package = pkgs.qemu_kvm;
+            runAsRoot = false;
             ovmf = {
               enable = cfg.virtualisation.enable;
               packages = [ovmf];
@@ -109,7 +129,7 @@ in
       users = {
         users = {
           ${user} = {
-            extraGroups = ["libvirtd" "kvm"];
+            extraGroups = ["libvirtd" "kvm" "input"];
           };
         };
       };

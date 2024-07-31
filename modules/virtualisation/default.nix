@@ -60,11 +60,7 @@ in
           win-virtio
           win-spice
           gnome.adwaita-icon-theme
-          (pkgs.OVMFFull.override {
-            secureBoot = true;
-            tpmSupport = true;
-          })
-          .fd
+          qemu_kvm
         ];
       };
       virtualisation = {
@@ -77,11 +73,12 @@ in
             "virbr0"
           ];
           qemu = {
-            runAsRoot = true;
+            package = pkgs.qemu_kvm;
+            runAsRoot = false;
             ovmf = {
               enable = cfg.virtualisation.enable;
               packages = [
-                (pkgs.OVMFFull.override {
+                (pkgs.OVMF.override {
                   secureBoot = true;
                   tpmSupport = true;
                 })

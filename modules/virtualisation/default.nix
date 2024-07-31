@@ -152,7 +152,7 @@ in
           ];
           qemu = {
             package = pkgs.qemu_kvm;
-            runAsRoot = false;
+            runAsRoot = true;
             ovmf = {
               enable = cfg.virtualisation.enable;
               packages = [ovmf];

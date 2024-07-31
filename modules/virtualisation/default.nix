@@ -76,10 +76,7 @@ in
               ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin/start.sh
               ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/win11/release/end/stop.sh
 
-              chmod +x /var/lib/libvirt/hooks/qemu
               chmod +x /var/lib/libvirt/hooks/kvm.conf
-              chmod +x /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin/start.sh
-              chmod +x /var/lib/libvirt/hooks/qemu.d/win11/release/end/stop.sh
             '';
           };
         };

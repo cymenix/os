@@ -80,7 +80,7 @@ in
           "hugepages=24"
           # ("vfio-pci.ids=" + builtins.concatStringsSep "," pcids)
         ];
-        blacklistedKernelModules = ["amdgpu"];
+        # blacklistedKernelModules = ["amdgpu"];
         # postBootCommands = ''
         #   DEVS="0000:0f:00.0 0000:0f:00.1"
         #

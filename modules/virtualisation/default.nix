@@ -24,7 +24,6 @@
         + "\n"
         + ''
           patch -p1 < "${patch}" || true
-          exit 1
         '';
       postFixup =
         (previousAttrs.postFixup or "")
@@ -61,7 +60,6 @@ in
           win-virtio
           win-spice
           gnome.adwaita-icon-theme
-          qemu_kvm
           qemu-anti-detection
         ];
       };
@@ -75,7 +73,6 @@ in
             "virbr0"
           ];
           qemu = {
-            # package = qemu-anti-detection;
             runAsRoot = false;
             ovmf = {
               enable = cfg.virtualisation.enable;
@@ -91,7 +88,7 @@ in
               enable = cfg.virtualisation.enable;
             };
             verbatimConfig = ''
-              bridge_helper = "${qemu-anti-detection}/libexec/qemu-bridge-helper"
+              bridge_helper = "${pkgs.qemu}/libexec/qemu-bridge-helper"
             '';
           };
         };

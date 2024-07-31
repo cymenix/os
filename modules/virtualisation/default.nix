@@ -14,15 +14,17 @@
     })
     .overrideAttrs (finalAttrs: previousAttrs: {
       # ref: https://github.com/zhaodice/qemu-anti-detection
-      patches =
-        # (previousAttrs.patches or [])
-        []
-        ++ [
-          (pkgs.fetchpatch {
-            url = "https://github.com/user-attachments/files/16114500/qemu-9.0.1-anti-detection.patch";
-            sha256 = "sha256-HZo6DrscVCSwIhCMp1jsZqMniH73Fu8z/Outg7bHf+0=";
-          })
-        ];
+      postPatch = let
+        patch = pkgs.fetchpatch {
+          url = "https://github.com/user-attachments/files/16114500/qemu-9.0.1-anti-detection.patch";
+          sha256 = "sha256-HZo6DrscVCSwIhCMp1jsZqMniH73Fu8z/Outg7bHf+0=";
+        };
+      in
+        (previousAttrs.postPatch or "")
+        + "\n"
+        + ''
+          patch -p1 < ${patch} || true
+        '';
       postFixup =
         (previousAttrs.postFixup or "")
         + "\n"

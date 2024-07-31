@@ -42,25 +42,15 @@
     BASH_XTRACEFD=19
     set -x
     source ${kvm-conf}/bin/kvm.conf
-    echo "Killing user session" >> $debugfile
-    loginctl kill-user ${user}
-    sleep 1
     echo "Stopping display manager" >> $debugfile
     systemctl stop display-manager.service
-    sleep 1
     echo "Tuning CPU settings" >> $debugfile
     systemctl set-property --runtime -- user.slice AllowedCPUs=0
     systemctl set-property --runtime -- system.slice AllowedCPUs=0
     systemctl set-property --runtime -- init.scope AllowedCPUs=0
-    echo "Unbinfing Efi framebuffer" >> $debugfile
-    echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
-    sleep 5
-    echo "Tweaking vtconsole" >> $debugfile
-    echo 0 > /sys/class/vtconsole/vtcon0/bind
-    echo 0 > /sys/class/vtconsole/vtcon1/bind
     echo "Unloading amdgpu driver" >> $debugfile
     modprobe -r amdgpu
-    sleep 1
+    sleep 3
     echo "Detaching PCI devices" >> $debugfile
     virsh nodedev-detach $VIRSH_GPU_VIDEO
     virsh nodedev-detach $VIRSH_GPU_AUDIO

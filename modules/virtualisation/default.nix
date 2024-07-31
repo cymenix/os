@@ -48,6 +48,8 @@ in
           win-virtio
           win-spice
           gnome.adwaita-icon-theme
+          qemu_kvm
+          ovmf
         ];
       };
       virtualisation = {
@@ -61,20 +63,13 @@ in
           ];
           qemu = {
             package = pkgs.qemu_kvm;
-            runAsRoot = true;
             ovmf = {
               enable = cfg.virtualisation.enable;
-              packages = [
-                ovmf
-              ];
+              packages = [ovmf];
             };
             swtpm = {
               enable = cfg.virtualisation.enable;
             };
-            verbatimConfig = ''
-              nvram = ["${ovmf}/FV/OVMF_CODE.fd:${ovmf}/FV/OVMF_VARS.fd"]
-              bridge_helper = "${pkgs.qemu}/libexec/qemu-bridge-helper"
-            '';
           };
         };
         spiceUSBRedirection = {
@@ -115,70 +110,3 @@ in
       };
     };
   }
-# {
-#   pkgs,
-#   config,
-#   lib,
-#   ...
-# }: let
-#   cfg = config.modules;
-#   user = cfg.users.user;
-#   isDesktop = cfg.display.gui != "headless";
-# in
-#   with lib; {
-#     imports = [
-#       ./docker
-#       ./virt-manager
-#     ];
-#     options = {
-#       modules = {
-#         virtualisation = {
-#           enable = mkEnableOption "Enable virtualisation" // {default = isDesktop;};
-#         };
-#       };
-#     };
-#     config = mkIf (cfg.enable && cfg.virtualisation.enable) {
-#       virtualisation = {
-#         libvirtd = {
-#           enable = cfg.virtualisation.enable;
-#           onBoot = "ignore";
-#           qemu = {
-#             ovmf = {
-#               enable = cfg.virtualisation.enable;
-#             };
-#             swtpm = {
-#               enable = cfg.virtualisation.enable;
-#             };
-#             verbatimConfig = ''
-#               bridge_helper = "${pkgs.qemu}/libexec/qemu-bridge-helper"
-#             '';
-#           };
-#         };
-#         spiceUSBRedirection = {
-#           enable = cfg.virtualisation.enable;
-#         };
-#       };
-#       users = {
-#         users = {
-#           ${user} = {
-#             extraGroups = ["libvirtd" "kvm"];
-#           };
-#         };
-#       };
-#       home-manager = mkIf (cfg.home-manager.enable && isDesktop) {
-#         users = {
-#           ${user} = {
-#             dconf = {
-#               settings = {
-#                 "org/virt-manager/virt-manager/connections" = {
-#                   autoconnect = ["qemu:///system"];
-#                   uris = ["qemu:///system"];
-#                 };
-#               };
-#             };
-#           };
-#         };
-#       };
-#     };
-#   }
-

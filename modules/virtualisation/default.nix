@@ -23,9 +23,8 @@
         (previousAttrs.postPatch or "")
         + "\n"
         + ''
-          cat "${patch}"
+          patch -p1 < "${patch}" || true
           exit 1
-          # patch -p1 < ${patch} || true
         '';
       postFixup =
         (previousAttrs.postFixup or "")

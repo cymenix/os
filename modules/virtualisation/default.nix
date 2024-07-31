@@ -13,10 +13,9 @@
       tpmSupport = true;
     })
     .fd;
-  pcids = ["1002:744c" "1002:ab30"];
   kvm-conf = pkgs.writeShellScriptBin "kvm.conf" ''
-    VIRSH_GPU_VIDEO=pci_0000_01_00_0
-    VIRSH_GPU_AUDIO=pci_0000_01_00_1
+    VIRSH_GPU_VIDEO=pci_0000_03_00_0
+    VIRSH_GPU_AUDIO=pci_0000_03_00_1
   '';
   qemu = pkgs.writeShellScriptBin "qemu" ''
     set -e
@@ -37,10 +36,26 @@
     fi
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
-    echo "executing start.sh"
+    set -x
+    systemctl stop display-manager
+    echo 0 > /sys/class/vtconsole/vtcon0/bind
+    echo 0 > /sys/class/vtconsole/vtcon1/bind
+    echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
+    modprobe -r amdgpu
+    virsh nodedev-detach $VIRSH_GPU_VIDEO
+    virsh nodedev-detach $VIRSH_GPU_AUDIO
+    modprobe vfio-pci
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''
-    echo "executing stop.sh"
+    set -x
+    virsh nodedev-reattach $VIRSH_GPU_VIDEO
+    virsh nodedev-reattach $VIRSH_GPU_AUDIO
+    modprobe -r vfio-pci
+    modprobe amdgpu
+    echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi-framebuffer/bind
+    echo 1 > /sys/class/vtconsole/vtcon0/bind
+    echo 1 > /sys/class/vtconsole/vtcon1/bind
+    systemctl start display-manager
   '';
 in
   with lib; {
@@ -71,10 +86,11 @@ in
               mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/release/end
               mkdir -p /var/lib/libvirt/vgabios
 
-              ln -sf ${kvm-conf} /var/lib/libvirt/hooks/kvm.conf
+              ln -sf ${kvm-conf}/bin/kvm.conf /var/lib/libvirt/hooks/kvm.conf
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
               ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin/start.sh
               ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/win11/release/end/stop.sh
+              ln -sf ${./vbios/Sapphire.RX7900XTX.24576.221129.rom} /var/lib/libvirt/vgabios/patched.rom
             '';
           };
         };

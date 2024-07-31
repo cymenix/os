@@ -23,7 +23,9 @@
         (previousAttrs.postPatch or "")
         + "\n"
         + ''
-          patch -p1 < ${patch} || true
+          cat "${patch}"
+          exit 1
+          # patch -p1 < ${patch} || true
         '';
       postFixup =
         (previousAttrs.postFixup or "")
@@ -74,7 +76,7 @@ in
             "virbr0"
           ];
           qemu = {
-            package = qemu-anti-detection;
+            # package = qemu-anti-detection;
             runAsRoot = false;
             ovmf = {
               enable = cfg.virtualisation.enable;

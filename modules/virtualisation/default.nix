@@ -60,6 +60,7 @@ in
           win-virtio
           win-spice
           gnome.adwaita-icon-theme
+          qemu-utils
           qemu-anti-detection
         ];
       };
@@ -68,16 +69,13 @@ in
           enable = cfg.virtualisation.enable;
           onBoot = "ignore";
           onShutdown = "suspend";
-          allowedBridges = [
-            "nm-bridge"
-            "virbr0"
-          ];
+          allowedBridges = ["virbr0"];
           qemu = {
-            runAsRoot = false;
+            # runAsRoot = false;
             ovmf = {
               enable = cfg.virtualisation.enable;
               packages = [
-                (pkgs.OVMF.override {
+                (pkgs.OVMFFull.override {
                   secureBoot = true;
                   tpmSupport = true;
                 })

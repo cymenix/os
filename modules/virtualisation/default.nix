@@ -50,6 +50,13 @@ in
       };
     };
     config = mkIf (cfg.enable && cfg.virtualisation.enable) {
+      systemd.tmpfiles.rules = let
+        firmware = pkgs.runCommandLocal "qemu-firmware" {} ''
+          mkdir $out
+          cp ${pkgs.qemu}/share/qemu/firmware/*.json $out
+          substituteInPlace $out/*.json --replace ${pkgs.qemu} /run/current-system/sw
+        '';
+      in ["L+ /var/lib/qemu/firmware - - - - ${firmware}"];
       environment = {
         systemPackages = with pkgs; [
           virt-manager
@@ -61,7 +68,9 @@ in
           win-spice
           gnome.adwaita-icon-theme
           qemu-utils
-          qemu-anti-detection
+          qemu
+          qemu_kvm
+          # qemu-anti-detection
         ];
       };
       virtualisation = {
@@ -71,7 +80,7 @@ in
           onShutdown = "suspend";
           allowedBridges = ["virbr0"];
           qemu = {
-            # runAsRoot = false;
+            runAsRoot = true;
             ovmf = {
               enable = cfg.virtualisation.enable;
               packages = [

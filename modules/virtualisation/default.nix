@@ -37,30 +37,34 @@
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
     logfile=/home/${user}/startlogfile
+    debug=/home/${user}/startdebugfile
     exec 19>$logfile
     BASH_XTRACEFD=19
     set -x
     source ${kvm-conf}/bin/kvm.conf
-    echo "Tuning CPU settings" >> $logfile
+    echo "Stopping display manager" >> $debugfile
+    systemctl stop display-manager.service
+    sleep 1
+    echo "Killing user session" >> $debugfile
+    loginctl kill-user ${user}
+    sleep 1
+    echo "Tuning CPU settings" >> $debugfile
     systemctl set-property --runtime -- user.slice AllowedCPUs=0
     systemctl set-property --runtime -- system.slice AllowedCPUs=0
     systemctl set-property --runtime -- init.scope AllowedCPUs=0
-    echo "Stopping display manager"  >> $logfile
-    systemctl stop display-manager.service
-    sleep 1
-    echo "Unbinfing Efi framebuffer" >> $logfile
+    echo "Unbinfing Efi framebuffer" >> $debugfile
     echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
     sleep 5
-    echo "Tweaking vtconsole" >> $logfile
+    echo "Tweaking vtconsole" >> $debugfile
     echo 0 > /sys/class/vtconsole/vtcon0/bind
     echo 0 > /sys/class/vtconsole/vtcon1/bind
-    echo "Unloading amdgpu driver" >> $logfile
+    echo "Unloading amdgpu driver" >> $debugfile
     modprobe -r amdgpu
     sleep 1
-    echo "Detaching PCI devices" >> $logfile
+    echo "Detaching PCI devices" >> $debugfile
     virsh nodedev-detach $VIRSH_GPU_VIDEO
     virsh nodedev-detach $VIRSH_GPU_AUDIO
-    echo "Loading VFIO PCI driver" >> $logfile
+    echo "Loading VFIO PCI driver" >> $debugfile
     modprobe vfio-pci
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''

@@ -97,12 +97,16 @@ in
           ];
           qemu = {
             package = pkgs.qemu_kvm;
-            # runAsRoot = false;
+            runAsRoot = true;
             ovmf = {
               enable = cfg.virtualisation.enable;
-              # packages = [
-              #   ovmf
-              # ];
+              packages = [
+                (pkgs.OVMF.override {
+                  secureBoot = true;
+                  tpmSupport = true;
+                })
+                .fd
+              ];
             };
             swtpm = {
               enable = cfg.virtualisation.enable;

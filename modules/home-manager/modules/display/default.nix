@@ -19,6 +19,7 @@ in
       ./pdfviewer
       ./qt
       ./screenshots
+      ./vnc
     ];
     options = {
       modules = {

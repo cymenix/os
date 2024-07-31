@@ -16,7 +16,7 @@
       # ref: https://github.com/zhaodice/qemu-anti-detection
       src = pkgs.fetchurl {
         url = "https://download.qemu.org/qemu-${finalAttrs.version}.tar.xz";
-        hash = "sha256-jK2x5rA5lU5nLUp8w6XzBzi0y5m8ksJkCxXMifj5H6I=";
+        hash = "sha256-vwDS+hIBDfiwrekzcd71jmMssypr/cX1oP+Oah+xvzI=";
       };
       patches =
         (previousAttrs.patches or [])

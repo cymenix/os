@@ -52,7 +52,7 @@ in
       boot = {
         kernelModuels = ["vfio-pci"];
         kernelParams = ["intel_iommu=on" "hugepagesz=1G" "hugepages=24"];
-        blacklistedkernelModules = ["nouveau"];
+        blacklistedKernelModules = ["nouveau"];
       };
       virtualisation = {
         libvirtd = {

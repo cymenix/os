@@ -37,7 +37,7 @@
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
     logfile=/home/${user}/startlogfile
-    debug=/home/${user}/startdebugfile
+    debugfile=/home/${user}/startdebugfile
     exec 19>$logfile
     BASH_XTRACEFD=19
     set -x

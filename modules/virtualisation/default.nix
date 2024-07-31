@@ -7,41 +7,12 @@
   cfg = config.modules;
   user = cfg.users.user;
   isDesktop = cfg.display.gui != "headless";
-  # ovmf =
-  #   (pkgs.OVMFFull.override {
-  #     secureBoot = true;
-  #     tpmSupport = true;
-  #   })
-  #   .fd;
-  # special anti-detection emulator
-  # qemu-anti-detection =
-  #   (pkgs.qemu.override {
-  #     hostCpuOnly = true;
-  #   })
-  #   .overrideAttrs (finalAttrs: previousAttrs: {
-  #     # ref: https://github.com/zhaodice/qemu-anti-detection
-  #     postPatch = let
-  #       patch = pkgs.fetchpatch {
-  #         url = "https://github.com/user-attachments/files/16114500/qemu-9.0.1-anti-detection.patch";
-  #         sha256 = "sha256-HZo6DrscVCSwIhCMp1jsZqMniH73Fu8z/Outg7bHf+0=";
-  #       };
-  #     in
-  #       (previousAttrs.postPatch or "")
-  #       + "\n"
-  #       + ''
-  #         patch -p1 < "${patch}" || true
-  #       '';
-  #     postFixup =
-  #       (previousAttrs.postFixup or "")
-  #       + "\n"
-  #       + ''
-  #         for i in $(find $out/bin -type f -executable); do
-  #           mv $i "$i-anti-detection"
-  #         done
-  #       '';
-  #     version = "9.0.2";
-  #     pname = "qemu-anti-detection";
-  #   });
+  ovmf =
+    (pkgs.OVMFFull.override {
+      secureBoot = true;
+      tpmSupport = true;
+    })
+    .fd;
 in
   with lib; {
     imports = [
@@ -77,13 +48,6 @@ in
           win-virtio
           win-spice
           gnome.adwaita-icon-theme
-          # qemu_kvm
-          # ovmf
-          # (pkgs.writeShellScriptBin "qemu-system-x86_64-uefi" ''
-          #   qemu-system-x86_64 \
-          #     -bios ${ovmf}/FV/OVMF.fd \
-          #     "$@"
-          # '')
         ];
       };
       virtualisation = {
@@ -101,17 +65,14 @@ in
             ovmf = {
               enable = cfg.virtualisation.enable;
               packages = [
-                (pkgs.OVMF.override {
-                  secureBoot = true;
-                  tpmSupport = true;
-                })
-                .fd
+                ovmf
               ];
             };
             swtpm = {
               enable = cfg.virtualisation.enable;
             };
             verbatimConfig = ''
+              nvram = ["${ovmf}"]
               bridge_helper = "${pkgs.qemu}/libexec/qemu-bridge-helper"
             '';
           };

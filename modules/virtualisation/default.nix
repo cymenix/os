@@ -69,11 +69,11 @@ in
           onShutdown = "suspend";
           allowedBridges = ["virbr0"];
           qemu = {
-            runAsRoot = true;
+            # runAsRoot = true;
             ovmf = {
               enable = cfg.virtualisation.enable;
               packages = [
-                (pkgs.OVMFFull.override {
+                (pkgs.OVMF.override {
                   secureBoot = true;
                   tpmSupport = true;
                 })

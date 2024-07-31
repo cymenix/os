@@ -19,7 +19,7 @@
         ++ [
           (pkgs.fetchpatch {
             url = "https://github.com/user-attachments/files/16114500/qemu-9.0.1-anti-detection.patch";
-            sha256 = "0apkgnw4khlskq9kckx84np1qd6v3yblddyhf3hf1f1apxwpy8fc";
+            sha256 = "sha256-HZo6DrscVCSwIhCMp1jsZqMniH73Fu8z/Outg7bHf+0=";
           })
         ];
       postFixup =

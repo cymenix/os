@@ -28,6 +28,22 @@ in
     };
     config = mkIf (cfg.enable && cfg.virtualisation.enable) {
       systemd = {
+        services = {
+          libvirtd = {
+            path = [
+              (pkgs.buildEnv {
+                name = "qemu-hook-env";
+                paths = with pkgs; [bash libvirt kmod systemd ripgrep sd];
+              })
+            ];
+            preStart = ''
+              mkdir -p /var/lib/libvirt/hooks
+              mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin
+              mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/release/end
+              mkdir -p /var/lib/libvirt/vgabios
+            '';
+          };
+        };
         tmpfiles = {
           rules = let
             firmware = pkgs.runCommandLocal "qemu-firmware" {} ''
@@ -44,6 +60,7 @@ in
           spice
           spice-gtk
           spice-protocol
+          libguestfs
           win-virtio
           win-spice
           gnome.adwaita-icon-theme
@@ -51,7 +68,7 @@ in
       };
       boot = {
         kernelModules = ["vfio-pci"];
-        kernelParams = ["intel_iommu=on" "hugepagesz=1G" "hugepages=24"];
+        kernelParams = ["intel_iommu=on" "iommu=pt" "hugepagesz=1G" "hugepages=24"];
         blacklistedKernelModules = ["nouveau"];
       };
       virtualisation = {

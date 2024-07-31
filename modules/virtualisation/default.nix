@@ -42,11 +42,11 @@
     BASH_XTRACEFD=19
     set -x
     source ${kvm-conf}/bin/kvm.conf
-    echo "Stopping display manager" >> $debugfile
-    systemctl stop display-manager.service
-    sleep 1
     echo "Killing user session" >> $debugfile
     loginctl kill-user ${user}
+    sleep 1
+    echo "Stopping display manager" >> $debugfile
+    systemctl stop display-manager.service
     sleep 1
     echo "Tuning CPU settings" >> $debugfile
     systemctl set-property --runtime -- user.slice AllowedCPUs=0

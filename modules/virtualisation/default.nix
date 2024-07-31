@@ -36,8 +36,14 @@
     fi
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
+    exec 19>/home/${user}/startlogfile
+    BASH_XTRACEFD=19
     set -x
-    systemctl stop display-manager
+    source ${kvm-conf}/bin/kvm.conf
+    systemctl set-property --runtime -- user.slice AllowedCPUs=0
+    systemctl set-property --runtime -- system.slice AllowedCPUs=0
+    systemctl set-property --runtime -- init.scope AllowedCPUs=0
+    systemctl stop display-manager.service
     echo 0 > /sys/class/vtconsole/vtcon0/bind
     echo 0 > /sys/class/vtconsole/vtcon1/bind
     echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
@@ -47,7 +53,13 @@
     modprobe vfio-pci
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''
+    exec 19>/home/${user}/startlogfile
+    BASH_XTRACEFD=19
     set -x
+    source ${kvm-conf}/bin/kvm.conf
+    systemctl set-property --runtime -- user.slice AllowedCPUs=0
+    systemctl set-property --runtime -- system.slice AllowedCPUs=0
+    systemctl set-property --runtime -- init.scope AllowedCPUs=0
     virsh nodedev-reattach $VIRSH_GPU_VIDEO
     virsh nodedev-reattach $VIRSH_GPU_AUDIO
     modprobe -r vfio-pci
@@ -55,7 +67,7 @@
     echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi-framebuffer/bind
     echo 1 > /sys/class/vtconsole/vtcon0/bind
     echo 1 > /sys/class/vtconsole/vtcon1/bind
-    systemctl start display-manager
+    systemctl start display-manager.service
   '';
 in
   with lib; {

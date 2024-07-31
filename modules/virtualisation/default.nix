@@ -49,8 +49,6 @@
     echo "Tweaking vtconsole"
     echo 0 > /sys/class/vtconsole/vtcon0/bind
     echo 0 > /sys/class/vtconsole/vtcon1/bind
-    echo "Stopping framebuffer"
-    echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
     echo "Unloading amdgpu driver"
     modprobe -r amdgpu
     echo "Detaching PCI devices"
@@ -71,7 +69,6 @@
     virsh nodedev-reattach $VIRSH_GPU_AUDIO
     modprobe -r vfio-pci
     modprobe amdgpu
-    echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi-framebuffer/bind
     echo 1 > /sys/class/vtconsole/vtcon0/bind
     echo 1 > /sys/class/vtconsole/vtcon1/bind
     systemctl start display-manager.service

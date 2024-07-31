@@ -18,8 +18,8 @@
         (previousAttrs.patches or [])
         ++ [
           (pkgs.fetchpatch {
-            url = "https://raw.githubusercontent.com/zhaodice/qemu-anti-detection/main/qemu-8.1.0.patch";
-            sha256 = "sha256-N+3YRvOwIu+k1d0IYxwV6zWmfJT9jle38ywOWTbgX8Y=";
+            url = "https://raw.githubusercontent.com/zhaodice/qemu-anti-detection/main/qemu-8.2.0.patch";
+            sha256 = "0apkgnw4khlskq9kckx84np1qd6v3yblddyhf3hf1f1apxwpy8fc";
           })
         ];
       postFixup =
@@ -30,7 +30,6 @@
             mv $i "$i-anti-detection"
           done
         '';
-      version = "8.1.2";
       pname = "qemu-anti-detection";
     });
 in

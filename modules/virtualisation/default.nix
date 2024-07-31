@@ -72,7 +72,7 @@ in
               enable = cfg.virtualisation.enable;
             };
             verbatimConfig = ''
-              nvram = ["${ovmf}"]
+              nvram = ["${ovmf}/FV/OVMF_CODE.fd:${ovmf}/FV/OVMF_VARS.fd"]
               bridge_helper = "${pkgs.qemu}/libexec/qemu-bridge-helper"
             '';
           };

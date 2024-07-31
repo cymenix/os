@@ -9,20 +9,16 @@
   isDesktop = cfg.display.gui != "headless";
   # special anti-detection emulator
   qemu-anti-detection =
-    (pkgs.qemu_kvm.override {
+    (pkgs.qemu.override {
       hostCpuOnly = true;
     })
     .overrideAttrs (finalAttrs: previousAttrs: {
       # ref: https://github.com/zhaodice/qemu-anti-detection
-      src = pkgs.fetchurl {
-        url = "https://download.qemu.org/qemu-${finalAttrs.version}.tar.xz";
-        hash = "sha256-vwDS+hIBDfiwrekzcd71jmMssypr/cX1oP+Oah+xvzI=";
-      };
       patches =
         (previousAttrs.patches or [])
         ++ [
           (pkgs.fetchpatch {
-            url = "https://raw.githubusercontent.com/zhaodice/qemu-anti-detection/main/qemu-8.2.0.patch";
+            url = "https://github.com/user-attachments/files/16114500/qemu-9.0.1-anti-detection.patch";
             sha256 = "0apkgnw4khlskq9kckx84np1qd6v3yblddyhf3hf1f1apxwpy8fc";
           })
         ];
@@ -34,7 +30,7 @@
             mv $i "$i-anti-detection"
           done
         '';
-      version = "8.2.0";
+      version = "9.0.2";
       pname = "qemu-anti-detection";
     });
 in

@@ -37,31 +37,17 @@
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
     logfile=/home/${user}/startlogfile
-    debugfile=/home/${user}/startdebugfile
     exec 19>$logfile
     BASH_XTRACEFD=19
     set -x
     source ${kvm-conf}/bin/kvm.conf
-    echo "Stopping display manager" >> $debugfile
     systemctl stop display-manager.service
     systemctl isolate multi-user.target
     while systemctl is-active --quiet "display-manager.service"; do
       sleep 1
     done
-    echo "Tuning CPU settings" >> $debugfile
-    systemctl set-property --runtime -- user.slice AllowedCPUs=0
-    systemctl set-property --runtime -- system.slice AllowedCPUs=0
-    systemctl set-property --runtime -- init.scope AllowedCPUs=0
-    echo "Unloading amdgpu driver" >> $debugfile
-    modprobe -r drm_kms_helper
-    modprobe -r amdgpu
-    modprobe -r radeon
-    modprobe -r drm
-    sleep 3
-    echo "Detaching PCI devices" >> $debugfile
-    # virsh nodedev-detach $VIRSH_GPU_VIDEO
-    # virsh nodedev-detach $VIRSH_GPU_AUDIO
-    echo "Loading VFIO PCI driver" >> $debugfile
+    virsh nodedev-detach $VIRSH_GPU_VIDEO
+    virsh nodedev-detach $VIRSH_GPU_AUDIO
     modprobe vfio
     modprobe vfio_pci
     modprobe vfio_iommu_type1

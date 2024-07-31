@@ -36,25 +36,31 @@
     fi
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
-    exec 19>/home/${user}/startlogfile
+    logfile=/home/${user}/startlogfile
+    exec 19>$logfile
     BASH_XTRACEFD=19
     set -x
     source ${kvm-conf}/bin/kvm.conf
-    echo "Tuning CPU settings"
+    echo "Tuning CPU settings" >> $logfile
     systemctl set-property --runtime -- user.slice AllowedCPUs=0
     systemctl set-property --runtime -- system.slice AllowedCPUs=0
     systemctl set-property --runtime -- init.scope AllowedCPUs=0
-    echo "Stopping display manager"
+    echo "Stopping display manager"  >> $logfile
     systemctl stop display-manager.service
-    echo "Tweaking vtconsole"
+    sleep 1
+    echo "Unbinfing Efi framebuffer" >> $logfile
+    echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
+    sleep 5
+    echo "Tweaking vtconsole" >> $logfile
     echo 0 > /sys/class/vtconsole/vtcon0/bind
     echo 0 > /sys/class/vtconsole/vtcon1/bind
-    echo "Unloading amdgpu driver"
+    echo "Unloading amdgpu driver" >> $logfile
     modprobe -r amdgpu
-    echo "Detaching PCI devices"
+    sleep 1
+    echo "Detaching PCI devices" >> $logfile
     virsh nodedev-detach $VIRSH_GPU_VIDEO
     virsh nodedev-detach $VIRSH_GPU_AUDIO
-    echo "Loading VFIO PCI driver"
+    echo "Loading VFIO PCI driver" >> $logfile
     modprobe vfio-pci
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''

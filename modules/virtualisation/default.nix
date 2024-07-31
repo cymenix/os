@@ -48,6 +48,7 @@ in
           win-virtio
           win-spice
           gnome.adwaita-icon-theme
+          qemu
           qemu_kvm
           ovmf
         ];

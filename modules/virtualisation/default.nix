@@ -49,6 +49,11 @@ in
           gnome.adwaita-icon-theme
         ];
       };
+      boot = {
+        kernelModuels = ["vfio-pci"];
+        kernelParams = ["intel_iommu=on" "hugepagesz=1G" "hugepages=24"];
+        blackListedkernelModules = ["nouveau"];
+      };
       virtualisation = {
         libvirtd = {
           enable = cfg.virtualisation.enable;

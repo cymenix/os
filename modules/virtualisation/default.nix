@@ -15,7 +15,8 @@
     .overrideAttrs (finalAttrs: previousAttrs: {
       # ref: https://github.com/zhaodice/qemu-anti-detection
       patches =
-        (previousAttrs.patches or [])
+        # (previousAttrs.patches or [])
+        []
         ++ [
           (pkgs.fetchpatch {
             url = "https://github.com/user-attachments/files/16114500/qemu-9.0.1-anti-detection.patch";

@@ -14,7 +14,7 @@
     })
     .fd;
   pcids = ["1002:744c" "1002:ab30"];
-  kvm-conf = pkgs.writeText "kvm.conf" ''
+  kvm-conf = pkgs.writeShellScriptBin "kvm.conf" ''
     VIRSH_GPU_VIDEO=pci_0000_01_00_0
     VIRSH_GPU_AUDIO=pci_0000_01_00_1
   '';
@@ -75,8 +75,6 @@ in
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
               ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin/start.sh
               ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/win11/release/end/stop.sh
-
-              chmod +x /var/lib/libvirt/hooks/kvm.conf
             '';
           };
         };

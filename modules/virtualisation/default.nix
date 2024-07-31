@@ -13,61 +13,61 @@
       tpmSupport = true;
     })
     .fd;
-  kvm-conf = pkgs.writeShellScriptBin "kvm.conf" ''
-    VIRSH_GPU_VIDEO=pci_0000_03_00_0
-    VIRSH_GPU_AUDIO=pci_0000_03_00_1
-  '';
-  qemu = pkgs.writeShellScriptBin "qemu" ''
-    set -e
-    GUEST_NAME="$1"
-    HOOK_NAME="$2"
-    STATE_NAME="$3"
-    MISC="''${@:4}"
-    BASEDIR="$(dirname $0)"
-    HOOKPATH="$BASEDIR/qemu.d/$GUEST_NAME/$HOOK_NAME/$STATE_NAME"
-    if [ -f "$HOOKPATH" ] && [ -s "$HOOKPATH"] && [ -x "$HOOKPATH" ]; then
-        eval \"$HOOKPATH\" "$@"
-    elif [ -d "$HOOKPATH" ]; then
-        while read file; do
-            if [ ! -z "$file" ]; then
-              eval \"$file\" "$@"
-            fi
-        done <<< "$(find -L "$HOOKPATH" -maxdepth 1 -type f -executable -print;)"
-    fi
-  '';
-  start = pkgs.writeShellScriptBin "start.sh" ''
-    logfile=/home/${user}/startlogfile
-    exec 19>$logfile
-    BASH_XTRACEFD=19
-    set -x
-    source ${kvm-conf}/bin/kvm.conf
-    systemctl stop display-manager.service
-    systemctl isolate multi-user.target
-    while systemctl is-active --quiet "display-manager.service"; do
-      sleep 1
-    done
-    virsh nodedev-detach $VIRSH_GPU_VIDEO
-    virsh nodedev-detach $VIRSH_GPU_AUDIO
-    modprobe vfio
-    modprobe vfio_pci
-    modprobe vfio_iommu_type1
-  '';
-  stop = pkgs.writeShellScriptBin "stop.sh" ''
-    exec 19>/home/${user}/startlogfile
-    BASH_XTRACEFD=19
-    set -x
-    source ${kvm-conf}/bin/kvm.conf
-    systemctl set-property --runtime -- user.slice AllowedCPUs=0
-    systemctl set-property --runtime -- system.slice AllowedCPUs=0
-    systemctl set-property --runtime -- init.scope AllowedCPUs=0
-    virsh nodedev-reattach $VIRSH_GPU_VIDEO
-    virsh nodedev-reattach $VIRSH_GPU_AUDIO
-    modprobe -r vfio-pci
-    modprobe amdgpu
-    echo 1 > /sys/class/vtconsole/vtcon0/bind
-    echo 1 > /sys/class/vtconsole/vtcon1/bind
-    systemctl start display-manager.service
-  '';
+  # kvm-conf = pkgs.writeShellScriptBin "kvm.conf" ''
+  #   VIRSH_GPU_VIDEO=pci_0000_03_00_0
+  #   VIRSH_GPU_AUDIO=pci_0000_03_00_1
+  # '';
+  # qemu = pkgs.writeShellScriptBin "qemu" ''
+  #   set -e
+  #   GUEST_NAME="$1"
+  #   HOOK_NAME="$2"
+  #   STATE_NAME="$3"
+  #   MISC="''${@:4}"
+  #   BASEDIR="$(dirname $0)"
+  #   HOOKPATH="$BASEDIR/qemu.d/$GUEST_NAME/$HOOK_NAME/$STATE_NAME"
+  #   if [ -f "$HOOKPATH" ] && [ -s "$HOOKPATH"] && [ -x "$HOOKPATH" ]; then
+  #       eval \"$HOOKPATH\" "$@"
+  #   elif [ -d "$HOOKPATH" ]; then
+  #       while read file; do
+  #           if [ ! -z "$file" ]; then
+  #             eval \"$file\" "$@"
+  #           fi
+  #       done <<< "$(find -L "$HOOKPATH" -maxdepth 1 -type f -executable -print;)"
+  #   fi
+  # '';
+  # start = pkgs.writeShellScriptBin "start.sh" ''
+  #   logfile=/home/${user}/startlogfile
+  #   exec 19>$logfile
+  #   BASH_XTRACEFD=19
+  #   set -x
+  #   source ${kvm-conf}/bin/kvm.conf
+  #   systemctl stop display-manager.service
+  #   systemctl isolate multi-user.target
+  #   while systemctl is-active --quiet "display-manager.service"; do
+  #     sleep 1
+  #   done
+  #   virsh nodedev-detach $VIRSH_GPU_VIDEO
+  #   virsh nodedev-detach $VIRSH_GPU_AUDIO
+  #   modprobe vfio
+  #   modprobe vfio_pci
+  #   modprobe vfio_iommu_type1
+  # '';
+  # stop = pkgs.writeShellScriptBin "stop.sh" ''
+  #   exec 19>/home/${user}/startlogfile
+  #   BASH_XTRACEFD=19
+  #   set -x
+  #   source ${kvm-conf}/bin/kvm.conf
+  #   systemctl set-property --runtime -- user.slice AllowedCPUs=0
+  #   systemctl set-property --runtime -- system.slice AllowedCPUs=0
+  #   systemctl set-property --runtime -- init.scope AllowedCPUs=0
+  #   virsh nodedev-reattach $VIRSH_GPU_VIDEO
+  #   virsh nodedev-reattach $VIRSH_GPU_AUDIO
+  #   modprobe -r vfio-pci
+  #   modprobe amdgpu
+  #   echo 1 > /sys/class/vtconsole/vtcon0/bind
+  #   echo 1 > /sys/class/vtconsole/vtcon1/bind
+  #   systemctl start display-manager.service
+  # '';
 in
   with lib; {
     imports = [
@@ -92,10 +92,10 @@ in
               })
             ];
             preStart = ''
-              mkdir -p /var/lib/libvirt/hooks
-              mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin
-              mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/release/end
-              mkdir -p /var/lib/libvirt/vgabios
+              # mkdir -p /var/lib/libvirt/hooks
+              # mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin
+              # mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/release/end
+              # mkdir -p /var/lib/libvirt/vgabios
 
               # ln -sf ${kvm-conf}/bin/kvm.conf /var/lib/libvirt/hooks
               # ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
@@ -136,8 +136,6 @@ in
         kernelParams = [
           "intel_iommu=on"
           "iommu=pt"
-          "hugepagesz=1G"
-          "hugepages=24"
         ];
       };
       virtualisation = {
@@ -170,9 +168,6 @@ in
           enable = cfg.virtualisation.enable;
         };
         spice-webdavd = {
-          enable = cfg.virtualisation.enable;
-        };
-        qemuGuest = {
           enable = cfg.virtualisation.enable;
         };
       };

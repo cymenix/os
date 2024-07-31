@@ -86,7 +86,7 @@ in
               mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/release/end
               mkdir -p /var/lib/libvirt/vgabios
 
-              ln -sf ${kvm-conf}/bin/kvm.conf /var/lib/libvirt/hooks/kvm.conf
+              ln -sf ${kvm-conf}/bin/kvm.conf /var/lib/libvirt/hooks
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
               ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin/start.sh
               ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/win11/release/end/stop.sh

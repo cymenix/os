@@ -33,7 +33,6 @@ in
             firmware = pkgs.runCommandLocal "qemu-firmware" {} ''
               mkdir $out
               cp ${pkgs.qemu}/share/qemu/firmware/*.json $out
-              # substituteInPlace $out/*.json --replace ${pkgs.qemu} /run/current-system/sw
             '';
           in ["L+ /var/lib/qemu/firmware - - - - ${firmware}"];
         };
@@ -48,9 +47,6 @@ in
           win-virtio
           win-spice
           gnome.adwaita-icon-theme
-          qemu
-          qemu_kvm
-          ovmf
         ];
       };
       virtualisation = {

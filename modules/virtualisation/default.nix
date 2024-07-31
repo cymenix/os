@@ -7,6 +7,12 @@
   cfg = config.modules;
   user = cfg.users.user;
   isDesktop = cfg.display.gui != "headless";
+  ovmf =
+    (pkgs.OVMF.override {
+      secureBoot = true;
+      tpmSupport = true;
+    })
+    .fd;
   # special anti-detection emulator
   # qemu-anti-detection =
   #   (pkgs.qemu.override {
@@ -72,6 +78,12 @@ in
           win-spice
           gnome.adwaita-icon-theme
           qemu_kvm
+          ovmf
+          (pkgs.writeShellScriptBin "qemu-system-x86_64-uefi" ''
+            qemu-system-x86_64 \
+              -bios ${ovmf}/FV/OVMF.fd \
+              "$@"
+          '')
         ];
       };
       virtualisation = {
@@ -89,11 +101,7 @@ in
             ovmf = {
               enable = cfg.virtualisation.enable;
               packages = [
-                (pkgs.OVMF.override {
-                  secureBoot = true;
-                  tpmSupport = true;
-                })
-                .fd
+                ovmf
               ];
             };
             swtpm = {

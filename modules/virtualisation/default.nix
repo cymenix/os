@@ -40,16 +40,23 @@
     BASH_XTRACEFD=19
     set -x
     source ${kvm-conf}/bin/kvm.conf
+    echo "Tuning CPU settings"
     systemctl set-property --runtime -- user.slice AllowedCPUs=0
     systemctl set-property --runtime -- system.slice AllowedCPUs=0
     systemctl set-property --runtime -- init.scope AllowedCPUs=0
+    echo "Stopping display manager"
     systemctl stop display-manager.service
+    echo "Tweaking vtconsole"
     echo 0 > /sys/class/vtconsole/vtcon0/bind
     echo 0 > /sys/class/vtconsole/vtcon1/bind
+    echo "Stopping framebuffer"
     echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
+    echo "Unloading amdgpu driver"
     modprobe -r amdgpu
+    echo "Detaching PCI devices"
     virsh nodedev-detach $VIRSH_GPU_VIDEO
     virsh nodedev-detach $VIRSH_GPU_AUDIO
+    echo "Loading VFIO PCI driver"
     modprobe vfio-pci
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''

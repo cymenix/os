@@ -102,7 +102,7 @@ in
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
               ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin/start.sh
               ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/win11/release/end/stop.sh
-              ln -sf ${./vbios/Sapphire.RX7900XTX.24576.221129.rom} /var/lib/libvirt/vgabios/patched.rom
+              ln -sf ${./vbios/vbios.rom} /var/lib/libvirt/vgabios/patched.rom
             '';
           };
         };

@@ -53,14 +53,16 @@
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "prepare" ] && [ "$3" = "begin" ]; then
-      systemctl stop display-manager.service
-      systemctl isolate multi-user.target
-      loginctl kill-user ${user}
+      notify-send "Starting ${vm}"
+      # systemctl stop display-manager.service
+      # systemctl isolate multi-user.target
+      # loginctl kill-user ${user}
     fi
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "release" ] && [ "$3" = "end" ]; then
-      systemctl start display-manager.service
+      notify-send "Stopping ${vm}"
+      # systemctl start display-manager.service
     fi
   '';
 in
@@ -83,7 +85,7 @@ in
             path = [
               (pkgs.buildEnv {
                 name = "qemu-hook-env";
-                paths = with pkgs; [bash libvirt kmod systemd ripgrep sd];
+                paths = with pkgs; [bash libvirt kmod systemd ripgrep sd libnotify];
               })
             ];
             preStart = ''

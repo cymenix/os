@@ -56,29 +56,6 @@
     fi
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
-    unbind_module() {
-      module=$1
-      echo "Unbinding module: $module"
-      sudo rmmod $module
-      if [ $? -ne 0 ]; then
-        echo "Failed to unbind $module. Exiting."
-        exit 1
-      fi
-    }
-    modules=(
-      drm_display_helper
-      drm_buddy
-      drm_suballoc_helper
-      gpu_sched
-      drm_exec
-      ttm
-      drm_ttm_helper
-      i2c_algo_bit
-      amdxcp
-      backlight
-      video
-      amdgpu
-    )
     logfile=/home/${user}/startlogfile
     exec 19>$logfile
     BASH_XTRACEFD=19
@@ -92,9 +69,6 @@
     echo 0 > /sys/class/vtconsole/vtcon0/bind
     echo 0 > /sys/class/vtconsole/vtcon1/bind
     sleep 1
-    for module in "''${modules[@]}"; do
-      unbind_module $module
-    done
     modprobe -r amdgpu
     sleep 1
     virsh nodedev-detach $VIRSH_GPU_VIDEO

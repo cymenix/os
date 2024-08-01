@@ -135,6 +135,7 @@ in
             "nm-bridge"
             "virbr0"
             "br0"
+            "macvtap-net"
           ];
           qemu = {
             package = pkgs.qemu_kvm;

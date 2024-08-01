@@ -21,11 +21,6 @@ in
         firewall = {
           enable = cfg.firewall.enable;
         };
-        bridges = {
-          br0 = {
-            interfaces = ["enp5s0"];
-          };
-        };
         interfaces = {
           br0 = {
             ipv4 = {
@@ -39,7 +34,7 @@ in
           };
         };
         dhcpcd = {
-          denyInterfaces = ["virbr0" "br0"];
+          denyInterfaces = ["virbr0" "br0" "macvtap-net"];
         };
       };
     };

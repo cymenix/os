@@ -199,18 +199,18 @@ in
         firewall = {
           allowedTCPPorts = [vnc];
         };
-        nat = {
-          enable = true;
-          internalInterfaces = ["wlp4s0"];
-          externalInterface = "virbr0";
-          forwardPorts = [
-            {
-              destination = "${vmip}:${builtins.toString vnc}";
-              proto = "tcp";
-              sourcePort = vnc;
-            }
-          ];
-        };
+        # nat = {
+        #   enable = true;
+        #   internalInterfaces = ["wlp4s0"];
+        #   externalInterface = "virbr0";
+        #   forwardPorts = [
+        #     {
+        #       destination = "${vmip}:${builtins.toString vnc}";
+        #       proto = "tcp";
+        #       sourcePort = vnc;
+        #     }
+        #   ];
+        # };
       };
       users = {
         users = {

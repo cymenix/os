@@ -54,13 +54,14 @@
   start = pkgs.writeShellScriptBin "start.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "prepare" ] && [ "$3" = "begin" ]; then
       echo "Starting ${vm}" > /home/${user}/win11.log
-      # systemctl isolate multi-user.target
+      systemctl stop display-manager.service
+      systemctl isolate multi-user.target
     fi
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "release" ] && [ "$3" = "end" ]; then
-      echo "Starting ${vm}" >> /home/${user}/win11.log
-      # systemctl start display-manager.service
+      echo "Stopping ${vm}" >> /home/${user}/win11.log
+      systemctl start display-manager.service
     fi
   '';
 in

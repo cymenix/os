@@ -17,6 +17,8 @@ in
     };
     config = mkIf (cfg.enable && cfg.firewall.enable) {
       networking = {
+        useDHCP = false;
+        defaultGateway = "192.168.2.1";
         firewall = {
           enable = cfg.firewall.enable;
         };
@@ -27,7 +29,6 @@ in
         };
         interfaces = {
           br0 = {
-            useDHCP = false;
             ipv4 = {
               addresses = [
                 {
@@ -37,6 +38,9 @@ in
               ];
             };
           };
+        };
+        dhcpcd = {
+          denyInterfaces = ["virbr0" "br0"];
         };
       };
     };

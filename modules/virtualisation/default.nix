@@ -134,6 +134,7 @@ in
           allowedBridges = [
             "nm-bridge"
             "virbr0"
+            "br0"
           ];
           qemu = {
             package = pkgs.qemu_kvm;

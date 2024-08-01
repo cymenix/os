@@ -147,12 +147,7 @@ in
           enable = cfg.virtualisation.enable;
           onBoot = "ignore";
           onShutdown = "shutdown";
-          allowedBridges = [
-            "nm-bridge"
-            "virbr0"
-            "br0"
-            "macvtap-net"
-          ];
+          allowedBridges = ["virbr0"];
           qemu = {
             package = pkgs.qemu_kvm;
             runAsRoot = true;

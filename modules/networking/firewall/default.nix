@@ -17,26 +17,33 @@ in
     };
     config = mkIf (cfg.enable && cfg.firewall.enable) {
       networking = {
-        useDHCP = false;
-        firewall = {
+        dhcpcd = {
+          denyInterfaces = ["virbr0"];
+        };
+        firewall = let
+          vmip = "192.168.122.1";
+          vnc = 5900;
+        in {
           enable = cfg.firewall.enable;
+          allowedTCPPorts = [vnc];
+          extraCommands = ''
+            iptables -A FORWARD -s 192.168.2.0/24 -d 192.168.122.0/24 -o virbr0 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
+            iptables -D FORWARD -o virbr0 -p tcp -d ${vmip} --dport ${vnc} -j ACCEPT
+            iptables -t nat -D PREROUTING -p tcp --dport ${vnc} -j DNAT --to ${vmip}:${vnc}
+          '';
         };
         nat = {
           enable = true;
-          externalInterface = "wlp0s20f3";
+          externalInterface = "virbr0";
+          internalInterfaces = ["wlp4s0"];
           externalIP = "192.168.178.175";
-          internalInterfaces = ["wlp4s0" "virbr0"];
           forwardPorts = [
             {
-              destination = "192.168.122.1:5900";
-              loopbackIPs = [config.networking.nat.externalIP];
+              destination = "${vmip}:${vnc}";
               proto = "tcp";
-              sourcePort = 5900;
+              sourcePort = vnc;
             }
           ];
-        };
-        dhcpcd = {
-          denyInterfaces = ["virbr0"];
         };
       };
     };

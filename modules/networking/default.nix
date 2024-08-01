@@ -17,6 +17,7 @@ in
       ./torrent
       ./vpn
       ./wireless
+      ./wireshark
     ];
     options = {
       modules = {

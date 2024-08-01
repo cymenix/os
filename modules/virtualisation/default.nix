@@ -86,6 +86,7 @@ in
             ];
             preStart = ''
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
+              ln -sf ${./vbios/vbios.rom} /var/lib/libvirt/vgabios/vbios.rom
             '';
           };
         };

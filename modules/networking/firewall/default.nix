@@ -27,8 +27,8 @@ in
           allowedTCPPorts = [vnc];
           extraCommands = ''
             iptables -A FORWARD -s 192.168.2.0/24 -d 192.168.122.0/24 -o virbr0 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
-            iptables -D FORWARD -o virbr0 -p tcp -d ${vmip} --dport ${vnc} -j ACCEPT
-            iptables -t nat -D PREROUTING -p tcp --dport ${vnc} -j DNAT --to ${vmip}:${vnc}
+            iptables -D FORWARD -o virbr0 -p tcp -d ${vmip} --dport ${builtins.toString vnc} -j ACCEPT
+            iptables -t nat -D PREROUTING -p tcp --dport ${builtins.toString vnc} -j DNAT --to ${vmip}:${builtins.toString vnc}
           '';
         };
         nat = {
@@ -38,7 +38,7 @@ in
           externalIP = "192.168.178.175";
           forwardPorts = [
             {
-              destination = "${vmip}:${vnc}";
+              destination = "${vmip}:${builtins.toString vnc}";
               proto = "tcp";
               sourcePort = vnc;
             }

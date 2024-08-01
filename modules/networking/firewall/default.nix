@@ -21,20 +21,21 @@ in
         firewall = {
           enable = cfg.firewall.enable;
         };
-        interfaces = {
-          br0 = {
-            ipv4 = {
-              addresses = [
-                {
-                  address = "192.168.1.116";
-                  prefixLength = 24;
-                }
-              ];
-            };
-          };
+        nat = {
+          enable = true;
+          externalInterface = "wlp0s20f3";
+          externalIP = "192.168.178.175";
+          internalInterfaces = ["wlp4s0" "virbr0"];
+          forwardPorts = [
+            {
+              destination = "192.168.122.1:5900";
+              proto = "tcp";
+              sourcePort = 5900;
+            }
+          ];
         };
         dhcpcd = {
-          denyInterfaces = ["virbr0" "br0" "macvtap-net"];
+          denyInterfaces = ["virbr0"];
         };
       };
     };

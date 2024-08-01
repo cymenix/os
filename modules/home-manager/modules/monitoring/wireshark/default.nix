@@ -10,13 +10,13 @@ in
     options = {
       modules = {
         monitoring = {
-          ncdu = {
+          wireshark = {
             enable = mkEnableOption "Enable wireshark" // {default = cfg.enable;};
           };
         };
       };
     };
-    config = mkIf (cfg.enable && cfg.ncdu.enable) {
+    config = mkIf (cfg.enable && cfg.wireshark.enable) {
       home = {
         packages = with pkgs; [wireshark];
       };

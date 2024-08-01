@@ -20,12 +20,12 @@
     GUEST_IP="192.168.122.1"
     GUEST_PORT="5900"
     HOST_PORT="5900"
-    if [ "${1}" = "${vm}" ]; then
-      if [ "${2}" = "stopped" ] || [ "${2}" = "reconnect" ]; then
+    if [ "$1" = "${vm}" ]; then
+      if [ "$2" = "stopped" ] || [ "$2" = "reconnect" ]; then
        iptables -D FORWARD -o virbr0 -p tcp -d $GUEST_IP --dport $GUEST_PORT -j ACCEPT
        iptables -t nat -D PREROUTING -p tcp --dport $HOST_PORT -j DNAT --to $GUEST_IP:$GUEST_PORT
       fi
-      if [ "${2}" = "start" ] || [ "${2}" = "reconnect" ]; then
+      if [ "$2" = "start" ] || [ "$2" = "reconnect" ]; then
        iptables -I FORWARD -o virbr0 -p tcp -d $GUEST_IP --dport $GUEST_PORT -j ACCEPT
        iptables -t nat -I PREROUTING -p tcp --dport $HOST_PORT -j DNAT --to $GUEST_IP:$GUEST_PORT
       fi

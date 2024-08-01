@@ -9,6 +9,7 @@ in
     imports = [
       ./btop
       ./ncdu
+      ./wireshark
     ];
     options = {
       modules = {

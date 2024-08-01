@@ -29,6 +29,7 @@ in
           forwardPorts = [
             {
               destination = "192.168.122.1:5900";
+              loopbackIPs = [config.networking.nat.externalIP];
               proto = "tcp";
               sourcePort = 5900;
             }

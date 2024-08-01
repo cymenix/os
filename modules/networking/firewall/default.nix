@@ -24,7 +24,7 @@ in
         };
         bridges = {
           br0 = {
-            interfaces = ["wlp4s0"];
+            interfaces = ["enp5s0"];
           };
         };
         interfaces = {

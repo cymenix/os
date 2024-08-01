@@ -7,6 +7,7 @@
 in
   with lib; {
     imports = [
+      ./wayvnc
       ./tigervnc
     ];
     options = {
@@ -15,8 +16,8 @@ in
           vnc = {
             enable = mkEnableOption "Enable VNC" // {default = cfg.enable;};
             defaultVNC = mkOption {
-              type = types.enum ["tigervnc"];
-              default = "tigervnc";
+              type = types.enum ["wayvnc" "tigervnc"];
+              default = "wayvnc";
             };
           };
         };

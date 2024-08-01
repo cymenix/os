@@ -11,16 +11,16 @@ in
       modules = {
         display = {
           vnc = {
-            tigervnc = {
-              enable = mkEnableOption "Enable tigervnc" // {default = cfg.defaultVNC == "tigervnc";};
+            wayvnc = {
+              enable = mkEnableOption "Enable wayvnc" // {default = cfg.defaultVNC == "wayvnc";};
             };
           };
         };
       };
     };
-    config = mkIf (cfg.enable && cfg.tigervnc.enable) {
+    config = mkIf (cfg.enable && cfg.wayvnc.enable) {
       home = {
-        packages = with pkgs; [tigervnc];
+        packages = with pkgs; [wayvnc];
       };
     };
   }

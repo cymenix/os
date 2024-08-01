@@ -56,38 +56,45 @@
     fi
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
-    logfile=/home/${user}/startlogfile
-    exec 19>$logfile
-    BASH_XTRACEFD=19
-    set -x
-    source ${kvm-conf}/bin/kvm.conf
-    systemctl stop display-manager.service
-    systemctl isolate multi-user.target
-    while systemctl is-active --quiet "display-manager.service"; do
-      sleep 1
-    done
-    echo 0 > /sys/class/vtconsole/vtcon0/bind
-    echo 0 > /sys/class/vtconsole/vtcon1/bind
-    sleep 1
-    modprobe -r amdgpu
-    sleep 1
-    virsh nodedev-detach $VIRSH_GPU_VIDEO
-    virsh nodedev-detach $VIRSH_GPU_AUDIO
-    sleep 1
-    modprobe vfio-pci
+    if [ "$1" = "${vm}" ]; then
+      if [ "$2" = "prepare" ]; then
+        if [ "$3" = "begin" ]; then
+          logfile=/home/${user}/startlogfile
+          exec 19>$logfile
+          BASH_XTRACEFD=19
+          set -x
+          source ${kvm-conf}/bin/kvm.conf
+          systemctl stop display-manager.service
+          echo 0 > /sys/class/vtconsole/vtcon0/bind
+          echo 0 > /sys/class/vtconsole/vtcon1/bind
+          rmmod amdgpu
+          sleep 1
+          virsh nodedev-detach $VIRSH_GPU_VIDEO
+          virsh nodedev-detach $VIRSH_GPU_AUDIO
+          sleep 1
+          modprobe vfio-pci
+        fi
+      fi
+    fi
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''
-    exec 19>/home/${user}/startlogfile
-    BASH_XTRACEFD=19
-    set -x
-    source ${kvm-conf}/bin/kvm.conf
-    virsh nodedev-reattach $VIRSH_GPU_VIDEO
-    virsh nodedev-reattach $VIRSH_GPU_AUDIO
-    modprobe -r vfio-pci
-    modprobe amdgpu
-    echo 1 > /sys/class/vtconsole/vtcon0/bind
-    echo 1 > /sys/class/vtconsole/vtcon1/bind
-    systemctl start display-manager.service
+    if [ "$1" = "${vm}" ]; then
+      if [ "$2" = "release" ]; then
+        if [ "$3" = "end" ]; then
+          exec 19>/home/${user}/startlogfile
+          BASH_XTRACEFD=19
+          set -x
+          source ${kvm-conf}/bin/kvm.conf
+          virsh nodedev-reattach $VIRSH_GPU_VIDEO
+          virsh nodedev-reattach $VIRSH_GPU_AUDIO
+          modprobe -r vfio-pci
+          modprobe amdgpu
+          echo 1 > /sys/class/vtconsole/vtcon0/bind
+          echo 1 > /sys/class/vtconsole/vtcon1/bind
+          systemctl start display-manager.service
+        fi
+      fi
+    fi
   '';
 in
   with lib; {
@@ -113,11 +120,7 @@ in
               })
             ];
             preStart = ''
-              mkdir -p /var/lib/libvirt/hooks/qemu.d/${vm}/prepare/begin
-              mkdir -p /var/lib/libvirt/hooks/qemu.d/${vm}/release/end
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
-              ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/${vm}/prepare/begin/start.sh
-              ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/${vm}/release/end/stop.sh
             '';
           };
         };
@@ -174,6 +177,8 @@ in
           hooks = {
             qemu = {
               iptables = "${iptables}/bin/iptables.sh";
+              start = "${start}/bin/start.sh";
+              stop = "${stop}/bin/stop.sh";
             };
           };
         };

@@ -8,6 +8,7 @@
   user = cfg.users.user;
   isDesktop = cfg.display.gui != "headless";
   vmip = "192.168.122.1";
+  vm = "win11";
   vnc = 5900;
   ovmf =
     (pkgs.OVMFFull.override {
@@ -15,6 +16,21 @@
       tpmSupport = true;
     })
     .fd;
+  iptables = pkgs.writeShellScriptBin "iptables.sh" ''
+    GUEST_IP="192.168.122.1"
+    GUEST_PORT="5900"
+    HOST_PORT="5900"
+    if [ "${1}" = "${vm}" ]; then
+      if [ "${2}" = "stopped" ] || [ "${2}" = "reconnect" ]; then
+       iptables -D FORWARD -o virbr0 -p tcp -d $GUEST_IP --dport $GUEST_PORT -j ACCEPT
+       iptables -t nat -D PREROUTING -p tcp --dport $HOST_PORT -j DNAT --to $GUEST_IP:$GUEST_PORT
+      fi
+      if [ "${2}" = "start" ] || [ "${2}" = "reconnect" ]; then
+       iptables -I FORWARD -o virbr0 -p tcp -d $GUEST_IP --dport $GUEST_PORT -j ACCEPT
+       iptables -t nat -I PREROUTING -p tcp --dport $HOST_PORT -j DNAT --to $GUEST_IP:$GUEST_PORT
+      fi
+    fi
+  '';
   kvm-conf = pkgs.writeShellScriptBin "kvm.conf" ''
     VIRSH_GPU_PCIE_CONTROLLER=pcie_0000_00_01_0
     VIRSH_GPU_PCI_UPSTREAM=pcie_0000_01_00_0
@@ -103,11 +119,11 @@ in
               })
             ];
             preStart = ''
-              mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin
-              mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/release/end
+              mkdir -p /var/lib/libvirt/hooks/qemu.d/${vm}/prepare/begin
+              mkdir -p /var/lib/libvirt/hooks/qemu.d/${vm}/release/end
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
-              ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin/start.sh
-              ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/win11/release/end/stop.sh
+              ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/${vm}/prepare/begin/start.sh
+              ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/${vm}/release/end/stop.sh
             '';
           };
         };
@@ -167,6 +183,11 @@ in
               enable = cfg.virtualisation.enable;
             };
           };
+          hooks = {
+            qemu = {
+              iptables = "${iptables}/bin/iptables.sh";
+            };
+          };
         };
         spiceUSBRedirection = {
           enable = cfg.virtualisation.enable;
@@ -183,10 +204,6 @@ in
       networking = {
         firewall = {
           allowedTCPPorts = [vnc];
-          extraCommands = ''
-            iptables -I FORWARD -o virbr0 -p tcp -d ${vmip} --dport ${builtins.toString vnc} -j ACCEPT
-            iptables -t nat -I PREROUTING -p tcp --dport ${builtins.toString vnc} -j DNAT --to ${vmip}:${builtins.toString vnc}
-          '';
         };
         nat = {
           enable = true;

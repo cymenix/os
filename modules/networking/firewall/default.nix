@@ -18,8 +18,7 @@ in
     config = mkIf (cfg.enable && cfg.firewall.enable) {
       networking = {
         firewall = {
-          # enable = cfg.firewall.enable;
-          enable = false;
+          enable = cfg.firewall.enable;
         };
       };
     };

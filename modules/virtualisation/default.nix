@@ -161,8 +161,8 @@ in
           hooks = {
             qemu = {
               iptables = "${iptables}/bin/iptables.sh";
-              start = "${start}/bin/start.sh";
-              stop = "${stop}/bin/stop.sh";
+              # start = "${start}/bin/start.sh";
+              # stop = "${stop}/bin/stop.sh";
             };
           };
         };

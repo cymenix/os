@@ -102,7 +102,6 @@ in
             ];
             preStart = ''
               mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin /var/lib/libvirt/hooks/qemu.d/win11/release/end
-              ln -sf ${kvm-conf}/bin/kvm.conf /var/lib/libvirt/hooks
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
               ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin/start.sh
               ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/win11/release/end/stop.sh
@@ -166,8 +165,8 @@ in
           };
           hooks = {
             qemu = {
-              "win11/prepare/begin/test.sh" = "${start}/bin/start.sh";
-              "win11/release/end/test.sh" = "${start}/bin/stop.sh";
+              "bar" = "${start}/bin/start.sh";
+              "foo" = "${start}/bin/stop.sh";
             };
           };
         };

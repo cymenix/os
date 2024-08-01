@@ -55,19 +55,7 @@
     if [ "$1" = "${vm}" ] && [ "$2" = "prepare" ] && [ "$3" = "begin" ]; then
       systemctl stop display-manager.service
       systemctl isolate multi-user.target
-      while systemctl is-active --quiet "$DISPMGR.service"; do
-        sleep "1"
-      done
-      echo 0 > /sys/class/vtconsole/vtcon0/bind
-      echo 0 > /sys/class/vtconsole/vtcon1/bind
-      echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
-      modprobe -r amdgpu
-      modprobe -r snd_hda_intel
-      virsh nodedev-detach pci_0000_03_00_0
-      virsh nodedev-detach pci_0000_03_00_1
-      modprobe vfio
-      modprobe vfio_pci
-      modprobe vfio_iommu_type1
+      loginctl kill-user ${user}
     fi
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''

@@ -4,6 +4,7 @@
   ...
 }: let
   cfg = config.modules.security;
+  ssh = 22;
 in
   with lib; {
     options = {
@@ -16,9 +17,19 @@ in
       };
     };
     config = mkIf (cfg.enable && cfg.ssh.enable) {
+      networking = {
+        firewall = {
+          allowedTCPPorts = [ssh];
+        };
+      };
       services = {
         openssh = {
           inherit (cfg.ssh) enable;
+          ports = [ssh];
+          settings = {
+            PermitRootLogin = "prohibit-password";
+            PasswordAuthentication = true;
+          };
         };
       };
     };

@@ -34,9 +34,6 @@
     fi
   '';
   kvm-conf = pkgs.writeShellScriptBin "kvm.conf" ''
-    VIRSH_GPU_PCIE_CONTROLLER=pcie_0000_00_01_0
-    VIRSH_GPU_PCI_UPSTREAM=pcie_0000_01_00_0
-    VIRSH_GPU_PCI_DOWNSTREAM=pcie_0000_02_00_0
     VIRSH_GPU_VIDEO=pci_0000_03_00_0
     VIRSH_GPU_AUDIO=pci_0000_03_00_1
   '';
@@ -71,13 +68,9 @@
     done
     echo 0 > /sys/class/vtconsole/vtcon0/bind
     echo 0 > /sys/class/vtconsole/vtcon1/bind
-    echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
     sleep 1
     modprobe -r amdgpu
     sleep 1
-    virsh nodedev-detach $VIRSH_GPU_PCIE_CONTROLLER
-    virsh nodedev-detach $VIRSH_GPU_PCI_UPSTREAM
-    virsh nodedev-detach $VIRSH_GPU_PCI_DOWNSTREAM
     virsh nodedev-detach $VIRSH_GPU_VIDEO
     virsh nodedev-detach $VIRSH_GPU_AUDIO
     sleep 1
@@ -88,13 +81,9 @@
     BASH_XTRACEFD=19
     set -x
     source ${kvm-conf}/bin/kvm.conf
-    virsh nodedev-reattach $VIRSH_GPU_PCIE_CONTROLLER
-    virsh nodedev-reattach $VIRSH_GPU_PCI_UPSTREAM
-    virsh nodedev-reattach $VIRSH_GPU_PCI_DOWNSTREAM
     virsh nodedev-reattach $VIRSH_GPU_VIDEO
     virsh nodedev-reattach $VIRSH_GPU_AUDIO
     modprobe -r vfio-pci
-    echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi-framebuffer/bind
     modprobe amdgpu
     echo 1 > /sys/class/vtconsole/vtcon0/bind
     echo 1 > /sys/class/vtconsole/vtcon1/bind

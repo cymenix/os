@@ -7,9 +7,9 @@
   cfg = config.modules;
   user = cfg.users.user;
   isDesktop = cfg.display.gui != "headless";
+  vnc = 5900;
   vmip = "192.168.122.1";
   vm = "win11";
-  vnc = 5900;
   host = "192.168.178.30";
   ovmf =
     (pkgs.OVMFFull.override {
@@ -33,10 +33,6 @@
       fi
     fi
   '';
-  kvm-conf = pkgs.writeShellScriptBin "kvm.conf" ''
-    VIRSH_GPU_VIDEO=pci_0000_03_00_0
-    VIRSH_GPU_AUDIO=pci_0000_03_00_1
-  '';
   qemu = pkgs.writeShellScriptBin "qemu" ''
     set -e
     GUEST_NAME="$1"
@@ -56,44 +52,13 @@
     fi
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
-    if [ "$1" = "${vm}" ]; then
-      if [ "$2" = "prepare" ]; then
-        if [ "$3" = "begin" ]; then
-          logfile=/home/${user}/startlogfile
-          exec 19>$logfile
-          BASH_XTRACEFD=19
-          set -x
-          source ${kvm-conf}/bin/kvm.conf
-          systemctl stop display-manager.service
-          echo 0 > /sys/class/vtconsole/vtcon0/bind
-          echo 0 > /sys/class/vtconsole/vtcon1/bind
-          rmmod amdgpu
-          sleep 1
-          virsh nodedev-detach $VIRSH_GPU_VIDEO
-          virsh nodedev-detach $VIRSH_GPU_AUDIO
-          sleep 1
-          modprobe vfio-pci
-        fi
-      fi
+    if [ "$1" = "${vm}" ] && [ "$2" = "prepare" ] && [ "$3" = "begin" ]; then
+      systemctl stop display-manager.service
     fi
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''
-    if [ "$1" = "${vm}" ]; then
-      if [ "$2" = "release" ]; then
-        if [ "$3" = "end" ]; then
-          exec 19>/home/${user}/startlogfile
-          BASH_XTRACEFD=19
-          set -x
-          source ${kvm-conf}/bin/kvm.conf
-          virsh nodedev-reattach $VIRSH_GPU_VIDEO
-          virsh nodedev-reattach $VIRSH_GPU_AUDIO
-          modprobe -r vfio-pci
-          modprobe amdgpu
-          echo 1 > /sys/class/vtconsole/vtcon0/bind
-          echo 1 > /sys/class/vtconsole/vtcon1/bind
-          systemctl start display-manager.service
-        fi
-      fi
+    if [ "$1" = "${vm}" ] && [ "$2" = "release" ] && [ "$3" = "end" ]; then
+      systemctl start display-manager.service
     fi
   '';
 in

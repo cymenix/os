@@ -30,7 +30,7 @@ in
           enable = cfg.firewall.enable;
           allowedTCPPorts = [vnc];
           extraCommands = ''
-            iptables -t nat -A POSTROUTING -d ${vmip} -p tcp -m tcp --dport ${builtins.toString vnc} -j MASQUERADE"
+            iptables -t nat -A POSTROUTING -d ${vmip} -p tcp -m tcp --dport ${builtins.toString vnc} -j MASQUERADE
           '';
         };
         nat = {

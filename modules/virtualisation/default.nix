@@ -54,6 +54,10 @@
   start = pkgs.writeShellScriptBin "start.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "prepare" ] && [ "$3" = "begin" ]; then
       systemctl stop display-manager.service
+      systemctl isolate multi-user.target
+      while systemctl is-active --quiet "$DISPMGR.service"; do
+        sleep "1"
+      done
     fi
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''

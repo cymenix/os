@@ -18,7 +18,6 @@ in
     config = mkIf (cfg.enable && cfg.firewall.enable) {
       networking = {
         useDHCP = false;
-        defaultGateway = "192.168.2.1";
         firewall = {
           enable = cfg.firewall.enable;
         };

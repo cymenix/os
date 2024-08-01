@@ -92,10 +92,11 @@ in
               })
             ];
             preStart = ''
-              mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin
-              mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/release/end
+              mkdir -p /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin /var/lib/libvirt/hooks/qemu.d/win11/release/end
               ln -sf ${kvm-conf}/bin/kvm.conf /var/lib/libvirt/hooks
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
+              ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin/start.sh
+              ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/win11/relese/end/stop.sh
             '';
           };
         };
@@ -152,12 +153,6 @@ in
             };
             swtpm = {
               enable = cfg.virtualisation.enable;
-            };
-          };
-          hooks = {
-            qemu = {
-              "win11/prepare/begin/start.sh" = start;
-              "win11/release/end/stop.sh" = stop;
             };
           };
         };

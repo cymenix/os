@@ -154,18 +154,8 @@ in
           };
           hooks = {
             qemu = {
-              win11 = {
-                prepare = {
-                  begin = {
-                    "start.sh" = "${start}";
-                  };
-                };
-                release = {
-                  end = {
-                    "stop.sh" = "${stop}";
-                  };
-                };
-              };
+              "win11/prepare/begin/start.sh" = "${start}";
+              "win11/release/end/stop.sh" = "${stop}";
             };
           };
         };

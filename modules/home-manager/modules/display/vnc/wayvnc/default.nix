@@ -12,7 +12,7 @@ in
         display = {
           vnc = {
             wayvnc = {
-              enable = mkEnableOption "Enable wayvnc" // {default = cfg.defaultVNC == "wayvnc";};
+              enable = mkEnableOption "Enable wayvnc" // {default = cfg.enable;};
             };
           };
         };

@@ -12,7 +12,7 @@ in
         display = {
           vnc = {
             tigervnc = {
-              enable = mkEnableOption "Enable tigervnc" // {default = cfg.defaultVNC == "tigervnc";};
+              enable = mkEnableOption "Enable tigervnc" // {default = cfg.enable;};
             };
           };
         };

@@ -4,6 +4,8 @@
   ...
 }: let
   cfg = config.modules.networking;
+  vmip = "192.168.122.1";
+  vnc = 5900;
 in
   with lib; {
     options = {
@@ -20,10 +22,7 @@ in
         dhcpcd = {
           denyInterfaces = ["virbr0"];
         };
-        firewall = let
-          vmip = "192.168.122.1";
-          vnc = 5900;
-        in {
+        firewall = {
           enable = cfg.firewall.enable;
           allowedTCPPorts = [vnc];
           extraCommands = ''

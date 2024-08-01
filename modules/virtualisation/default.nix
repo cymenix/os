@@ -102,7 +102,6 @@ in
             ];
             preStart = ''
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
-              ln -sf ${./vbios/Sapphire.RX7900XTX.24576.221129.rom} /var/lib/libvirt/vgabios/vbios.rom
             '';
           };
         };
@@ -137,7 +136,6 @@ in
         kernelParams = [
           "intel_iommu=on"
           "iommu=pt"
-          "video=efif:off"
           "disable_idle_d3=1"
         ];
       };

@@ -7,6 +7,8 @@
   cfg = config.modules;
   user = cfg.users.user;
   isDesktop = cfg.display.gui != "headless";
+  vmip = "192.168.122.1";
+  vnc = 5900;
   ovmf =
     (pkgs.OVMFFull.override {
       secureBoot = true;
@@ -141,6 +143,12 @@ in
           "intel_iommu=on"
           "iommu=pt"
         ];
+        kernel = {
+          sysctl = {
+            "net.ipv4.conf.all.forwarding" = 1;
+            "net.ipv4.conf.default.forwarding" = 1;
+          };
+        };
       };
       virtualisation = {
         libvirtd = {
@@ -170,6 +178,27 @@ in
         };
         spice-webdavd = {
           enable = cfg.virtualisation.enable;
+        };
+      };
+      networking = {
+        firewall = {
+          allowedTCPPorts = [vnc];
+          extraCommands = ''
+            iptables -I FORWARD -o virbr0 -p tcp -d ${vmip} --dport ${builtins.toString vnc} -j ACCEPT
+            iptables -t nat -I PREROUTING -p tcp --dport ${builtins.toString vnc} -j DNAT --to ${vmip}:${builtins.toString vnc}
+          '';
+        };
+        nat = {
+          enable = true;
+          internalInterfaces = ["wlp4s0"];
+          externalInterface = "virbr0";
+          forwardPorts = [
+            {
+              destination = "${vmip}:${builtins.toString vnc}";
+              proto = "tcp";
+              sourcePort = vnc;
+            }
+          ];
         };
       };
       users = {

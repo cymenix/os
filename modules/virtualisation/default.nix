@@ -14,6 +14,9 @@
     })
     .fd;
   kvm-conf = pkgs.writeShellScriptBin "kvm.conf" ''
+    VIRSH_GPU_PCIE_CONTROLLER=pcie_0000_00_01_0
+    VIRSH_GPU_PCI_UPSTREAM=pcie_0000_01_00_0
+    VIRSH_GPU_PCI_DOWNSTREAM=pcie_0000_02_00_0
     VIRSH_GPU_VIDEO=pci_0000_03_00_0
     VIRSH_GPU_AUDIO=pci_0000_03_00_1
   '';
@@ -46,6 +49,9 @@
     # while systemctl is-active --quiet "display-manager.service"; do
     #   sleep 1
     # done
+    # virsh nodedev-detach $VIRSH_GPU_PCIE_CONTROLLER
+    # virsh nodedev-detach $VIRSH_GPU_PCI_UPSTREAM
+    # virsh nodedev-detach $VIRSH_GPU_PCI_DOWNSTREAM
     # virsh nodedev-detach $VIRSH_GPU_VIDEO
     # virsh nodedev-detach $VIRSH_GPU_AUDIO
     # modprobe vfio
@@ -60,6 +66,9 @@
     # systemctl set-property --runtime -- user.slice AllowedCPUs=0
     # systemctl set-property --runtime -- system.slice AllowedCPUs=0
     # systemctl set-property --runtime -- init.scope AllowedCPUs=0
+    # virsh nodedev-reattach $VIRSH_GPU_PCIE_CONTROLLER
+    # virsh nodedev-reattach $VIRSH_GPU_PCI_UPSTREAM
+    # virsh nodedev-reattach $VIRSH_GPU_PCI_DOWNSTREAM
     # virsh nodedev-reattach $VIRSH_GPU_VIDEO
     # virsh nodedev-reattach $VIRSH_GPU_AUDIO
     # modprobe -r vfio-pci
@@ -96,7 +105,7 @@ in
               ln -sf ${kvm-conf}/bin/kvm.conf /var/lib/libvirt/hooks
               ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
               ln -sf ${start}/bin/start.sh /var/lib/libvirt/hooks/qemu.d/win11/prepare/begin/start.sh
-              ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/win11/relese/end/stop.sh
+              ln -sf ${stop}/bin/stop.sh /var/lib/libvirt/hooks/qemu.d/win11/release/end/stop.sh
             '';
           };
         };

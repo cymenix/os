@@ -13,6 +13,7 @@ in
       ./irc
       ./nm
       ./proxy
+      ./wireshark
     ];
     options = {
       modules = {

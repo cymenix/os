@@ -19,6 +19,9 @@ in
       networking = {
         firewall = {
           enable = cfg.firewall.enable;
+          allowedTCPPorts = [
+            5900 # VNC
+          ];
         };
       };
     };

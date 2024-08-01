@@ -164,12 +164,6 @@ in
               enable = cfg.virtualisation.enable;
             };
           };
-          hooks = {
-            qemu = {
-              "win11/prepare/begin/test.sh" = "${start}/bin/start.sh";
-              "win11/release/end/test.sh" = "${stop}/bin/stop.sh";
-            };
-          };
         };
         spiceUSBRedirection = {
           enable = cfg.virtualisation.enable;

@@ -53,15 +53,12 @@
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "prepare" ] && [ "$3" = "begin" ]; then
-      ${pkgs.libnotify}/bin/notify-send "Starting ${vm}"
       # systemctl stop display-manager.service
       # systemctl isolate multi-user.target
-      # loginctl kill-user ${user}
     fi
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "release" ] && [ "$3" = "end" ]; then
-      ${pkgs.libnotify}/bin/notify-send "Stopping ${vm}"
       # systemctl start display-manager.service
     fi
   '';

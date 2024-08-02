@@ -45,7 +45,6 @@ in {
         qemu = {
           package = pkgs.qemu_kvm;
           vhostUserPackages = [pkgs.virtiofsd];
-          runAsRoot = true;
           swtpm = {
             inherit (cfg.virtualisation) enable;
           };

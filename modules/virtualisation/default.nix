@@ -53,15 +53,21 @@
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "prepare" ] && [ "$3" = "begin" ]; then
+      set -x
       echo "Starting ${vm}" > /home/${user}/win11.log
       systemctl stop display-manager.service
       systemctl isolate multi-user.target
+      systemctl stop lactd.service
+      modprobe -r amdgpu
     fi
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "release" ] && [ "$3" = "end" ]; then
+      set -x
       echo "Stopping ${vm}" >> /home/${user}/win11.log
+      modprobe amdgpu
       systemctl start display-manager.service
+      systemctl start lactd.service
     fi
   '';
 in

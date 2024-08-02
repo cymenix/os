@@ -3,20 +3,23 @@
   config,
   lib,
   ...
-}: let
+}:
+with lib; let
   cfg = config.modules;
   user = cfg.users.user;
   isDesktop = cfg.display.gui != "headless";
-  vnc = 5900;
-  vmip = "192.168.122.1";
   vm = "win11";
+  interface = "wlp4s0";
+  vmip = "192.168.122.1";
   host = "192.168.178.30";
+  vnc = 5900;
   ovmf =
     (pkgs.OVMFFull.override {
       secureBoot = true;
       tpmSupport = true;
     })
     .fd;
+  pcis = ["pci_0000_03_00_0" "pci_0000_03_00_1"];
   iptables = pkgs.writeShellScriptBin "iptables.sh" ''
     GUEST_IP="${vmip}"
     GUEST_PORT="${builtins.toString vnc}"
@@ -53,171 +56,156 @@
   '';
   start = pkgs.writeShellScriptBin "start.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "prepare" ] && [ "$3" = "begin" ]; then
-      set -x
+      ${pkgs.bash}/bin/set -x
       echo "Starting ${vm}" > /home/${user}/win11.log
-      systemctl stop display-manager.service
-      systemctl isolate multi-user.target
-      systemctl stop lactd.service
+      ${pkgs.systemd}/bin/systemctl stop display-manager.service
+      ${pkgs.systemd}/bin/systemctl isolate multi-user.target
+      ${pkgs.systemd}/bin/systemctl stop lactd.service
       echo 0 > /sys/class/vtconsole/vtcon0/bind
       echo 0 > /sys/class/vtconsole/vtcon1/bind
-      modprobe -r amdgpu
+      ${pkgs.kmod}/bin/modprobe -r amdgpu
       sleep 1
-      virsh nodedev-detach pci_0000_03_00_0
-      virsh nodedev-detach pci_0000_03_00_1
+      ${builtins.concatStringsSep "\n" (map (pci: "${pkgs.libvirt}/bin/virsh nodedev-detach ${pci}") pcis)}
       sleep 1
-      modprobe vfio-pci
+      ${pkgs.kmod}/bin/modprobe vfio-pci
     fi
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "release" ] && [ "$3" = "end" ]; then
-      set -x
+      ${pkgs.bash}/bin/set -x
       echo "Stopping ${vm}" >> /home/${user}/win11.log
-      virsh nodedev-reattach pci_0000_03_00_0
-      virsh nodedev-reattach pci_0000_03_00_1
-      modprobe -r vfio-pci
-      modprobe amdgpu
+      ${builtins.concatStringsSep "\n" (map (pci: "${pkgs.libvirt}/bin/virsh nodedev-reattach ${pci}") pcis)}
+      ${pkgs.kmod}/bin/modprobe -r vfio-pci
+      ${pkgs.kmod}/bin/modprobe amdgpu
       echo 1 > /sys/class/vtconsole/vtcon0/bind
       echo 1 > /sys/class/vtconsole/vtcon1/bind
-      systemctl start display-manager.service
-      systemctl start lactd.service
+      ${pkgs.systemd}/bin/systemctl start display-manager.service
+      ${pkgs.systemd}/bin/systemctl start lactd.service
     fi
   '';
-in
-  with lib; {
-    imports = [
-      ./docker
-      ./virt-manager
-    ];
-    options = {
-      modules = {
-        virtualisation = {
-          enable = mkEnableOption "Enable virtualisation" // {default = false;};
+in {
+  imports = [
+    ./docker
+    ./virt-manager
+  ];
+  options = {
+    modules = {
+      virtualisation = {
+        enable = mkEnableOption "Enable virtualisation" // {default = false;};
+      };
+    };
+  };
+  config = mkIf (cfg.enable && cfg.virtualisation.enable) {
+    boot = {
+      kernelParams = ["intel_iommu=on" "iommu=pt"];
+      kernelModules = ["vfio" "vfio_pci" "vfio_virqfd" "vfio_iommu_type1"];
+    };
+    environment = {
+      systemPackages = with pkgs; [
+        virt-manager
+        virt-viewer
+        spice
+        spice-gtk
+        spice-protocol
+        libguestfs
+        win-virtio
+        win-spice
+      ];
+    };
+    systemd = {
+      services = {
+        libvirtd = {
+          preStart = ''
+            ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
+          '';
+        };
+      };
+      tmpfiles = {
+        rules = let
+          firmware = pkgs.runCommandLocal "qemu-firmware" {} ''
+            mkdir $out
+            cp ${pkgs.qemu}/share/qemu/firmware/*.json $out
+          '';
+        in ["L+ /var/lib/qemu/firmware - - - - ${firmware}"];
+      };
+    };
+    virtualisation = {
+      libvirtd = {
+        inherit (cfg.virtualisation) enable;
+        onBoot = "ignore";
+        onShutdown = "shutdown";
+        allowedBridges = ["virbr0"];
+        qemu = {
+          package = pkgs.qemu_kvm;
+          runAsRoot = true;
+          ovmf = {
+            inherit (cfg.virtualisation) enable;
+            packages = [ovmf];
+          };
+          swtpm = {
+            inherit (cfg.virtualisation) enable;
+          };
+        };
+        hooks = {
+          qemu = {
+            iptables = "${iptables}/bin/iptables.sh";
+            start = "${start}/bin/start.sh";
+            stop = "${stop}/bin/stop.sh";
+          };
+        };
+      };
+      spiceUSBRedirection = {
+        inherit (cfg.virtualisation) enable;
+      };
+    };
+    services = {
+      spice-vdagentd = {
+        inherit (cfg.virtualisation) enable;
+      };
+      spice-webdavd = {
+        inherit (cfg.virtualisation) enable;
+      };
+      qemuGuest = {
+        inherit (cfg.virtualisation) enable;
+      };
+    };
+    networking = {
+      firewall = {
+        allowedTCPPorts = [vnc];
+      };
+      nat = {
+        inherit (cfg.virtualisation) enable;
+        internalInterfaces = [interface];
+        externalInterface = "virbr0";
+        forwardPorts = [
+          {
+            destination = "${vmip}:${builtins.toString vnc}";
+            proto = "tcp";
+            sourcePort = vnc;
+          }
+        ];
+      };
+    };
+    users = {
+      users = {
+        ${user} = {
+          extraGroups = ["libvirtd" "kvm" "input"];
         };
       };
     };
-    config = mkIf (cfg.enable && cfg.virtualisation.enable) {
-      systemd = {
-        services = {
-          libvirtd = {
-            path = [
-              (pkgs.buildEnv {
-                name = "qemu-hook-env";
-                paths = with pkgs; [bash libvirt kmod systemd ripgrep sd];
-              })
-            ];
-            preStart = ''
-              ln -sf ${qemu}/bin/qemu /var/lib/libvirt/hooks/qemu
-            '';
-          };
-        };
-        tmpfiles = {
-          rules = let
-            firmware = pkgs.runCommandLocal "qemu-firmware" {} ''
-              mkdir $out
-              cp ${pkgs.qemu}/share/qemu/firmware/*.json $out
-            '';
-          in ["L+ /var/lib/qemu/firmware - - - - ${firmware}"];
-        };
-      };
-      environment = {
-        systemPackages = with pkgs; [
-          virt-manager
-          virt-viewer
-          spice
-          spice-gtk
-          spice-protocol
-          libguestfs
-          win-virtio
-          win-spice
-        ];
-      };
-      boot = {
-        kernelModules = [
-          "vfio"
-          "vfio_pci"
-          "vfio_virqfd"
-          "vfio_iommu_type1"
-        ];
-        kernelParams = [
-          "intel_iommu=on"
-          "iommu=pt"
-          "disable_idle_d3=1"
-        ];
-      };
-      virtualisation = {
-        libvirtd = {
-          enable = cfg.virtualisation.enable;
-          onBoot = "ignore";
-          onShutdown = "shutdown";
-          allowedBridges = ["virbr0"];
-          qemu = {
-            package = pkgs.qemu_kvm;
-            runAsRoot = true;
-            ovmf = {
-              enable = cfg.virtualisation.enable;
-              packages = [ovmf];
-            };
-            swtpm = {
-              enable = cfg.virtualisation.enable;
-            };
-          };
-          hooks = {
-            qemu = {
-              iptables = "${iptables}/bin/iptables.sh";
-              start = "${start}/bin/start.sh";
-              stop = "${stop}/bin/stop.sh";
-            };
-          };
-        };
-        spiceUSBRedirection = {
-          enable = cfg.virtualisation.enable;
-        };
-      };
-      services = {
-        spice-vdagentd = {
-          enable = cfg.virtualisation.enable;
-        };
-        spice-webdavd = {
-          enable = cfg.virtualisation.enable;
-        };
-      };
-      networking = {
-        firewall = {
-          allowedTCPPorts = [vnc];
-        };
-        nat = {
-          enable = true;
-          internalInterfaces = ["wlp4s0"];
-          externalInterface = "virbr0";
-          forwardPorts = [
-            {
-              destination = "${vmip}:${builtins.toString vnc}";
-              proto = "tcp";
-              sourcePort = vnc;
-            }
-          ];
-        };
-      };
+    home-manager = mkIf (cfg.home-manager.enable && isDesktop) {
       users = {
-        users = {
-          ${user} = {
-            extraGroups = ["libvirtd" "kvm" "input"];
-          };
-        };
-      };
-      home-manager = mkIf (cfg.home-manager.enable && isDesktop) {
-        users = {
-          ${user} = {
-            dconf = {
-              settings = {
-                "org/virt-manager/virt-manager/connections" = {
-                  autoconnect = ["qemu:///system"];
-                  uris = ["qemu:///system"];
-                };
+        ${user} = {
+          dconf = {
+            settings = {
+              "org/virt-manager/virt-manager/connections" = {
+                autoconnect = ["qemu:///system"];
+                uris = ["qemu:///system"];
               };
             };
           };
         };
       };
     };
-  }
+  };
+}

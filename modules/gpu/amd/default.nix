@@ -42,6 +42,9 @@ in {
       };
     };
     boot = {
+      initrd = {
+        kernelModules = [driver];
+      };
       kernelModules = [driver];
     };
     services = {

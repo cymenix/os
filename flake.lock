@@ -2220,11 +2220,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1722616679,
-        "narHash": "sha256-mRP4R/oBUYyYwQJs3GoXrHZ8dfwF3ConA5JNngItOi0=",
+        "lastModified": 1722616743,
+        "narHash": "sha256-mrRz49hjMhy63kLKlNKm2gC2GLZd+MpETwt0Eq+UYjo=",
         "owner": "clemenscodes",
         "repo": "vfio",
-        "rev": "bf62b6c07c67f7e7949ba394671559dabf79ed44",
+        "rev": "ed772c2a42b54e40d59721ebcab88c1dda0805fb",
         "type": "github"
       },
       "original": {

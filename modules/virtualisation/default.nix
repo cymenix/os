@@ -58,14 +58,26 @@
       systemctl stop display-manager.service
       systemctl isolate multi-user.target
       systemctl stop lactd.service
+      echo 0 > /sys/class/vtconsole/vtcon0/bind
+      echo 0 > /sys/class/vtconsole/vtcon1/bind
       modprobe -r amdgpu
+      sleep 1
+      virsh nodedev-detach pci_0000_03_00_0
+      virsh nodedev-detach pci_0000_03_00_1
+      sleep 1
+      modprobe vfio-pci
     fi
   '';
   stop = pkgs.writeShellScriptBin "stop.sh" ''
     if [ "$1" = "${vm}" ] && [ "$2" = "release" ] && [ "$3" = "end" ]; then
       set -x
       echo "Stopping ${vm}" >> /home/${user}/win11.log
+      virsh nodedev-reattach pci_0000_03_00_0
+      virsh nodedev-reattach pci_0000_03_00_1
+      modprobe -r vfio-pci
       modprobe amdgpu
+      echo 1 > /sys/class/vtconsole/vtcon0/bind
+      echo 1 > /sys/class/vtconsole/vtcon1/bind
       systemctl start display-manager.service
       systemctl start lactd.service
     fi

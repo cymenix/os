@@ -65,13 +65,6 @@ in {
         inherit (cfg.virtualisation) enable;
       };
     };
-    users = {
-      users = {
-        ${user} = {
-          extraGroups = ["libvirtd" "kvm" "input"];
-        };
-      };
-    };
     home-manager = mkIf (cfg.home-manager.enable && isDesktop) {
       users = {
         ${user} = {

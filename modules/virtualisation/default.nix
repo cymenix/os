@@ -14,7 +14,7 @@ in {
   imports = [
     ./docker
     ./virt-manager
-    inputs.nvim.nixosModules.${system}.default
+    inputs.vfio.nixosModules.${system}.default
   ];
   options = {
     modules = {

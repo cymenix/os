@@ -100,6 +100,14 @@
         };
       };
     };
+    vfio = {
+      url = "github:clemenscodes/vfio";
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
+    };
   };
 
   outputs = {...} @ inputs:

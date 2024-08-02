@@ -1,4 +1,6 @@
 {
+  inputs,
+  system,
   pkgs,
   config,
   lib,
@@ -12,6 +14,7 @@ in {
   imports = [
     ./docker
     ./virt-manager
+    inputs.nvim.nixosModules.${system}.default
   ];
   options = {
     modules = {
@@ -22,6 +25,21 @@ in {
   };
   config = mkIf (cfg.enable && cfg.virtualisation.enable) {
     virtualisation = {
+      vfio = {
+        inherit user;
+        inherit (cfg.virtualisation) enable;
+        vm = "win11";
+        cpu = "intel";
+        gpu = "amd";
+        pcis = ["pci_0000_03_00_0" "pci_0000_03_00_1"];
+        vnc = {
+          inherit (cfg.virtualisation) enable;
+          interface = "wlp4s0";
+          host = {
+            ip = "192.168.178.30";
+          };
+        };
+      };
       libvirtd = {
         inherit (cfg.virtualisation) enable;
         qemu = {

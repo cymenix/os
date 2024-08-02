@@ -1700,16 +1700,17 @@
         "nixpkgs-ovmf": "nixpkgs-ovmf"
       },
       "locked": {
-        "lastModified": 1712439808,
-        "narHash": "sha256-QoONoZPBpNTw5cia05QSvDlaxXo3moKAJQOw7c5hMXA=",
-        "rev": "9f1cdca730d92461075709e867c1e9ad93d58a8d",
-        "revCount": 284,
-        "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/AshleyYakeley/NixVirt/0.5.0/018eb55e-7beb-75c5-919f-5b5b26136e06/source.tar.gz"
+        "lastModified": 1722640028,
+        "narHash": "sha256-7NyMMjHHGARckUn/7OEmKecE4VCxKtmfEdIKnxHYHls=",
+        "owner": "clemenscodes",
+        "repo": "NixVirt",
+        "rev": "5b9e953b492bba50212cc2b6e70e61f14e3f555b",
+        "type": "github"
       },
       "original": {
-        "type": "tarball",
-        "url": "https://flakehub.com/f/AshleyYakeley/NixVirt/%2A.tar.gz"
+        "owner": "clemenscodes",
+        "repo": "NixVirt",
+        "type": "github"
       }
     },
     "norg": {
@@ -2258,11 +2259,11 @@
         "nixvirt": "nixvirt"
       },
       "locked": {
-        "lastModified": 1722623148,
-        "narHash": "sha256-WNr5ki+x1HQerTe0/OYtRPnj3Qo9eFl4erEAH3nmz3o=",
+        "lastModified": 1722640241,
+        "narHash": "sha256-RCCwR1SfyrTtEWcUC5EPk/YgCVJnw5N8795n7gUSiDk=",
         "owner": "clemenscodes",
         "repo": "vfio",
-        "rev": "2b75c969e1cb8fb8ca028c5b00cf93c681a08cb2",
+        "rev": "a646aa473785fe3548dd0d72b87e3f839572a0d7",
         "type": "github"
       },
       "original": {

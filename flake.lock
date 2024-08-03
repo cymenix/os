@@ -2259,11 +2259,11 @@
         "nixvirt": "nixvirt"
       },
       "locked": {
-        "lastModified": 1722669132,
-        "narHash": "sha256-zM4T+lXyihdTyYlXGuDvNnH4Ql947q+6y7ed9ZcwNfM=",
+        "lastModified": 1722669277,
+        "narHash": "sha256-s0uSToslFFdEWvj7i4EIIVsjD1gqQjtVfIkOehHmL6A=",
         "owner": "clemenscodes",
         "repo": "vfio",
-        "rev": "5686b7c5d60477af60717561bceeb1e542b3761a",
+        "rev": "2ae85117bc65a29cf971738bbe206c31ee5e80e4",
         "type": "github"
       },
       "original": {

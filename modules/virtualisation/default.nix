@@ -28,7 +28,8 @@ in {
       vfio = {
         inherit user;
         inherit (cfg.virtualisation) enable;
-        driver = false;
+        passthrough = true;
+        internet = true;
         vm = "win11";
         cpu = "intel";
         gpu = "amd";

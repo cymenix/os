@@ -29,7 +29,6 @@ in {
         inherit user;
         inherit (cfg.virtualisation) enable;
         passthrough = true;
-        internet = true;
         vm = "win11";
         cpu = "intel";
         gpu = "amd";

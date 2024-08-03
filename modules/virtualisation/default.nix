@@ -28,7 +28,8 @@ in {
       vfio = {
         inherit user;
         inherit (cfg.virtualisation) enable;
-        vm = "win10";
+        driver = false;
+        vm = "win11";
         cpu = "intel";
         gpu = "amd";
         pcis = ["pci_0000_03_00_0" "pci_0000_03_00_1"];

@@ -1700,11 +1700,11 @@
         "nixpkgs-ovmf": "nixpkgs-ovmf"
       },
       "locked": {
-        "lastModified": 1722672193,
-        "narHash": "sha256-YJxnZ11+CggY+dE43w6RoW+uCaVsaHgkR4CC5dRwv3Q=",
+        "lastModified": 1722765275,
+        "narHash": "sha256-9uelMXjrtPYawcjVfiVhe9Bc9KIpCpgnxB0/aL1Qr7g=",
         "owner": "clemenscodes",
         "repo": "NixVirt",
-        "rev": "82b1dce9f47f2676e9d5718feeb94c6767263ac7",
+        "rev": "c7bf18263a7c99f344002ac1e8871a71b402e5e4",
         "type": "github"
       },
       "original": {
@@ -2259,11 +2259,11 @@
         "nixvirt": "nixvirt"
       },
       "locked": {
-        "lastModified": 1722765190,
-        "narHash": "sha256-I0au22kYBZnS/lYw7MNVnxfTYdhr0qvayBy/O4Sa7mg=",
+        "lastModified": 1722765868,
+        "narHash": "sha256-9nqYouLy4Ih/a2r8LxmSaSACJ0oxigbKPRyAosYH0Vs=",
         "owner": "clemenscodes",
         "repo": "vfio",
-        "rev": "6cd05d51fb7aba8018046dff6bbd71628bad11a4",
+        "rev": "f252be1f7f8701c6c4e2d9cacedea847a175be35",
         "type": "github"
       },
       "original": {

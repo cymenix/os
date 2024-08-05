@@ -1,5 +1,5 @@
 let
-  w3championsUrl = "https://update-service.w3champions.com/api/launcher-e";
+  w3championsUrl = "https://github.com/w3champions/launcher-e-release/releases/download/1.3.35/W3Champions_1.3.35_x64-setup.exe";
   # bnet = ''
   #   - task:
   #       arch: win64
@@ -101,9 +101,7 @@ in ''
           To progress, ensure that w3champions is closed by right clicking on the tray
           icon and selecting exit.'
         name: wineexec
-        executable: msiexec
-        prefix: $GAMEDIR
-        arguments: /i w3champions
+        executable: w3champions
     - task:
         name: winekill
         prefix: $GAMEDIR

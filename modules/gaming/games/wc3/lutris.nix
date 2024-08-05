@@ -96,7 +96,10 @@
       nvapi: disabled
       nvapi64: disabled
 
-  description: 'Installs Battle.net + W3Champions in a virtual desktop. Once inside of the virtual desktop, double click the W3Champions icon to start it up. NOTE: The Play button in the W3Champions launcher doesn't work. Launch Warcraft III: Reforged from the BNet client after starting the W3Champions launcher.'
+  description: 'Installs Battle.net + W3Champions in a virtual desktop.
+    Once inside of the virtual desktop, double click the W3Champions icon to start it up.
+    NOTE: The Play button in the W3Champions launcher does not work.
+    Launch Warcraft III: Reforged from the BNet client after starting the W3Champions launcher.'
   game_slug: warcraft-iii-reforged
   gogslug: '''
   humblestoreid: '''

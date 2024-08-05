@@ -270,7 +270,7 @@ in
                   };
                 };
               };
-              bookmarks = import ./bookmarks.nix;
+              bookmarks = import ./bookmarks;
               settings = {
                 "general.smoothScroll" = true;
                 "app.update.channel" = "default";

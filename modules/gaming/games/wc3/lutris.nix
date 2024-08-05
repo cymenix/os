@@ -1,7 +1,10 @@
+let
+  w3championsUrl = "https://update-service.w3champions.com/api/launcher-e";
+in
 ''
   files:
   - setup: http://dist.blizzard.com/downloads/bna-installers/322d5bb9ae0318de3d4cde7641c96425/retail.1/Battle.net-Setup-enUS.exe
-  - w3champions: https://update-service.w3champions.com/api/launcher-e
+  - w3champions: ${w3championsUrl}
   game:
     arch: win64
     args: --exec="launch W3"
@@ -116,7 +119,7 @@
   script:
     files:
     - setup: http://dist.blizzard.com/downloads/bna-installers/322d5bb9ae0318de3d4cde7641c96425/retail.1/Battle.net-Setup-enUS.exe
-    - w3champions: https://update-service.w3champions.com/api/launcher/win
+    - w3champions: ${w3championsUrl}
     game:
       arch: win64
       args: --exec="launch W3"

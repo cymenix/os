@@ -100,8 +100,10 @@ in ''
 
           To progress, ensure that w3champions is closed by right clicking on the tray
           icon and selecting exit.'
-        executable: w3champions
         name: wineexec
+        executable: msiexec
+        prefix: $GAMEDIR
+        arguments: /i w3champions
     - task:
         name: winekill
         prefix: $GAMEDIR

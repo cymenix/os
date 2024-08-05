@@ -19,7 +19,7 @@ in
       };
     };
     config = mkIf (cfg.enable && cfg.wc3.enable) {
-      home-manage = {
+      home-manager = {
         users = {
           ${user} = {
             home = {

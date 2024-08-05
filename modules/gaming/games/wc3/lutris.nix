@@ -1,7 +1,7 @@
 ''
   files:
   - setup: http://dist.blizzard.com/downloads/bna-installers/322d5bb9ae0318de3d4cde7641c96425/retail.1/Battle.net-Setup-enUS.exe
-  - w3champions: https://update-service.w3champions.com/api/launcher/win
+  - w3champions: https://update-service.w3champions.com/api/launcher-e
   game:
     arch: win64
     args: --exec="launch W3"
@@ -96,10 +96,7 @@
       nvapi: disabled
       nvapi64: disabled
 
-  description: 'Installs Battle.net + W3Champions in a virtual desktop.Once inside of
-    the virtual desktop, double click the W3Champions icon to start it up.NOTE: The
-    Play button in the W3Champions launcher doesn't work. Launch Warcraft III: Reforged
-    from the BNet client after starting the W3Champions launcher.'
+  description: 'Installs Battle.net + W3Champions in a virtual desktop. Once inside of the virtual desktop, double click the W3Champions icon to start it up. NOTE: The Play button in the W3Champions launcher doesn't work. Launch Warcraft III: Reforged from the BNet client after starting the W3Champions launcher.'
   game_slug: warcraft-iii-reforged
   gogslug: '''
   humblestoreid: '''
@@ -192,7 +189,7 @@
           ------------------------------
 
           To progress, ensure that w3champions is closed by right clicking on the tray
-          icon and selecting exit. '
+          icon and selecting exit.'
         executable: w3champions
         name: wineexec
     - task:

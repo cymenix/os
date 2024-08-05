@@ -12,6 +12,7 @@ in
       inputs.nix-gaming.nixosModules.pipewireLowLatency
       ./emulation
       ./gamemode
+      ./games
       ./gamescope
       ./steam
     ];

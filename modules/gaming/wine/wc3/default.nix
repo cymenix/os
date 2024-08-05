@@ -5,6 +5,7 @@
   ...
 }: let
   cfg = config.modules.gaming.wine;
+  inherit (config.modules.users) user;
   # pkgs = import nixpkgs {
   #   inherit system;
   #   overlays = [

@@ -18,11 +18,4 @@ in
         };
       };
     };
-    config = mkIf (cfg.enable && cfg.games.enable) {
-      programs = {
-        games = {
-          enable = cfg.games.enable;
-        };
-      };
-    };
   }

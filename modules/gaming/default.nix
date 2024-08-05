@@ -15,6 +15,7 @@ in
       ./games
       ./gamescope
       ./steam
+      ./wine
     ];
     options = {
       modules = {
